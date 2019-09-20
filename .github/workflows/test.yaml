@@ -2,7 +2,10 @@ name: test
 
 on:
   pull_request:
+    branches: master
   push:
+    branches: master
+    tags:
 
 jobs:
   test:
@@ -28,4 +31,4 @@ jobs:
         uses: ./
         with:
           version: ${{ matrix.version }}
-          args: release --snapshot --rm-dist
+          args: release --skip-publish --rm-dist
