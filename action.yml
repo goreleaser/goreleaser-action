@@ -1,0 +1,18 @@
+# https://help.github.com/en/articles/metadata-syntax-for-github-actions
+name: 'GoReleaser'
+description: 'GitHub Action for GoReleaser, a release automation tool for Go projects'
+author: 'crazy-max'
+branding:
+  color: 'green'
+  icon: 'package'
+
+inputs:
+  version:
+    description: 'GoReleaser version. Example: v0.118.0'
+    default: 'latest'
+  args:
+    description: 'Arguments to pass to GoReleaser'
+
+runs:
+  using: 'node12'
+  main: 'lib/main.js'
