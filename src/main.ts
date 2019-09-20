@@ -15,7 +15,7 @@ async function run() {
         snapshot = ' --snapshot';
       }
     } else {
-      console.log(`✅ ${process.env.GITHUB_REF!.split('/')[2]}} tag found`);
+      console.log(`✅ ${process.env.GITHUB_REF!.split('/')[2]} tag found`);
     }
 
     console.log('🏃 Running GoReleaser...');
