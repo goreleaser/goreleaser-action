@@ -1,5 +1,5 @@
 [![GitHub release](https://img.shields.io/github/release/crazy-max/ghaction-goreleaser.svg?style=flat-square)](https://github.com/crazy-max/ghaction-goreleaser/releases/latest)
-[![GitHub marketplace](https://img.shields.io/badge/marketplace-goreleaser-blue?logo=github&style=flat-square)](https://github.com/marketplace/actions/goreleaser)
+[![GitHub marketplace](https://img.shields.io/badge/marketplace-goreleaser--action-blue?logo=github&style=flat-square)](https://github.com/marketplace/actions/goreleaser-action)
 [![Test workflow](https://github.com/crazy-max/ghaction-goreleaser/workflows/test/badge.svg)](https://github.com/crazy-max/ghaction-goreleaser/actions)
 [![Support me on Patreon](https://img.shields.io/badge/donate-patreon-f96854.svg?logo=patreon&style=flat-square)](https://www.patreon.com/crazymax) 
 [![Paypal Donate](https://img.shields.io/badge/donate-paypal-00457c.svg?logo=paypal&style=flat-square)](https://www.paypal.me/crazyws)

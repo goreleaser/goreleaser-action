@@ -1,5 +1,5 @@
 {
-  "name": "goreleaser",
+  "name": "goreleaser-action",
   "description": "GitHub Action for GoReleaser, a release automation tool for Go projects",
   "main": "lib/main.js",
   "directories": {
