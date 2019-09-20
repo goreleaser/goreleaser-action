@@ -37,6 +37,8 @@ jobs:
         with:
           version: latest
           args: release --rm-dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 ## 💅 Customizing
