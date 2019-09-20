@@ -8,8 +8,16 @@ async function run() {
     const args = core.getInput('args');
     const goreleaser = await installer.getGoReleaser(version);
 
+    let snapshot = '';
+    if (!process.env.GITHUB_REF!.startsWith('refs/tags/')) {
+      console.log(`⚠️ No tag found. Snapshot forced`);
+      snapshot = ' --snapshot';
+    } else {
+      console.log(`✅ ${process.env.GITHUB_REF!.split('/')[2]}} tag found`);
+    }
+
     console.log('🏃 Running GoReleaser...');
-    await exec.exec(`${goreleaser} ${args}`);
+    await exec.exec(`${goreleaser} ${args}${snapshot}`);
   } catch (error) {
     core.setFailed(error.message);
   }
