@@ -27,7 +27,6 @@
     "@actions/io": "^1.0.0",
     "@types/node": "^12.0.4",
     "@types/download": "^6.2.4",
-    "cross-env": "^5.2.1",
     "prettier": "^1.17.1",
     "typescript": "^3.5.1"
   },
