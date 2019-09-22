@@ -1,0 +1,40 @@
+name: test
+
+on:
+  pull_request:
+    branches: master
+  push:
+    branches: master
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macOS-latest
+          - windows-latest
+    steps:
+      -
+        # https://github.com/actions/checkout
+        name: Checkout
+        uses: actions/checkout@v1
+      -
+        name: Install
+        run: npm ci
+      -
+        name: Build
+        run: npm run build
+      -
+        name: Test
+        run: npm run test
+      -
+        name: Check for uncommitted changes
+        # Ensure no changes, but ignore node_modules dir since dev/fresh ci deps installed.
+        run: |
+          git diff --exit-code --stat -- . ':!node_modules' \
+          || (echo "##[error] found changed files after build. please 'npm run build && npm run format'" \
+                  "and check in all changes" \
+              && exit 1)
