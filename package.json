@@ -5,6 +5,12 @@
   "directories": {
     "lib": "lib"
   },
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "format": "prettier --write **/*.ts",
+    "prune": "npm prune --production"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/crazy-max/ghaction-goreleaser.git"
@@ -24,16 +30,14 @@
     "typed-rest-client": "^1.4.0"
   },
   "devDependencies": {
-    "@actions/io": "^1.0.0",
+    "@types/jest": "^24.0.13",
     "@types/node": "^12.0.4",
     "@types/download": "^6.2.4",
+    "jest": "^24.8.0",
+    "jest-circus": "^24.7.1",
     "prettier": "^1.17.1",
-    "typescript": "^3.5.1"
-  },
-  "scripts": {
-    "build": "tsc",
-    "format": "prettier --write **/*.ts",
-    "format-check": "prettier --check **/*.ts",
-    "prune": "npm prune --production"
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.5.1",
+    "typescript-formatter": "^7.2.2"
   }
 }

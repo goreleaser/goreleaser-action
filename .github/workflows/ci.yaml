@@ -1,16 +1,16 @@
-name: test
+name: ci
 
 on:
   pull_request:
     branches: master
   push:
     branches: master
-    tags:
 
 jobs:
-  test:
+  ci:
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os:
           - ubuntu-latest

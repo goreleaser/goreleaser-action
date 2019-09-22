@@ -35,7 +35,10 @@ export async function getGoReleaser(version: string): Promise<string> {
     extPath = await tc.extractTar(`${tmpdir}/${fileName}`);
   }
 
-  return path.join(extPath, 'goreleaser');
+  return path.join(
+    extPath,
+    osPlat == 'win32' ? 'goreleaser.exe' : 'goreleaser'
+  );
 }
 
 function getFileName(): string {
