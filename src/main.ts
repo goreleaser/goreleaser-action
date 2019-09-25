@@ -1,11 +1,13 @@
 import * as installer from './installer';
 import * as core from '@actions/core';
 import * as exec from '@actions/exec';
+import * as fs from 'fs';
 
 export async function run(silent?: boolean) {
   try {
     const version = core.getInput('version') || 'latest';
     const args = core.getInput('args');
+    const key = core.getInput('key');
     const goreleaser = await installer.getGoReleaser(version);
 
     let snapshot = '';
@@ -19,6 +21,15 @@ export async function run(silent?: boolean) {
       }
     } else {
       console.log(`✅ ${process.env.GITHUB_REF!.split('/')[2]} tag found`);
+    }
+
+    if (key) {
+      console.log('🔑 Importing signing key...');
+      let path = `${process.env.HOME}/key.asc`;
+      fs.writeFileSync(path, key, {mode: 0o600})
+      await exec.exec('gpg', ['--import', path], {
+        silent: silent
+      })
     }
 
     console.log('🏃 Running GoReleaser...');

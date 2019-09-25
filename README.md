@@ -37,6 +37,7 @@ jobs:
         with:
           version: latest
           args: release --rm-dist
+          key: ${{ secrets.YOUR_PRIVATE_KEY }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
@@ -51,6 +52,20 @@ Following inputs can be used as `step.with` keys
 |---------------|---------|-----------|------------------------------------------|
 | `version`     | String  | `latest`  | GoReleaser version. Example: `v0.117.0`  |
 | `args`        | String  |           | Arguments to pass to GoReleaser          |
+| `key`         | String  |           | Private key to import
+
+### Signing
+
+If signing is enabled in your GoReleaser configuration, populate the `key` input with your private key
+and reference the key in your signing configuration, e.g.
+
+```
+signs:
+  - artifacts: checksum
+    args: ["--batch", "-u", "<key id, fingerprint, email, ...>", "--output", "${signature}", "--detach-sign", "${artifact}"]
+```
+
+This feature is currently only compatible when using the default `gpg` command and a private key without a passphrase.
 
 ## 🤝 How can I help ?
 
