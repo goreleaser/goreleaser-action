@@ -12,6 +12,8 @@ inputs:
     default: 'latest'
   args:
     description: 'Arguments to pass to GoReleaser'
+  key:
+    description: 'Private key to import'
 
 runs:
   using: 'node12'
