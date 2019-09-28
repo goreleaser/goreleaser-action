@@ -26,10 +26,10 @@ export async function run(silent?: boolean) {
     if (key) {
       console.log('🔑 Importing signing key...');
       let path = `${process.env.HOME}/key.asc`;
-      fs.writeFileSync(path, key, {mode: 0o600})
+      fs.writeFileSync(path, key, {mode: 0o600});
       await exec.exec('gpg', ['--import', path], {
         silent: silent
-      })
+      });
     }
 
     console.log('🏃 Running GoReleaser...');

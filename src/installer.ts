@@ -61,7 +61,7 @@ interface GitHubRelease {
 
 async function determineVersion(version: string): Promise<string> {
   let rest: restm.RestClient = new restm.RestClient(
-    'ghaction-goreleaser',
+    'goreleaser-action',
     'https://github.com',
     undefined,
     {
