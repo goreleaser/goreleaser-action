@@ -1,3 +1,3 @@
-module github.com/crazy-max/ghaction-goreleaser
+module github.com/goreleaser/goreleaser-action
 
 go 1.12

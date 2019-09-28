@@ -1,5 +1,6 @@
 {
   "name": "goreleaser-action",
+  "private": true,
   "description": "GitHub Action for GoReleaser, a release automation tool for Go projects",
   "main": "lib/main.js",
   "directories": {
@@ -13,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/crazy-max/ghaction-goreleaser.git"
+    "url": "git+https://github.com/goreleaser/goreleaser-action.git"
   },
   "keywords": [
     "actions",
@@ -25,14 +26,14 @@
   "dependencies": {
     "@actions/core": "^1.1.1",
     "@actions/exec": "^1.0.1",
-    "@actions/tool-cache": "^1.0.0",
+    "@actions/tool-cache": "^1.1.2",
     "download": "^7.1.0",
     "typed-rest-client": "^1.4.0"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.13",
-    "@types/node": "^12.0.4",
     "@types/download": "^6.2.4",
+    "@types/jest": "^24.0.13",
+    "@types/node": "^12.7.8",
     "jest": "^24.8.0",
     "jest-circus": "^24.7.1",
     "prettier": "^1.17.1",
