@@ -63,7 +63,7 @@ Following inputs can be used as `step.with` keys
 If signing is enabled in your GoReleaser configuration, populate the `key` input with your private key
 and reference the key in your signing configuration, e.g.
 
-```
+```yaml
 signs:
   - artifacts: checksum
     args: ["--batch", "-u", "<key id, fingerprint, email, ...>", "--output", "${signature}", "--detach-sign", "${artifact}"]
