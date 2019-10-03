@@ -24,21 +24,21 @@
   "author": "CrazyMax",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.1.1",
-    "@actions/exec": "^1.0.1",
-    "@actions/tool-cache": "^1.1.2",
-    "download": "^7.1.0",
-    "typed-rest-client": "^1.4.0"
+    "@actions/core": "1.1.1",
+    "@actions/exec": "1.0.1",
+    "@actions/tool-cache": "1.1.2",
+    "download": "7.1.0",
+    "typed-rest-client": "1.5.0"
   },
   "devDependencies": {
-    "@types/download": "^6.2.4",
-    "@types/jest": "^24.0.13",
-    "@types/node": "^12.7.8",
-    "jest": "^24.8.0",
-    "jest-circus": "^24.7.1",
-    "prettier": "^1.17.1",
-    "ts-jest": "^24.0.2",
-    "typescript": "^3.5.1",
-    "typescript-formatter": "^7.2.2"
+    "@types/download": "6.2.4",
+    "@types/jest": "24.0.18",
+    "@types/node": "12.7.8",
+    "jest": "24.9.0",
+    "jest-circus": "24.9.0",
+    "prettier": "1.18.2",
+    "ts-jest": "24.1.0",
+    "typescript": "3.6.3",
+    "typescript-formatter": "7.2.2"
   }
 }
