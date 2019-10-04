@@ -5,7 +5,8 @@
   <p align="center">
     <a href="https://github.com/goreleaser/goreleaser-action/releases/latest"><img alt="GitHub release" src="https://img.shields.io/github/release/goreleaser/goreleaser-action.svg?logo=github&style=flat-square"></a>
     <a href="https://github.com/marketplace/actions/goreleaser-action"><img alt="GitHub marketplace" src="https://img.shields.io/badge/marketplace-goreleaser--action-blue?logo=github&style=flat-square"></a>
-    <a href="https://github.com/goreleaser/goreleaser-action/actions"><img alt="Test workflow" src="https://github.com/goreleaser/goreleaser-action/workflows/test/badge.svg"></a>
+    <a href="https://github.com/goreleaser/goreleaser-action/actions?workflow=release"><img alt="Release workflow" src="https://github.com/goreleaser/goreleaser-action/workflows/release/badge.svg"></a>
+    <a href="https://github.com/goreleaser/goreleaser-action/actions?workflow=test"><img alt="Test workflow" src="https://github.com/goreleaser/goreleaser-action/workflows/test/badge.svg"></a>
     <a href="https://www.patreon.com/crazymax"><img alt="Support CrazyMax on Patreon" src="https://img.shields.io/badge/crazymax-patreon-f96854.svg?logo=patreon&style=flat-square"></a>
   </p>
 </p>
@@ -37,7 +38,7 @@ jobs:
         uses: actions/setup-go@master
       -
         name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@master
+        uses: goreleaser/goreleaser-action@v1
         with:
           version: latest
           args: release --rm-dist
