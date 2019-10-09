@@ -1,7 +1,9 @@
 name: release
 
 on:
-  create:
+  push:
+    branches:
+      - master
     tags:
       - v*.*.*
 
