@@ -2,10 +2,10 @@ name: release
 
 on:
   push:
-    branches:
-      - master
+    branches-ignore:
+      - '**'
     tags:
-      - v*.*.*
+      - 'v*.*.*'
 
 jobs:
   release:
