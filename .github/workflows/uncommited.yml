@@ -13,6 +13,10 @@ jobs:
         name: Checkout
         uses: actions/checkout@v1
       -
+        # https://github.com/actions/setup-node
+        name: Set up Node
+        uses: actions/setup-node@v1
+      -
         name: Build
         run: |
           npm install
@@ -23,5 +27,7 @@ jobs:
         name: Check for uncommitted changes
         run: |
           if [[ `git status --porcelain` ]]; then
+            git status --porcelain
             echo "##[error] found changed files after build. please 'npm run build && npm run format && npm prune --production'"
+            exit 1
           fi

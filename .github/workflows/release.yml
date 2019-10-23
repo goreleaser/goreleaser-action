@@ -9,9 +9,10 @@ on:
 
 jobs:
   release:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       -
+        # https://github.com/actions/checkout
         name: Checkout
         uses: actions/checkout@v1
       -
@@ -40,6 +41,10 @@ jobs:
           if [ -n "${{ steps.prepare.outputs.major_exists }}" ]; then
             git branch --set-upstream-to=origin/releases/${{ steps.prepare.outputs.major_tag }} releases/${{ steps.prepare.outputs.major_tag }}
           fi
+      -
+        # https://github.com/actions/setup-node
+        name: Set up Node
+        uses: actions/setup-node@v1
       -
         name: NPM production deps
         run: |
