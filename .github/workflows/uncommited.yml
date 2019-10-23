@@ -27,6 +27,7 @@ jobs:
         name: Check for uncommitted changes
         run: |
           if [[ `git status --porcelain` ]]; then
+            git status --porcelain
             echo "##[error] found changed files after build. please 'npm run build && npm run format && npm prune --production'"
             exit 1
           fi
