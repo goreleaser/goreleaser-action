@@ -1,0 +1,6 @@
+import * as ts from "typescript";
+export declare function createDefaultFormatCodeSettings(): ts.FormatCodeSettings;
+export declare function getConfigFileName(baseDir: string, configFileName: string): string | null;
+export declare function readFilesFromTsconfig(configPath: string): string[];
+export declare function readTsconfig(configPath: string): ts.ParsedCommandLine;
+export declare function parseJSON(jsonText: string): any;
