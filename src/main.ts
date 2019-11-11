@@ -11,10 +11,7 @@ export async function run(silent?: boolean) {
     const goreleaser = await installer.getGoReleaser(version);
 
     let snapshot = '';
-    if (
-      !process.env.GITHUB_REF ||
-      !process.env.GITHUB_REF.startsWith('refs/tags/')
-    ) {
+    if (!process.env.GITHUB_REF || !process.env.GITHUB_REF.startsWith('refs/tags/')) {
       console.log(`⚠️ No tag found. Snapshot forced`);
       if (!args.includes('--snapshot')) {
         snapshot = ' --snapshot';

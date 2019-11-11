@@ -35,23 +35,14 @@ export async function getGoReleaser(version: string): Promise<string> {
     extPath = await tc.extractTar(`${tmpdir}/${fileName}`);
   }
 
-  return path.join(
-    extPath,
-    osPlat == 'win32' ? 'goreleaser.exe' : 'goreleaser'
-  );
+  return path.join(extPath, osPlat == 'win32' ? 'goreleaser.exe' : 'goreleaser');
 }
 
 function getFileName(): string {
-  const platform: string =
-    osPlat == 'win32' ? 'Windows' : osPlat == 'darwin' ? 'Darwin' : 'Linux';
+  const platform: string = osPlat == 'win32' ? 'Windows' : osPlat == 'darwin' ? 'Darwin' : 'Linux';
   const arch: string = osArch == 'x64' ? 'x86_64' : 'i386';
   const ext: string = osPlat == 'win32' ? 'zip' : 'tar.gz';
-  const filename: string = util.format(
-    'goreleaser_%s_%s.%s',
-    platform,
-    arch,
-    ext
-  );
+  const filename: string = util.format('goreleaser_%s_%s.%s', platform, arch, ext);
   return filename;
 }
 
@@ -60,24 +51,17 @@ interface GitHubRelease {
 }
 
 async function determineVersion(version: string): Promise<string> {
-  let rest: restm.RestClient = new restm.RestClient(
-    'goreleaser-action',
-    'https://github.com',
-    undefined,
-    {
-      headers: {
-        Accept: 'application/json'
-      }
+  let rest: restm.RestClient = new restm.RestClient('goreleaser-action', 'https://github.com', undefined, {
+    headers: {
+      Accept: 'application/json'
     }
-  );
+  });
 
   let res: restm.IRestResponse<GitHubRelease> = await rest.get<GitHubRelease>(
     `/goreleaser/goreleaser/releases/${version}`
   );
   if (res.statusCode != 200 || res.result === null) {
-    throw new Error(
-      `Cannot find GoReleaser ${version} release (http ${res.statusCode})`
-    );
+    throw new Error(`Cannot find GoReleaser ${version} release (http ${res.statusCode})`);
   }
 
   return res.result.tag_name;
