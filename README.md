@@ -13,8 +13,6 @@
 
 ---
 
-> **:warning: Note:** To use this action, you must have access to the [GitHub Actions](https://github.com/features/actions) feature. GitHub Actions are currently only available in public beta. You can [apply for the GitHub Actions beta here](https://github.com/features/actions/signup/).
-
 ## Usage
 
 Below is a simple snippet to use this action. A [live example](https://github.com/goreleaser/goreleaser-action/actions) is also available for this repository.
