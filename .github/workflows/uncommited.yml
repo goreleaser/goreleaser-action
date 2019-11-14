@@ -20,9 +20,13 @@ jobs:
         name: Build
         run: |
           npm install
-          npm run build
           npm run format
-          npm prune --production
+          npm run build
+      -
+        name: Prune prod
+        run: |
+          rm -rf node_modules
+          npm install --production
       -
         name: Check for uncommitted changes
         run: |
