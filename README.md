@@ -34,6 +34,8 @@ jobs:
       -
         name: Set up Go
         uses: actions/setup-go@master
+        with:
+          go-version: 1.13.x
       -
         name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v1
