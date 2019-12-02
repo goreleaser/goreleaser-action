@@ -14,6 +14,9 @@ inputs:
     description: 'Arguments to pass to GoReleaser'
   key:
     description: 'Private key to import'
+  workdir:
+    description: 'Working directory (below repository root)'
+    default: '.'
 
 runs:
   using: 'node12'

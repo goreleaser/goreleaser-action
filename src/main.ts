@@ -8,7 +8,13 @@ export async function run(silent?: boolean) {
     const version = core.getInput('version') || 'latest';
     const args = core.getInput('args');
     const key = core.getInput('key');
+    const workdir = core.getInput('workdir') || '.';
     const goreleaser = await installer.getGoReleaser(version);
+
+    if (workdir && workdir !== '.') {
+      console.log(`📂 Using ${workdir} as working directory...`)
+      process.chdir(workdir);
+    }
 
     let snapshot = '';
     if (!process.env.GITHUB_REF || !process.env.GITHUB_REF.startsWith('refs/tags/')) {
