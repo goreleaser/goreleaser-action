@@ -25,7 +25,7 @@
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.2.0",
-    "@actions/exec": "^1.0.1",
+    "@actions/exec": "^1.0.2",
     "@actions/tool-cache": "^1.1.2",
     "download": "^7.1.0",
     "typed-rest-client": "^1.4.0"
