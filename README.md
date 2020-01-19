@@ -47,6 +47,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
+> If you want to run GoReleaser only on new tag, check [this comment](https://github.com/goreleaser/goreleaser-action/issues/61#issuecomment-569286582)
+
 ## Customizing
 
 ### Inputs
