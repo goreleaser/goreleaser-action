@@ -30,7 +30,10 @@ jobs:
     steps:
       -
         name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
+      -
+        name: Unshallow
+        run: git fetch --prune --unshallow
       -
         name: Set up Go
         uses: actions/setup-go@v1
@@ -47,7 +50,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-> If you want to run GoReleaser only on new tag, check [this comment](https://github.com/goreleaser/goreleaser-action/issues/61#issuecomment-569286582)
+> **IMPORTANT**: note the `Unshallow` step. It is required for the changelog to work correctly.
+
+> If you want to run GoReleaser only on new tag, check [this comment](https://github.com/goreleaser/goreleaser-action/issues/61#issuecomment-569286582).
 
 ## Customizing
 
