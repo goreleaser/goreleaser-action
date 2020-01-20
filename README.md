@@ -90,6 +90,7 @@ Following inputs can be used as `step.with` keys
 | `args`        | String  |           | Arguments to pass to GoReleaser           |
 | `key`         | String  |           | Private key to import                     |
 | `workdir`     | String  | `.`       | Working directory (below repository root) |
+| `skip_snapshot_check`     | Boolean  | `false`       | Do not use --snapshot regardless of environment variables if true. |
 
 ### Signing
 
