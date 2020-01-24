@@ -34,11 +34,11 @@
     "@types/download": "^6.2.4",
     "@types/jest": "^24.9.0",
     "@types/node": "^13.1.8",
-    "jest": "^24.8.0",
+    "jest": "^25.1.0",
     "jest-circus": "^25.1.0",
     "jest-runtime": "^25.1.0",
     "prettier": "^1.19.1",
-    "ts-jest": "^24.3.0",
+    "ts-jest": "^25.0.0",
     "typescript": "^3.7.5",
     "typescript-formatter": "^7.2.2"
   }
