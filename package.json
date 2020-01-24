@@ -24,7 +24,7 @@
   "author": "CrazyMax",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.2.1",
+    "@actions/core": "^1.2.2",
     "@actions/exec": "^1.0.3",
     "@actions/tool-cache": "^1.3.1",
     "download": "^7.1.0",
