@@ -21,8 +21,9 @@ Below is a simple snippet to use this action. A [live example](https://github.co
 name: goreleaser
 
 on:
-  pull_request:
   push:
+    tags:
+    - '*'
 
 jobs:
   goreleaser:
@@ -52,31 +53,8 @@ jobs:
 
 > **IMPORTANT**: note the `Unshallow` step. It is required for the changelog to work correctly.
 
-If you want to run GoReleaser only on new tag, you can use this event:
-
-```yaml
-on:
-  push:
-    tags:
-      - '*'
-```
-
-Or with a condition on GoReleaser step:
-
-```yaml
-      -
-        name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          version: latest
-          args: release --rm-dist
-          key: ${{ secrets.YOUR_PRIVATE_KEY }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-```
-
-> For detailed instructions please follow GitHub Actions [workflow syntax](https://help.github.com/en/articles/workflow-syntax-for-github-actions#About-yaml-syntax-for-workflows).
+> If you want to run GoReleaser on non-tag push to generate an unversioned
+> snapshot release, use `args: release --snapshot`.
 
 ## Customizing
 
@@ -90,7 +68,6 @@ Following inputs can be used as `step.with` keys
 | `args`        | String  |           | Arguments to pass to GoReleaser           |
 | `key`         | String  |           | Private key to import                     |
 | `workdir`     | String  | `.`       | Working directory (below repository root) |
-| `skip_snapshot_check`     | Boolean  | `false`       | Do not use --snapshot regardless of environment variables if true. |
 
 ### Signing
 

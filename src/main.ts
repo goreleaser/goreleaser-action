@@ -9,26 +9,11 @@ export async function run(silent?: boolean) {
     const args = core.getInput('args');
     const key = core.getInput('key');
     const workdir = core.getInput('workdir') || '.';
-    const skipSnapshotCheck = core.getInput('skip_snapshot_check') === 'true';
     const goreleaser = await installer.getGoReleaser(version);
 
     if (workdir && workdir !== '.') {
       console.log(`📂 Using ${workdir} as working directory...`);
       process.chdir(workdir);
-    }
-
-    let snapshot = '';
-    if (skipSnapshotCheck) {
-      console.log(`✅ --snapshot check is skipped`);
-    } else {
-      if (!process.env.GITHUB_REF || !process.env.GITHUB_REF.startsWith('refs/tags/')) {
-        console.log(`⚠️ No tag found. Snapshot forced`);
-        if (!args.includes('--snapshot')) {
-          snapshot = ' --snapshot';
-        }
-      } else {
-        console.log(`✅ ${process.env.GITHUB_REF!.split('/')[2]} tag found`);
-      }
     }
 
     if (key) {
@@ -41,7 +26,7 @@ export async function run(silent?: boolean) {
     }
 
     console.log('🏃 Running GoReleaser...');
-    await exec.exec(`${goreleaser} ${args}${snapshot}`, undefined, {
+    await exec.exec(`${goreleaser} ${args}`, undefined, {
       silent: silent
     });
   } catch (error) {

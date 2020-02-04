@@ -17,8 +17,6 @@ inputs:
   workdir:
     description: 'Working directory (below repository root)'
     default: '.'
-  skip_snapshot_check:
-    description: 'Do not use --snapshot regardless of environment variables if true.'
 
 runs:
   using: 'node12'
