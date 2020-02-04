@@ -40,4 +40,4 @@ jobs:
         uses: ./
         with:
           version: ${{ matrix.version }}
-          args: release --skip-publish --rm-dist
+          args: release --skip-publish --rm-dist --snapshot
