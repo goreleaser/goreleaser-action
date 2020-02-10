@@ -22,7 +22,7 @@ export async function run(silent?: boolean) {
     }
 
     let snapshot = '';
-    if (args.includes('release')) {
+    if (args.split(' ').indexOf('release') > -1) {
       if (isTagDirty) {
         core.info(`⚠️ No tag found for commit ${commit}. Snapshot forced`);
         if (!args.includes('--snapshot')) {
