@@ -11,10 +11,7 @@ export async function isTagDirty(currentTag: string): Promise<boolean> {
   try {
     await git(['describe', '--exact-match', '--tags', '--match', currentTag]);
   } catch (err) {
-    if (err.message.includes('no tag exactly matches')) {
-      return true;
-    }
-    throw err;
+    return true;
   }
   return false;
 }
