@@ -1,3 +1,4 @@
+import * as core from '@actions/core';
 import * as tc from '@actions/tool-cache';
 import * as download from 'download';
 import * as fs from 'fs';
@@ -15,7 +16,7 @@ export async function getGoReleaser(version: string): Promise<string> {
     version = selected;
   }
 
-  console.log(`✅ GoReleaser version found: ${version}`);
+  core.info(`✅ GoReleaser version found: ${version}`);
   const tmpdir = fs.mkdtempSync(path.join(os.tmpdir(), 'goreleaser-'));
   const fileName = getFileName();
   const downloadUrl = util.format(
@@ -24,10 +25,10 @@ export async function getGoReleaser(version: string): Promise<string> {
     fileName
   );
 
-  console.log(`⬇️ Downloading ${downloadUrl}...`);
+  core.info(`⬇️ Downloading ${downloadUrl}...`);
   await download.default(downloadUrl, tmpdir, {filename: fileName});
 
-  console.log('📦 Extracting GoReleaser...');
+  core.info('📦 Extracting GoReleaser...');
   let extPath: string = tmpdir;
   if (osPlat == 'win32') {
     extPath = await tc.extractZip(`${tmpdir}/${fileName}`);
@@ -42,8 +43,7 @@ function getFileName(): string {
   const platform: string = osPlat == 'win32' ? 'Windows' : osPlat == 'darwin' ? 'Darwin' : 'Linux';
   const arch: string = osArch == 'x64' ? 'x86_64' : 'i386';
   const ext: string = osPlat == 'win32' ? 'zip' : 'tar.gz';
-  const filename: string = util.format('goreleaser_%s_%s.%s', platform, arch, ext);
-  return filename;
+  return util.format('goreleaser_%s_%s.%s', platform, arch, ext);
 }
 
 interface GitHubRelease {
