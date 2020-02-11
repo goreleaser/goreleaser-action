@@ -36,6 +36,12 @@ jobs:
         with:
           go-version: 1.13.x
       -
+        name: Check
+        uses: ./
+        with:
+          version: ${{ matrix.version }}
+          args: check --debug
+      -
         name: GoReleaser
         uses: ./
         with:

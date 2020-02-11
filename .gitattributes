@@ -1,2 +1,2 @@
-/lib/** linguist-detectable=false
+/lib/** linguist-generated=true
 /node_modules/** linguist-detectable=false

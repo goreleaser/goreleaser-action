@@ -1,3 +1,4 @@
+import * as git from './git';
 import * as installer from './installer';
 import * as core from '@actions/core';
 import * as exec from '@actions/exec';
@@ -11,23 +12,29 @@ export async function run(silent?: boolean) {
     const workdir = core.getInput('workdir') || '.';
     const goreleaser = await installer.getGoReleaser(version);
 
+    const commit = await git.getShortCommit();
+    const tag = await git.getTag();
+    const isTagDirty = await git.isTagDirty(tag);
+
     if (workdir && workdir !== '.') {
-      console.log(`📂 Using ${workdir} as working directory...`)
+      core.info(`📂 Using ${workdir} as working directory...`);
       process.chdir(workdir);
     }
 
     let snapshot = '';
-    if (!process.env.GITHUB_REF || !process.env.GITHUB_REF.startsWith('refs/tags/')) {
-      console.log(`⚠️ No tag found. Snapshot forced`);
-      if (!args.includes('--snapshot')) {
-        snapshot = ' --snapshot';
+    if (args.split(' ').indexOf('release') > -1) {
+      if (isTagDirty) {
+        core.info(`⚠️ No tag found for commit ${commit}. Snapshot forced`);
+        if (!args.includes('--snapshot')) {
+          snapshot = ' --snapshot';
+        }
+      } else {
+        core.info(`✅ ${tag} tag found for commit ${commit}`);
       }
-    } else {
-      console.log(`✅ ${process.env.GITHUB_REF!.split('/')[2]} tag found`);
     }
 
     if (key) {
-      console.log('🔑 Importing signing key...');
+      core.info('🔑 Importing signing key...');
       let path = `${process.env.HOME}/key.asc`;
       fs.writeFileSync(path, key, {mode: 0o600});
       await exec.exec('gpg', ['--import', path], {
@@ -35,7 +42,7 @@ export async function run(silent?: boolean) {
       });
     }
 
-    console.log('🏃 Running GoReleaser...');
+    core.info('🏃 Running GoReleaser...');
     await exec.exec(`${goreleaser} ${args}${snapshot}`, undefined, {
       silent: silent
     });
