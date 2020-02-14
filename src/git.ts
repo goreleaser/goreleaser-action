@@ -17,7 +17,11 @@ export async function isTagDirty(currentTag: string): Promise<boolean> {
 }
 
 export async function getTag(): Promise<string> {
-  return await git(['describe', '--tags', '--abbrev=0']);
+  try {
+    return await git(['describe', '--tags', '--abbrev=0']);
+  } catch (err) {
+    return '';
+  }
 }
 
 export async function getShortCommit(): Promise<string> {
