@@ -33,7 +33,7 @@
   "devDependencies": {
     "@types/download": "^6.2.4",
     "@types/jest": "^25.1.4",
-    "@types/node": "^13.9.0",
+    "@types/node": "^13.9.1",
     "jest": "^25.1.0",
     "jest-circus": "^25.1.0",
     "jest-runtime": "^25.1.0",
