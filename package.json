@@ -38,7 +38,7 @@
     "jest-circus": "^25.2.4",
     "jest-runtime": "^25.2.4",
     "prettier": "^2.0.2",
-    "ts-jest": "^25.2.1",
+    "ts-jest": "^25.3.0",
     "typescript": "^3.8.3",
     "typescript-formatter": "^7.2.2"
   }
