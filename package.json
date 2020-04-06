@@ -36,7 +36,7 @@
     "@types/node": "^13.11.0",
     "jest": "^25.2.6",
     "jest-circus": "^25.2.6",
-    "jest-runtime": "^25.2.6",
+    "jest-runtime": "^25.2.7",
     "prettier": "^2.0.2",
     "ts-jest": "^25.3.0",
     "typescript": "^3.8.3",
