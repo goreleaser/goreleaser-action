@@ -48,9 +48,8 @@ jobs:
       -
         name: NPM production deps
         run: |
-          rm -rf node_modules
-          sed -i '/node_modules/d' .gitignore
-          npm install --production
+          npm run build-dep
+          npm run prune
       -
         name: Commit and push changes
         run: |

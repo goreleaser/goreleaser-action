@@ -358,8 +358,6 @@ bzip2.decompress = function(bits, stream, buf, bufsize, streamCRC) {
 
     crc = (crc ^ (-1)) >>> 0;
     if ((crc|0) != (crcblock|0)) message.Error("Error in bzip2: crc32 do not match");
-    if (streamCRC === null)
-      streamCRC = 0;
     streamCRC = (crc ^ ((streamCRC << 1) | (streamCRC >>> 31))) & 0xFFFFFFFF;
     return streamCRC;
 }
