@@ -6,6 +6,13 @@
   "directories": {
     "lib": "lib"
   },
+  "scripts": {
+    "build": "tsc && ncc build",
+    "test": "jest",
+    "format": "prettier --write **/*.ts",
+    "format-check": "prettier --check **/*.ts",
+    "pre-checkin": "npm run format && npm run build"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/goreleaser/goreleaser-action.git"
@@ -28,6 +35,7 @@
     "@types/download": "^6.2.4",
     "@types/jest": "^25.2.1",
     "@types/node": "^13.11.0",
+    "@zeit/ncc": "^0.22.1",
     "jest": "^25.2.7",
     "jest-circus": "^25.2.7",
     "jest-runtime": "^25.2.7",
@@ -35,13 +43,5 @@
     "ts-jest": "^25.3.1",
     "typescript": "^3.8.3",
     "typescript-formatter": "^7.2.2"
-  },
-  "scripts": {
-    "build-dep": "npm install -g removeNPMAbsolutePaths",
-    "build": "tsc",
-    "test": "jest",
-    "format": "prettier --write **/*.ts",
-    "format-check": "prettier --check **/*.ts",
-    "prune": "npm prune --production && removeNPMAbsolutePaths \"./\" --force --fields _where _args"
   }
 }

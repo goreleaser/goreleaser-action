@@ -15,10 +15,6 @@ jobs:
         name: Checkout
         uses: actions/checkout@v1
       -
-        # https://github.com/actions/setup-node
-        name: Set up Node
-        uses: actions/setup-node@v1
-      -
         name: Setup TS
         run: npm install tslint typescript -g
       -
