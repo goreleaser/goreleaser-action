@@ -37,7 +37,7 @@
     "@types/node": "^13.11.0",
     "@zeit/ncc": "^0.22.1",
     "jest": "^25.2.7",
-    "jest-circus": "^25.2.7",
+    "jest-circus": "^25.3.0",
     "jest-runtime": "^25.2.7",
     "prettier": "^2.0.4",
     "ts-jest": "^25.3.1",
