@@ -34,7 +34,7 @@
   "devDependencies": {
     "@types/download": "^6.2.4",
     "@types/jest": "^25.2.1",
-    "@types/node": "^13.11.0",
+    "@types/node": "^13.11.1",
     "@zeit/ncc": "^0.22.1",
     "jest": "^25.3.0",
     "jest-circus": "^25.3.0",
