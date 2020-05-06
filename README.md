@@ -5,7 +5,6 @@
   <p align="center">
     <a href="https://github.com/goreleaser/goreleaser-action/releases/latest"><img alt="GitHub release" src="https://img.shields.io/github/release/goreleaser/goreleaser-action.svg?logo=github&style=flat-square"></a>
     <a href="https://github.com/marketplace/actions/goreleaser-action"><img alt="GitHub marketplace" src="https://img.shields.io/badge/marketplace-goreleaser--action-blue?logo=github&style=flat-square"></a>
-    <a href="https://github.com/goreleaser/goreleaser-action/actions?workflow=release"><img alt="Release workflow" src="https://github.com/goreleaser/goreleaser-action/workflows/release/badge.svg"></a>
     <a href="https://github.com/goreleaser/goreleaser-action/actions?workflow=test"><img alt="Test workflow" src="https://github.com/goreleaser/goreleaser-action/workflows/test/badge.svg"></a>
     <a href="https://github.com/sponsors/crazy-max"><img src="https://img.shields.io/badge/sponsor-crazy--max-181717.svg?logo=github&style=flat-square" alt="Become a sponsor"></a>
   </p>
@@ -14,8 +13,6 @@
 ---
 
 ## Usage
-
-Below is a simple snippet to use this action. A [live example](https://github.com/goreleaser/goreleaser-action/actions) is also available for this repository.
 
 ```yaml
 name: goreleaser
@@ -36,9 +33,9 @@ jobs:
         run: git fetch --prune --unshallow
       -
         name: Set up Go
-        uses: actions/setup-go@v1
+        uses: actions/setup-go@v2
         with:
-          go-version: 1.13.x
+          go-version: 1.13
       -
         name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v1
