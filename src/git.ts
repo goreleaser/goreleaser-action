@@ -1,10 +1,12 @@
-import * as child_process from 'child_process';
+import * as exec from './exec';
 
-const git = async (args: string[] = []) => {
-  const stdout = child_process.execSync(`git ${args.join(' ')}`, {
-    encoding: 'utf8'
+const git = async (args: string[] = []): Promise<string> => {
+  return await exec.exec(`git`, args, true).then(res => {
+    if (res.stderr != '' && !res.success) {
+      throw new Error(res.stderr);
+    }
+    return res.stdout.trim();
   });
-  return stdout.trim();
 };
 
 export async function getTag(): Promise<string> {
