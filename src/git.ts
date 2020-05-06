@@ -7,6 +7,14 @@ const git = async (args: string[] = []) => {
   return stdout.trim();
 };
 
+export async function getTag(): Promise<string> {
+  try {
+    return await git(['describe', '--tags', '--abbrev=0']);
+  } catch (err) {
+    return '';
+  }
+}
+
 export async function isTagDirty(currentTag: string): Promise<boolean> {
   try {
     await git(['describe', '--exact-match', '--tags', '--match', currentTag]);
@@ -14,14 +22,6 @@ export async function isTagDirty(currentTag: string): Promise<boolean> {
     return true;
   }
   return false;
-}
-
-export async function getTag(): Promise<string> {
-  try {
-    return await git(['describe', '--tags', '--abbrev=0']);
-  } catch (err) {
-    return '';
-  }
 }
 
 export async function getShortCommit(): Promise<string> {
