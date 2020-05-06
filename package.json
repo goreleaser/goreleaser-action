@@ -7,7 +7,8 @@
     "test": "jest --coverage",
     "format": "prettier --write **/*.ts",
     "format-check": "prettier --check **/*.ts",
-    "pre-checkin": "npm run format && npm run build"
+    "cleanup-paths": "removeNPMAbsolutePaths ./ --force --fields _where _args",
+    "pre-checkin": "npm run format && npm run cleanup-paths && npm run build"
   },
   "repository": {
     "type": "git",
@@ -36,6 +37,7 @@
     "jest-circus": "^25.5.4",
     "jest-runtime": "^25.5.4",
     "prettier": "^2.0.5",
+    "removeNPMAbsolutePaths": "^2.0.0",
     "ts-jest": "^25.5.0",
     "typescript": "^3.8.3",
     "typescript-formatter": "^7.2.2"
