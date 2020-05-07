@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.5.0 (2020/05/07)
+
+* Use native GitHub Action tools to download assets and use GitHub API
+* Fix unexpected output when tag not found
+* Use GitHub Action exec
+* Cleanup local paths from extra fields
+* Add notes about limitation with GITHUB_TOKEN (#58)
+* Add Codecov
+
 ## 1.4.0 (2020/04/09)
 
 * Use ncc and clean workflows
