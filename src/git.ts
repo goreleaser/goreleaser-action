@@ -1,11 +1,21 @@
-import * as child_process from 'child_process';
+import * as exec from './exec';
 
-const git = async (args: string[] = []) => {
-  const stdout = child_process.execSync(`git ${args.join(' ')}`, {
-    encoding: 'utf8'
+const git = async (args: string[] = []): Promise<string> => {
+  return await exec.exec(`git`, args, true).then(res => {
+    if (res.stderr != '' && !res.success) {
+      throw new Error(res.stderr);
+    }
+    return res.stdout.trim();
   });
-  return stdout.trim();
 };
+
+export async function getTag(): Promise<string> {
+  try {
+    return await git(['describe', '--tags', '--abbrev=0']);
+  } catch (err) {
+    return '';
+  }
+}
 
 export async function isTagDirty(currentTag: string): Promise<boolean> {
   try {
@@ -14,14 +24,6 @@ export async function isTagDirty(currentTag: string): Promise<boolean> {
     return true;
   }
   return false;
-}
-
-export async function getTag(): Promise<string> {
-  try {
-    return await git(['describe', '--tags', '--abbrev=0']);
-  } catch (err) {
-    return '';
-  }
 }
 
 export async function getShortCommit(): Promise<string> {

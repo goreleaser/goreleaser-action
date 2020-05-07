@@ -21,11 +21,11 @@ jobs:
         name: Checkout
         uses: actions/checkout@v2
       -
+        name: Unshallow
+        run: git fetch --prune --unshallow
+      -
         name: Install
         run: npm install
-      -
-        name: Build
-        run: npm run build
       -
         name: Test
         run: npm run test

@@ -12,6 +12,8 @@
 
 ---
 
+![GoRelease Action](.github/goreleaser-action.png)
+
 ## Usage
 
 ```yaml

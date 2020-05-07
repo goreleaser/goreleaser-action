@@ -4,7 +4,7 @@ import * as core from '@actions/core';
 import * as exec from '@actions/exec';
 import * as fs from 'fs';
 
-export async function run(silent?: boolean) {
+async function run(): Promise<void> {
   try {
     const version = core.getInput('version') || 'latest';
     const args = core.getInput('args');
@@ -37,15 +37,11 @@ export async function run(silent?: boolean) {
       core.info('🔑 Importing signing key...');
       let path = `${process.env.HOME}/key.asc`;
       fs.writeFileSync(path, key, {mode: 0o600});
-      await exec.exec('gpg', ['--import', path], {
-        silent: silent
-      });
+      await exec.exec('gpg', ['--import', path]);
     }
 
     core.info('🏃 Running GoReleaser...');
-    await exec.exec(`${goreleaser} ${args}${snapshot}`, undefined, {
-      silent: silent
-    });
+    await exec.exec(`${goreleaser} ${args}${snapshot}`);
   } catch (error) {
     core.setFailed(error.message);
   }
