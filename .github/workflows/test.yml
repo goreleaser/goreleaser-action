@@ -14,7 +14,14 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+      strategy:
+        fail-fast: false
+        matrix:
+          os:
+            - ubuntu-latest
+            - macOS-latest
+            - windows-latest
     steps:
       -
         # https://github.com/actions/checkout
