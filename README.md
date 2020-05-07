@@ -79,7 +79,7 @@ Or with a condition on GoReleaser step:
 
 ## Customizing
 
-### Inputs
+### inputs
 
 Following inputs can be used as `step.with` keys
 
@@ -90,7 +90,36 @@ Following inputs can be used as `step.with` keys
 | `key`         | String  |           | Private key to import                     |
 | `workdir`     | String  | `.`       | Working directory (below repository root) |
 
-### Signing
+### environment variables
+
+Following environment variables can be used as `step.env` keys
+
+| Name           | Description                           |
+|----------------|---------------------------------------|
+| `GITHUB_TOKEN` | [GITHUB_TOKEN](https://help.github.com/en/actions/configuring-and-managing-workflows/authenticating-with-the-github_token) as provided by `secrets` |
+
+## Limitation
+
+`GITHUB_TOKEN` permissions [are limited to the repository](https://help.github.com/en/actions/configuring-and-managing-workflows/authenticating-with-the-github_token#about-the-github_token-secret)
+that contains your workflow. 
+
+If you need to push the homebrew tap to another repository, you must therefore create a custom [Personal Access Token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/)
+with `repo` permissions and [add it as a secret in the repository](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets). If you create a 
+secret named `GH_PAT`, the step will look like this:
+
+```yaml
+      -
+        name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v1
+        with:
+          version: latest
+          args: release --rm-dist
+          key: ${{ secrets.YOUR_PRIVATE_KEY }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+```
+
+## Signing
 
 If signing is enabled in your GoReleaser configuration, populate the `key` input with your private key
 and reference the key in your signing configuration, e.g.
