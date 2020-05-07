@@ -1324,7 +1324,7 @@ function run() {
     });
 }
 run();
-
+//# sourceMappingURL=main.js.map
 
 /***/ }),
 
@@ -3119,7 +3119,7 @@ function getShortCommit() {
     });
 }
 exports.getShortCommit = getShortCommit;
-
+//# sourceMappingURL=git.js.map
 
 /***/ }),
 
@@ -4738,7 +4738,7 @@ const getFilename = () => {
     const ext = osPlat == 'win32' ? 'zip' : 'tar.gz';
     return util.format('goreleaser_%s_%s.%s', platform, arch, ext);
 };
-
+//# sourceMappingURL=installer.js.map
 
 /***/ }),
 
@@ -4794,7 +4794,7 @@ exports.exec = (command, args = [], silent) => __awaiter(void 0, void 0, void 0,
         stderr: stderr.trim()
     };
 });
-
+//# sourceMappingURL=exec.js.map
 
 /***/ }),
 
@@ -4826,7 +4826,7 @@ exports.getRelease = (version) => __awaiter(void 0, void 0, void 0, function* ()
     const http = new httpm.HttpClient('goreleaser-action');
     return (yield http.getJson(url)).result;
 });
-
+//# sourceMappingURL=github.js.map
 
 /***/ }),
 
