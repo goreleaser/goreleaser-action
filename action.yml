@@ -10,11 +10,14 @@ inputs:
   version:
     description: 'GoReleaser version. Example: v0.118.0'
     default: 'latest'
+    required: false
   args:
     description: 'Arguments to pass to GoReleaser'
+    required: true
   workdir:
     description: 'Working directory (below repository root)'
     default: '.'
+    required: false
 
 runs:
   using: 'node12'

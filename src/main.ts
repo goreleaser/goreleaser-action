@@ -6,7 +6,7 @@ import * as exec from '@actions/exec';
 async function run(): Promise<void> {
   try {
     const version = core.getInput('version') || 'latest';
-    const args = core.getInput('args');
+    const args = core.getInput('args', {required: true});
     const workdir = core.getInput('workdir') || '.';
     const goreleaser = await installer.getGoReleaser(version);
 

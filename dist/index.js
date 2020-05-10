@@ -1285,7 +1285,7 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const version = core.getInput('version') || 'latest';
-            const args = core.getInput('args');
+            const args = core.getInput('args', { required: true });
             const workdir = core.getInput('workdir') || '.';
             const goreleaser = yield installer.getGoReleaser(version);
             const commit = yield git.getShortCommit();
