@@ -50,7 +50,7 @@ jobs:
         name: Set up Go
         uses: actions/setup-go@v2
         with:
-          go-version: 1.13
+          go-version: 1.14
       -
         name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v1
