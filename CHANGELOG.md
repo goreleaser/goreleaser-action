@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.1 (2020/05/10)
+
+* Dummy release to mark v2 as latest on the marketplace
+
 ## 2.0.0 (2020/05/10)
 
 * Remove `key` input and use [Import GPG](https://github.com/crazy-max/ghaction-import-gpg) GitHub Action instead.
