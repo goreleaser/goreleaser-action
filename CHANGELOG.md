@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.2 (2020/05/10)
+
+* Use template in `sign.args`
+
 ## 2.0.1 (2020/05/10)
 
 * Dummy release to mark v2 as latest on the marketplace
