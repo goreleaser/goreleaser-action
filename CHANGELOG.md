@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.0.0 (2020/05/10)
+
+* Remove `key` input and use [Import GPG](https://github.com/crazy-max/ghaction-import-gpg) GitHub Action instead.
+* Make `args` input as required
+* Go 1.14
+* Update deps
+
 ## 1.5.0 (2020/05/07)
 
 * Use native GitHub Action tools to download assets and use GitHub API
