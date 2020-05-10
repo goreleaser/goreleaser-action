@@ -97,7 +97,6 @@ If [signing is enabled](https://goreleaser.com/customization/#Signing) in your G
 ```yaml
       -
         name: Import GPG key
-        id: import_gpg
         uses: crazy-max/ghaction-import-gpg@v1
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
@@ -110,15 +109,14 @@ If [signing is enabled](https://goreleaser.com/customization/#Signing) in your G
           args: release --rm-dist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
 ```
 
-Reference the fingerprint in your signing configuration using the `GPG_FINGERPRINT` envrionment variable:
+And reference the userID in your signing configuration:
 
 ```yaml
 signs:
   - artifacts: checksum
-    args: ["--batch", "-u", "{{ .Env.GPG_FINGERPRINT }}", "--output", "${signature}", "--detach-sign", "${artifact}"]
+    args: ["--batch", "-u", "<key id, fingerprint, email, ...>", "--output", "${signature}", "--detach-sign", "${artifact}"]
 ```
 
 ## Customizing

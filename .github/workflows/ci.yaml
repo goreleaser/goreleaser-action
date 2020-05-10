@@ -73,7 +73,6 @@ jobs:
           go-version: 1.13
       -
         name: Import GPG key
-        id: import_gpg
         uses: crazy-max/ghaction-import-gpg@v1
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY_TEST }}
@@ -84,13 +83,9 @@ jobs:
         with:
           version: latest
           args: -f .goreleaser-signing.yml check --debug
-        env:
-          GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
       -
         name: GoReleaser
         uses: ./
         with:
           version: latest
           args: -f .goreleaser-signing.yml release --skip-publish --rm-dist
-        env:
-          GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}

@@ -37,4 +37,4 @@ checksum:
 signs:
   -
     artifacts: checksum
-    args: ["--batch", "-u", "{{ .Env.GPG_FINGERPRINT }}", "--output", "${signature}", "--detach-sign", "${artifact}"]
+    args: ["--batch", "-u", "27571A53B86AF0C799B38BA77D851EB72D73BDA0", "--output", "${signature}", "--detach-sign", "${artifact}"]
