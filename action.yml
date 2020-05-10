@@ -13,7 +13,8 @@ inputs:
   args:
     description: 'Arguments to pass to GoReleaser'
   key:
-    description: 'Private key to import'
+    description: 'Deprecated. Use goreleaser/goreleaser-action@v2 alongside crazy-max/ghaction-import-gpg'
+    deprecationMessage: 'The key input will not be supported. Use goreleaser/goreleaser-action@v2 alongside crazy-max/ghaction-import-gpg'
   workdir:
     description: 'Working directory (below repository root)'
     default: '.'
