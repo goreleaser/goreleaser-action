@@ -11,6 +11,10 @@
 * Go 1.14
 * Update deps
 
+## 1.5.1 (2020/05/10)
+
+* Mark `key` input as deprecated
+
 ## 1.5.0 (2020/05/07)
 
 * Use native GitHub Action tools to download assets and use GitHub API
