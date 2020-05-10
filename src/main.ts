@@ -2,13 +2,11 @@ import * as git from './git';
 import * as installer from './installer';
 import * as core from '@actions/core';
 import * as exec from '@actions/exec';
-import * as fs from 'fs';
 
 async function run(): Promise<void> {
   try {
     const version = core.getInput('version') || 'latest';
     const args = core.getInput('args');
-    const key = core.getInput('key');
     const workdir = core.getInput('workdir') || '.';
     const goreleaser = await installer.getGoReleaser(version);
 
@@ -31,13 +29,6 @@ async function run(): Promise<void> {
       } else {
         core.info(`✅ ${tag} tag found for commit ${commit}`);
       }
-    }
-
-    if (key) {
-      core.info('🔑 Importing signing key...');
-      let path = `${process.env.HOME}/key.asc`;
-      fs.writeFileSync(path, key, {mode: 0o600});
-      await exec.exec('gpg', ['--import', path]);
     }
 
     core.info('🏃 Running GoReleaser...');

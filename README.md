@@ -11,11 +11,23 @@
   </p>
 </p>
 
----
+___
 
 ![GoRelease Action](.github/goreleaser-action.png)
 
+* [Usage](#usage)
+  * [Workflow](#workflow)
+  * [Run on new tag](#run-on-new-tag)
+  * [Signing](#signing)
+* [Customizing](#customizing)
+  * [inputs](#inputs)
+  * [environment variables](#environment-variables)
+* [Limitation](#limitation)
+* [License](#license)
+
 ## Usage
+
+### Workflow
 
 ```yaml
 name: goreleaser
@@ -45,12 +57,13 @@ jobs:
         with:
           version: latest
           args: release --rm-dist
-          key: ${{ secrets.YOUR_PRIVATE_KEY }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 > **IMPORTANT**: note the `Unshallow` step. It is required for the changelog to work correctly.
+
+### Run on new tag
 
 If you want to run GoReleaser only on new tag, you can use this event:
 
@@ -71,12 +84,42 @@ Or with a condition on GoReleaser step:
         with:
           version: latest
           args: release --rm-dist
-          key: ${{ secrets.YOUR_PRIVATE_KEY }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 > For detailed instructions please follow GitHub Actions [workflow syntax](https://help.github.com/en/articles/workflow-syntax-for-github-actions#About-yaml-syntax-for-workflows).
+
+### Signing
+
+If [signing is enabled](https://goreleaser.com/customization/#Signing) in your GoReleaser configuration, you can use the [Import GPG](https://github.com/crazy-max/ghaction-import-gpg) GitHub Action along with this one:
+
+```yaml
+      -
+        name: Import GPG key
+        id: import_gpg
+        uses: crazy-max/ghaction-import-gpg@v1
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          PASSPHRASE: ${{ secrets.PASSPHRASE }}
+      -
+        name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v1
+        with:
+          version: latest
+          args: release --rm-dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
+```
+
+Reference the fingerprint in your signing configuration using the `GPG_FINGERPRINT` envrionment variable:
+
+```yaml
+signs:
+  - artifacts: checksum
+    args: ["--batch", "-u", "{{ .Env.GPG_FINGERPRINT }}", "--output", "${signature}", "--detach-sign", "${artifact}"]
+```
 
 ## Customizing
 
@@ -88,7 +131,6 @@ Following inputs can be used as `step.with` keys
 |---------------|---------|-----------|-------------------------------------------|
 | `version`     | String  | `latest`  | GoReleaser version. Example: `v0.117.0`   |
 | `args`        | String  |           | Arguments to pass to GoReleaser           |
-| `key`         | String  |           | Private key to import                     |
 | `workdir`     | String  | `.`       | Working directory (below repository root) |
 
 ### environment variables
@@ -115,23 +157,9 @@ secret named `GH_PAT`, the step will look like this:
         with:
           version: latest
           args: release --rm-dist
-          key: ${{ secrets.YOUR_PRIVATE_KEY }}
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
 ```
-
-## Signing
-
-If signing is enabled in your GoReleaser configuration, populate the `key` input with your private key
-and reference the key in your signing configuration, e.g.
-
-```yaml
-signs:
-  - artifacts: checksum
-    args: ["--batch", "-u", "<key id, fingerprint, email, ...>", "--output", "${signature}", "--detach-sign", "${artifact}"]
-```
-
-This feature is currently only compatible when using the default `gpg` command and a private key without a passphrase.
 
 ## License
 

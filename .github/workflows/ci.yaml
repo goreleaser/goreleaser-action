@@ -49,3 +49,44 @@ jobs:
         with:
           version: ${{ matrix.version }}
           args: release --skip-publish --rm-dist
+
+  signing:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macOS-latest
+          - windows-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: Unshallow
+        run: git fetch --prune --unshallow
+      -
+        name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.13
+      -
+        name: Import GPG key
+        id: import_gpg
+        uses: crazy-max/ghaction-import-gpg@v1
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY_TEST }}
+          PASSPHRASE: ${{ secrets.PASSPHRASE_TEST }}
+      -
+        name: Check
+        uses: ./
+        with:
+          version: latest
+          args: -f .goreleaser-signing.yml check --debug
+      -
+        name: GoReleaser
+        uses: ./
+        with:
+          version: latest
+          args: -f .goreleaser-signing.yml release --skip-publish --rm-dist

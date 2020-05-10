@@ -1281,13 +1281,11 @@ const git = __importStar(__webpack_require__(453));
 const installer = __importStar(__webpack_require__(749));
 const core = __importStar(__webpack_require__(470));
 const exec = __importStar(__webpack_require__(986));
-const fs = __importStar(__webpack_require__(747));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const version = core.getInput('version') || 'latest';
             const args = core.getInput('args');
-            const key = core.getInput('key');
             const workdir = core.getInput('workdir') || '.';
             const goreleaser = yield installer.getGoReleaser(version);
             const commit = yield git.getShortCommit();
@@ -1308,12 +1306,6 @@ function run() {
                 else {
                     core.info(`✅ ${tag} tag found for commit ${commit}`);
                 }
-            }
-            if (key) {
-                core.info('🔑 Importing signing key...');
-                let path = `${process.env.HOME}/key.asc`;
-                fs.writeFileSync(path, key, { mode: 0o600 });
-                yield exec.exec('gpg', ['--import', path]);
             }
             core.info('🏃 Running GoReleaser...');
             yield exec.exec(`${goreleaser} ${args}${snapshot}`);
