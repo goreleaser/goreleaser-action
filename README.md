@@ -53,7 +53,7 @@ jobs:
           go-version: 1.14
       -
         name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v1
+        uses: goreleaser/goreleaser-action@v2
         with:
           version: latest
           args: release --rm-dist
@@ -79,7 +79,7 @@ Or with a condition on GoReleaser step:
 ```yaml
       -
         name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v1
+        uses: goreleaser/goreleaser-action@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
           version: latest
@@ -103,7 +103,7 @@ If [signing is enabled](https://goreleaser.com/customization/#Signing) in your G
           PASSPHRASE: ${{ secrets.PASSPHRASE }}
       -
         name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v1
+        uses: goreleaser/goreleaser-action@v2
         with:
           version: latest
           args: release --rm-dist
@@ -151,7 +151,7 @@ secret named `GH_PAT`, the step will look like this:
 ```yaml
       -
         name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v1
+        uses: goreleaser/goreleaser-action@v2
         with:
           version: latest
           args: release --rm-dist
