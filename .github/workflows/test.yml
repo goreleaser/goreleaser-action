@@ -23,7 +23,6 @@ jobs:
           - windows-latest
     steps:
       -
-        # https://github.com/actions/checkout
         name: Checkout
         uses: actions/checkout@v2
       -
@@ -36,7 +35,6 @@ jobs:
         name: Test
         run: npm run test
       -
-        # https://github.com/codecov/codecov-action
         name: Upload coverage
         uses: codecov/codecov-action@v1
         if: success()
