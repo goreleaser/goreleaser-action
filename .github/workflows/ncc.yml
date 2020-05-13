@@ -1,0 +1,33 @@
+name: ncc
+
+on:
+  push:
+    branches:
+      - 'master'
+      - 'releases/*'
+    paths-ignore:
+      - '**.md'
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: Build
+        run: |
+          npm install
+          npm run format
+          npm run build
+      -
+        name: Raise PR
+        uses: peter-evans/create-pull-request@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "fix: update generated content"
+          title: "fix: update generated content"
+          branch: update-generated-content
+          branch-suffix: timestamp
+          labels: automerge
