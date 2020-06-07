@@ -11,4 +11,9 @@ describe('github', () => {
     expect(release).not.toBeNull();
     expect(release?.tag_name).toEqual('v0.117.0');
   });
+  it('returns v0.132.1 GoReleaser GitHub release', async () => {
+    const release = await github.getRelease('~> 0.132');
+    expect(release).not.toBeNull();
+    expect(release?.tag_name).toEqual('v0.132.1');
+  });
 });
