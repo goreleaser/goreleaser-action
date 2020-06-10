@@ -7,8 +7,7 @@ updates:
       time: "06:00"
       timezone: "Europe/Paris"
     labels:
-      - ":game_die: dependencies"
-      - ":robot: bot"
+      - "dependencies"
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
@@ -18,5 +17,4 @@ updates:
     allow:
       - dependency-type: "production"
     labels:
-      - ":game_die: dependencies"
-      - ":robot: bot"
+      - "dependencies"
