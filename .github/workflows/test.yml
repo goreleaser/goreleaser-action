@@ -30,10 +30,10 @@ jobs:
         run: git fetch --prune --unshallow
       -
         name: Install
-        run: npm install
+        run: yarn install
       -
         name: Test
-        run: npm run test
+        run: yarn run test
       -
         name: Upload coverage
         uses: codecov/codecov-action@v1
