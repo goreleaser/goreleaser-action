@@ -28,7 +28,7 @@
     "@actions/tool-cache": "^1.5.5"
   },
   "devDependencies": {
-    "@types/jest": "^25.2.3",
+    "@types/jest": "^26.0.0",
     "@types/node": "^14.0.12",
     "@zeit/ncc": "^0.22.3",
     "dotenv": "^8.2.0",
