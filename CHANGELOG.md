@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.1.0 (2020/06/15)
+
+* Implement (optional) semver parsing of version (#213)
+* Remove unshallow step (goreleaser/goreleaser#1608)
+
 ## 2.0.2 (2020/05/10)
 
 * Use template in `sign.args`
