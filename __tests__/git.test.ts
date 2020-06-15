@@ -3,7 +3,6 @@ import * as git from '../src/git';
 describe('git', () => {
   it('returns git tag', async () => {
     const tag: string = await git.getTag();
-    console.log(tag);
     expect(tag).not.toEqual('');
   });
   it('checks if tag is dirty', async () => {
@@ -11,7 +10,6 @@ describe('git', () => {
   });
   it('returns short commit', async () => {
     const commit: string = await git.getShortCommit();
-    console.log(commit);
     expect(commit).not.toEqual('');
   });
 });
