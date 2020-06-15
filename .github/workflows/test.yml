@@ -25,9 +25,8 @@ jobs:
       -
         name: Checkout
         uses: actions/checkout@v2
-      -
-        name: Unshallow
-        run: git fetch --prune --unshallow
+        with:
+          fetch-depth: 0
       -
         name: Install
         run: yarn install

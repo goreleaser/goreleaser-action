@@ -60,8 +60,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-> **IMPORTANT**: note the `Unshallow` step. It is required for the changelog to work correctly.
-
 ### Run on new tag
 
 If you want to run GoReleaser only on new tag, you can use this event:
