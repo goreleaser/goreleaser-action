@@ -8,7 +8,7 @@ branding:
 
 inputs:
   version:
-    description: 'GoReleaser version. Example: v0.118.0'
+    description: 'GoReleaser version'
     default: 'latest'
     required: false
   args:
