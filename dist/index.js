@@ -1419,13 +1419,13 @@ function run() {
             const args = core.getInput('args', { required: true });
             const workdir = core.getInput('workdir') || '.';
             const goreleaser = yield installer.getGoReleaser(version);
-            const commit = yield git.getShortCommit();
-            const tag = yield git.getTag();
-            const isTagDirty = yield git.isTagDirty(tag);
             if (workdir && workdir !== '.') {
                 core.info(`📂 Using ${workdir} as working directory...`);
                 process.chdir(workdir);
             }
+            const commit = yield git.getShortCommit();
+            const tag = yield git.getTag();
+            const isTagDirty = yield git.isTagDirty(tag);
             let snapshot = '';
             if (args.split(' ').indexOf('release') > -1) {
                 if (isTagDirty) {

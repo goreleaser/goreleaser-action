@@ -10,14 +10,14 @@ async function run(): Promise<void> {
     const workdir = core.getInput('workdir') || '.';
     const goreleaser = await installer.getGoReleaser(version);
 
-    const commit = await git.getShortCommit();
-    const tag = await git.getTag();
-    const isTagDirty = await git.isTagDirty(tag);
-
     if (workdir && workdir !== '.') {
       core.info(`📂 Using ${workdir} as working directory...`);
       process.chdir(workdir);
     }
+
+    const commit = await git.getShortCommit();
+    const tag = await git.getTag();
+    const isTagDirty = await git.isTagDirty(tag);
 
     let snapshot = '';
     if (args.split(' ').indexOf('release') > -1) {

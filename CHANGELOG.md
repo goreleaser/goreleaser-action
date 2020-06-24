@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.1 (2020/06/24)
+
+* Fix workdir (#224)
+
 ## 2.1.0 (2020/06/15)
 
 * Implement (optional) semver parsing of version (#213)
