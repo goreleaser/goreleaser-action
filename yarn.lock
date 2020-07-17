@@ -26,10 +26,10 @@
   resolved "https://registry.yarnpkg.com/@actions/io/-/io-1.0.2.tgz#2f614b6e69ce14d191180451eb38e6576a6e6b27"
   integrity sha512-J8KuFqVPr3p6U8W93DOXlXW6zFvrQAJANdS+vw0YhusLIq+bszW8zmK2Fh1C2kDPX8FMvwIl1OUcFgvJoXLbAg==
 
-"@actions/tool-cache@^1.5.5":
-  version "1.5.5"
-  resolved "https://registry.yarnpkg.com/@actions/tool-cache/-/tool-cache-1.5.5.tgz#2a49253f0f5838b9c4929b6f7cc7d73ae3ef4d2d"
-  integrity sha512-y/YO37BOaXzOEHpvoGZDLCwvg6XZWQ7Ala4Np4xzrKD1r48mff+K/GAmzXMejnApU7kgqC6lL/aCKTZDCrhdmw==
+"@actions/tool-cache@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@actions/tool-cache/-/tool-cache-1.6.0.tgz#5b425db2d642df65dd0d6bcec0d84dcdbca3f80d"
+  integrity sha512-+fyEBImPD3m5I0o6DflCO0NHY180LPoX8Lo6y4Iez+V17kO8kfkH0VHxb8mUdmD6hn9dWA9Ch1JA20fXoIYUeQ==
   dependencies:
     "@actions/core" "^1.2.3"
     "@actions/exec" "^1.0.0"
