@@ -35,6 +35,8 @@ name: goreleaser
 on:
   pull_request:
   push:
+    branches:
+      - master
 
 jobs:
   goreleaser:
@@ -69,6 +71,8 @@ If you want to run GoReleaser only on new tag, you can use this event:
 ```yaml
 on:
   push:
+    branches:
+      - master
     tags:
       - '*'
 ```
