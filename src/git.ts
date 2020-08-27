@@ -17,7 +17,14 @@ export async function getTag(): Promise<string> {
         return tag;
       }
     }
-    return await git(['describe', '--tags', '--abbrev=0']);
+    return await git(['tag', '--points-at', `${process.env.GITHUB_SHA}`, '--sort', '-version:creatordate']).then(
+      tags => {
+        if (tags.split('\n').length == 0) {
+          return git(['describe', '--tags', '--abbrev=0']);
+        }
+        return tags.split('\n')[0];
+      }
+    );
   } catch (err) {
     return '';
   }
