@@ -11,6 +11,12 @@ const git = async (args: string[] = []): Promise<string> => {
 
 export async function getTag(): Promise<string> {
   try {
+    if ((process.env.GITHUB_REF || '').startsWith('refs/tags')) {
+      const tag = (process.env.GITHUB_REF || '').split('/').pop();
+      if (tag !== '' && tag !== undefined) {
+        return tag;
+      }
+    }
     return await git(['describe', '--tags', '--abbrev=0']);
   } catch (err) {
     return '';

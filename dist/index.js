@@ -1797,6 +1797,12 @@ const git = (args = []) => __awaiter(void 0, void 0, void 0, function* () {
 function getTag() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            if ((process.env.GITHUB_REF || '').startsWith('refs/tags')) {
+                const tag = (process.env.GITHUB_REF || '').split('/').pop();
+                if (tag !== '' && tag !== undefined) {
+                    return tag;
+                }
+            }
             return yield git(['describe', '--tags', '--abbrev=0']);
         }
         catch (err) {

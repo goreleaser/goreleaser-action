@@ -5,6 +5,7 @@ describe('github', () => {
     const release = await github.getRelease('latest');
     expect(release).not.toBeNull();
     expect(release?.tag_name).not.toEqual('');
+    console.log(`tag_name: ${release?.tag_name}`);
   });
   it('returns v0.117.0 GoReleaser GitHub release', async () => {
     const release = await github.getRelease('v0.117.0');
