@@ -1797,7 +1797,18 @@ const git = (args = []) => __awaiter(void 0, void 0, void 0, function* () {
 function getTag() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            return yield git(['describe', '--tags', '--abbrev=0']);
+            if ((process.env.GITHUB_REF || '').startsWith('refs/tags')) {
+                const tag = (process.env.GITHUB_REF || '').split('/').pop();
+                if (tag !== '' && tag !== undefined) {
+                    return tag;
+                }
+            }
+            return yield git(['tag', '--points-at', `${process.env.GITHUB_SHA}`, '--sort', '-version:creatordate']).then(tags => {
+                if (tags.length == 0) {
+                    return git(['describe', '--tags', '--abbrev=0']);
+                }
+                return tags.split('\n')[0];
+            });
         }
         catch (err) {
             return '';
