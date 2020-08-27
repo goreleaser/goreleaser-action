@@ -1804,7 +1804,7 @@ function getTag() {
                 }
             }
             return yield git(['tag', '--points-at', `${process.env.GITHUB_SHA}`, '--sort', '-version:creatordate']).then(tags => {
-                if (tags.split('\n').length == 0) {
+                if (tags.length == 0) {
                     return git(['describe', '--tags', '--abbrev=0']);
                 }
                 return tags.split('\n')[0];
