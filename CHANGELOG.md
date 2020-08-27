@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.2.0 (2020/08/27)
+
+* Use GITHUB_REF to retrieve tag before checking the most recent tag (#238)
+* Update deps
+
 ## 2.1.1 (2020/06/24)
 
 * Fix workdir (#224)
