@@ -27,17 +27,17 @@
     "@actions/tool-cache": "^1.6.0"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.0",
-    "@types/node": "^14.0.13",
-    "@vercel/ncc": "^0.23.0",
+    "@types/jest": "^26.0.14",
+    "@types/node": "^14.11.2",
+    "@vercel/ncc": "^0.24.1",
     "dotenv": "^8.2.0",
-    "jest": "^26.1.0",
-    "jest-circus": "^26.1.0",
-    "jest-runtime": "^26.1.0",
-    "prettier": "^2.0.5",
+    "jest": "^26.4.2",
+    "jest-circus": "^26.4.2",
+    "jest-runtime": "^26.4.2",
+    "prettier": "^2.1.2",
     "tmp": "^0.2.1",
-    "ts-jest": "^26.1.1",
-    "typescript": "^3.9.5",
+    "ts-jest": "^26.4.1",
+    "typescript": "^4.0.3",
     "typescript-formatter": "^7.2.2"
   }
 }
