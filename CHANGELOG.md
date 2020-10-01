@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.1 (2020/10/01)
+
+* Fix CVE-2020-15228
+
 ## 2.2.0 (2020/08/27)
 
 * Use GITHUB_REF to retrieve tag before checking the most recent tag (#238)
