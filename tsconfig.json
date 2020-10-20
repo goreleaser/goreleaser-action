@@ -3,7 +3,8 @@
     "target": "es6",
     "module": "commonjs",
     "lib": [
-      "es6"
+      "es6",
+      "dom"
     ],
     "newLine": "lf",
     "outDir": "./lib",
