@@ -19,6 +19,7 @@ ___
   * [Workflow](#workflow)
   * [Run on new tag](#run-on-new-tag)
   * [Signing](#signing)
+  * [Install Only](#install-only)
 * [Customizing](#customizing)
   * [inputs](#inputs)
   * [environment variables](#environment-variables)
@@ -120,6 +121,20 @@ signs:
     args: ["--batch", "-u", "{{ .Env.GPG_FINGERPRINT }}", "--output", "${signature}", "--detach-sign", "${artifact}"]
 ```
 
+### Install Only
+
+```yaml
+steps:
+  -
+    name: Install GoReleaser
+    uses: goreleaser/goreleaser-action@v2
+    with:
+      install-only: true
+  -
+    name: Show GoReleaser version
+    run: goreleaser -v
+```
+
 ## Customizing
 
 ### inputs
@@ -131,6 +146,7 @@ Following inputs can be used as `step.with` keys
 | `version`**¹**   | String  | `latest`  | GoReleaser version                        |
 | `args`           | String  |           | Arguments to pass to GoReleaser           |
 | `workdir`        | String  | `.`       | Working directory (below repository root) |
+| `install-only`   | Bool    | `false`   | Just install GoReleaser                   |
 
 > **¹** Can be a fixed version like `v0.117.0` or a max satisfying semver one like `~> 0.132`. In this case this will return `v0.132.1`.
 

@@ -2,13 +2,22 @@ import * as git from './git';
 import * as installer from './installer';
 import * as core from '@actions/core';
 import * as exec from '@actions/exec';
+import {dirname} from 'path';
 
 async function run(): Promise<void> {
   try {
     const version = core.getInput('version') || 'latest';
-    const args = core.getInput('args', {required: true});
+    const isInstallOnly = /^true$/i.test(core.getInput('install-only'));
     const workdir = core.getInput('workdir') || '.';
     const goreleaser = await installer.getGoReleaser(version);
+    core.info(`✅ GoReleaser installed successfully`);
+    if (isInstallOnly) {
+      const goreleaserDir = dirname(goreleaser);
+      core.addPath(goreleaserDir);
+      core.debug(`Added ${goreleaserDir} to PATH`);
+      return;
+    }
+    const args = core.getInput('args', {required: true});
 
     if (workdir && workdir !== '.') {
       core.info(`📂 Using ${workdir} as working directory...`);

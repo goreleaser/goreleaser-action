@@ -339,13 +339,22 @@ const git = __importStar(__webpack_require__(374));
 const installer = __importStar(__webpack_require__(480));
 const core = __importStar(__webpack_require__(186));
 const exec = __importStar(__webpack_require__(514));
+const path_1 = __webpack_require__(622);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const version = core.getInput('version') || 'latest';
-            const args = core.getInput('args', { required: true });
+            const isInstallOnly = /^true$/i.test(core.getInput('install-only'));
             const workdir = core.getInput('workdir') || '.';
             const goreleaser = yield installer.getGoReleaser(version);
+            core.info(`✅ GoReleaser installed successfully`);
+            if (isInstallOnly) {
+                const goreleaserDir = path_1.dirname(goreleaser);
+                core.addPath(goreleaserDir);
+                core.debug(`Added ${goreleaserDir} to PATH`);
+                return;
+            }
+            const args = core.getInput('args', { required: true });
             if (workdir && workdir !== '.') {
                 core.info(`📂 Using ${workdir} as working directory...`);
                 process.chdir(workdir);
