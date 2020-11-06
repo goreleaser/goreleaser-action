@@ -344,8 +344,9 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const version = core.getInput('version') || 'latest';
-            const isInstallOnly = /^true$/i.test(core.getInput('install-only'));
+            const args = core.getInput('args');
             const workdir = core.getInput('workdir') || '.';
+            const isInstallOnly = /^true$/i.test(core.getInput('install-only'));
             const goreleaser = yield installer.getGoReleaser(version);
             core.info(`✅ GoReleaser installed successfully`);
             if (isInstallOnly) {
@@ -354,7 +355,9 @@ function run() {
                 core.debug(`Added ${goreleaserDir} to PATH`);
                 return;
             }
-            const args = core.getInput('args', { required: true });
+            else if (!args) {
+                throw new Error('args input required');
+            }
             if (workdir && workdir !== '.') {
                 core.info(`📂 Using ${workdir} as working directory...`);
                 process.chdir(workdir);
