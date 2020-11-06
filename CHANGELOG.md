@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.3.0 (2020/11/06)
+
+* Add install-only option for using goreleaser in user scripts (#252)
+* Update deps
+
 ## 2.2.1 (2020/10/01)
 
 * Fix CVE-2020-15228
