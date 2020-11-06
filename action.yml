@@ -11,9 +11,13 @@ inputs:
     description: 'GoReleaser version'
     default: 'latest'
     required: false
+  install-only:
+    description: 'Just install GoReleaser'
+    default: 'false'
+    required: false
   args:
     description: 'Arguments to pass to GoReleaser'
-    required: true
+    required: true # not required when install-only=true
   workdir:
     description: 'Working directory (below repository root)'
     default: '.'
