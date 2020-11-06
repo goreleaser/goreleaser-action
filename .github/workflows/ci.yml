@@ -50,7 +50,7 @@ jobs:
           args: release --skip-publish --rm-dist
 
   install-only:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
