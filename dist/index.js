@@ -378,6 +378,7 @@ function run() {
                 }
             }
             core.info('🏃 Running GoReleaser...');
+            process.env.GORELEASER_CURRENT_TAG = tag;
             yield exec.exec(`${goreleaser} ${args}${snapshot}`);
         }
         catch (error) {
