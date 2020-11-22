@@ -25,6 +25,7 @@ ___
   * [inputs](#inputs)
   * [environment variables](#environment-variables)
 * [Limitation](#limitation)
+* [Development](#development)
 * [License](#license)
 
 ## Usage
@@ -199,6 +200,19 @@ secret named `GH_PAT`, the step will look like this:
           args: release --rm-dist
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+```
+
+## Development
+
+```
+# format code and build javascript artifacts
+docker buildx bake pre-checkin
+
+# validate all code has correctly formatted and built
+docker buildx bake validate
+
+# run tests
+docker buildx bake test
 ```
 
 ## License
