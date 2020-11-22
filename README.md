@@ -19,6 +19,7 @@ ___
   * [Workflow](#workflow)
   * [Run on new tag](#run-on-new-tag)
   * [Signing](#signing)
+  * [Upload artifacts](#upload-artifacts)
   * [Install Only](#install-only)
 * [Customizing](#customizing)
   * [inputs](#inputs)
