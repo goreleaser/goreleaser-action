@@ -12,6 +12,21 @@ on:
       - '**.md'
 
 jobs:
+  test-containerized:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      -
+        name: Validate
+        run: docker buildx bake validate
+      -
+        name: Test
+        run: docker buildx bake test
+
   test:
     runs-on: ${{ matrix.os }}
     strategy:
