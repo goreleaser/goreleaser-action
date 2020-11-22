@@ -138,7 +138,7 @@ purpose. You can do that with the [actions/upload-artifact](https://github.com/a
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       -
         name: Upload assets
-        uses: goreleaser/goreleaser-action@v2
+        uses: actions/upload-artifact@v2
         with:
           name: myapp
           path: dist/*
