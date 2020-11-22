@@ -24,7 +24,7 @@ jobs:
           - windows-latest
         version:
           - latest
-          - v0.117.0
+          - v0.145.0
     steps:
       -
         name: Checkout
@@ -35,7 +35,7 @@ jobs:
         name: Set up Go
         uses: actions/setup-go@v2
         with:
-          go-version: 1.14
+          go-version: 1.15
       -
         name: Check
         uses: ./
@@ -56,7 +56,7 @@ jobs:
       matrix:
         version:
           - latest
-          - v0.117.0
+          - v0.145.0
     steps:
       -
         name: Checkout
@@ -67,7 +67,7 @@ jobs:
         name: Set up Go
         uses: actions/setup-go@v2
         with:
-          go-version: 1.14
+          go-version: 1.15
       -
         name: GoReleaser
         uses: ./
@@ -99,7 +99,7 @@ jobs:
         name: Set up Go
         uses: actions/setup-go@v2
         with:
-          go-version: 1.14
+          go-version: 1.15
       -
         name: Import GPG key
         id: import_gpg
@@ -123,3 +123,33 @@ jobs:
           args: -f .goreleaser-signing.yml release --skip-publish --rm-dist
         env:
           GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
+
+  upload-artifact:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      -
+        name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.15
+      -
+        name: Check
+        uses: ./
+        with:
+          args: check --debug
+      -
+        name: GoReleaser
+        uses: ./
+        with:
+          args: release --skip-publish --rm-dist
+      -
+        name: Upload assets
+        uses: actions/upload-artifact@v2
+        with:
+          name: myapp
+          path: dist/*
