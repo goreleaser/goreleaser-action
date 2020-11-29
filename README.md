@@ -19,6 +19,7 @@ ___
   * [Workflow](#workflow)
   * [Run on new tag](#run-on-new-tag)
   * [Signing](#signing)
+  * [Upload artifacts](#upload-artifacts)
   * [Install Only](#install-only)
 * [Customizing](#customizing)
   * [inputs](#inputs)
@@ -51,7 +52,7 @@ jobs:
         name: Set up Go
         uses: actions/setup-go@v2
         with:
-          go-version: 1.14
+          go-version: 1.15
       -
         name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
@@ -120,6 +121,28 @@ And reference the fingerprint in your signing configuration using the `GPG_FINGE
 signs:
   - artifacts: checksum
     args: ["--batch", "-u", "{{ .Env.GPG_FINGERPRINT }}", "--output", "${signature}", "--detach-sign", "${artifact}"]
+```
+
+### Upload artifacts
+
+For some events like pull request or schedule you might want to store the artifacts somewhere for testing
+purpose. You can do that with the [actions/upload-artifact](https://github.com/actions/upload-artifact) action:
+
+```yaml
+      -
+        name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v2
+        with:
+          version: latest
+          args: release --rm-dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      -
+        name: Upload assets
+        uses: actions/upload-artifact@v2
+        with:
+          name: myapp
+          path: dist/*
 ```
 
 ### Install Only
