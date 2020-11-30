@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.4.0 (2020/11/30)
+
+* Set GORELEASER_CURRENT_TAG (#259)
+* Container based developer flow (#258)
+* Upload artifact example (#257)
+* Bump @actions/tool-cache from 1.6.0 to 1.6.1 (#256)
+
 ## 2.3.0 (2020/11/06)
 
 * Add install-only option for using goreleaser in user scripts (#252)
