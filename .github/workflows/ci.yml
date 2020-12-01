@@ -3,14 +3,16 @@ name: ci
 on:
   schedule:
     - cron: '0 10 * * *' # everyday at 10am
-  pull_request:
-    branches:
-      - master
-      - releases/v*
   push:
     branches:
-      - master
-      - releases/v*
+      - 'master'
+      - 'releases/v*'
+  tags:
+    - 'v*'
+  pull_request:
+    branches:
+      - 'master'
+      - 'releases/v*'
 
 jobs:
   ci:
