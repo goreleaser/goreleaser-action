@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.4.1 (2020/12/02)
+
+* Do not overwrite GORELEASER_CURRENT_TAG if already declared (#260)
+
 ## 2.4.0 (2020/11/30)
 
 * Set GORELEASER_CURRENT_TAG (#259)
