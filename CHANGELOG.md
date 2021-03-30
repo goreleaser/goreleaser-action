@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.5.0 (2021/03/31)
+
+* Bump y18n from 4.0.0 to 4.0.1 (#272)
+* Bump @actions/http-client from 1.0.9 to 1.0.11 (#270)
+* Enhance workflow (#271)
+* Bump node-notifier from 8.0.0 to 8.0.1 (#263)
+
 ## 2.4.1 (2020/12/02)
 
 * Do not overwrite GORELEASER_CURRENT_TAG if already declared (#260)
