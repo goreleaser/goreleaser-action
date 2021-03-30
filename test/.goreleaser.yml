@@ -1,6 +1,5 @@
 env:
   - GO111MODULE=on
-  - GOPROXY=https://goproxy.io
 
 before:
   hooks:
@@ -26,10 +25,6 @@ archives:
     format_overrides:
       - goos: windows
         format: zip
-    files:
-      - LICENSE
-      - README.md
-      - CHANGELOG.md
 
 checksum:
   name_template: 'checksums.txt'
