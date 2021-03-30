@@ -44,12 +44,14 @@ jobs:
         with:
           version: ${{ matrix.version }}
           args: check --debug
+          workdir: ./test
       -
         name: GoReleaser
         uses: ./
         with:
           version: ${{ matrix.version }}
           args: release --skip-publish --rm-dist
+          workdir: ./test
 
   install-only:
     runs-on: ubuntu-latest
@@ -115,6 +117,7 @@ jobs:
         with:
           version: latest
           args: -f .goreleaser-signing.yml check --debug
+          workdir: ./test
         env:
           GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
       -
@@ -123,6 +126,7 @@ jobs:
         with:
           version: latest
           args: -f .goreleaser-signing.yml release --skip-publish --rm-dist
+          workdir: ./test
         env:
           GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
 
@@ -144,14 +148,16 @@ jobs:
         uses: ./
         with:
           args: check --debug
+          workdir: ./test
       -
         name: GoReleaser
         uses: ./
         with:
           args: release --skip-publish --rm-dist
+          workdir: ./test
       -
         name: Upload assets
         uses: actions/upload-artifact@v2
         with:
           name: myapp
-          path: dist/*
+          path: ./test/dist/*

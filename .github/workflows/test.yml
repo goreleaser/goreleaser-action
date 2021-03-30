@@ -3,16 +3,15 @@ name: test
 on:
   push:
     branches:
-      - master
-      - releases/v*
-    paths-ignore:
-      - '**.md'
+      - 'master'
+      - 'releases/v*'
   pull_request:
-    paths-ignore:
-      - '**.md'
+    branches:
+      - 'master'
+      - 'releases/v*'
 
 jobs:
-  test-containerized:
+  test:
     runs-on: ubuntu-latest
     steps:
       -
@@ -22,36 +21,16 @@ jobs:
           fetch-depth: 0
       -
         name: Validate
-        run: docker buildx bake validate
-      -
-        name: Test
-        run: docker buildx bake test
-
-  test:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os:
-          - ubuntu-latest
-          - macOS-latest
-          - windows-latest
-    steps:
-      -
-        name: Checkout
-        uses: actions/checkout@v2
+        uses: docker/bake-action@v1
         with:
-          fetch-depth: 0
-      -
-        name: Install
-        run: yarn install
+          targets: validate
       -
         name: Test
-        run: yarn run test
+        uses: docker/bake-action@v1
+        with:
+          targets: test
       -
         name: Upload coverage
         uses: codecov/codecov-action@v1
-        if: success()
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage/clover.xml
