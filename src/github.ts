@@ -7,9 +7,9 @@ export interface GitHubRelease {
   tag_name: string;
 }
 
-export const getRelease = async (version: string): Promise<GitHubRelease | null> => {
+export const getRelease = async (distribution: string, version: string): Promise<GitHubRelease | null> => {
   const resolvedVersion: string = (await resolveVersion(version)) || version;
-  const url: string = `https://github.com/goreleaser/goreleaser/releases/${resolvedVersion}`;
+  const url: string = `https://github.com/goreleaser/${distribution}/releases/${resolvedVersion}`;
   const http: httpm.HttpClient = new httpm.HttpClient('goreleaser-action');
   return (await http.getJson<GitHubRelease>(url)).result;
 };

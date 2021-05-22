@@ -58,9 +58,11 @@ jobs:
         uses: goreleaser/goreleaser-action@v2
         with:
           version: latest
+          # distribution: goreleaser-pro # Uncomment if using GoReleaser Pro
           args: release --rm-dist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # GORELEASER_KEY: ${{ secrets.GORELEASER_KEY }} # Uncomment if using GoReleaser Pro
 ```
 
 > **IMPORTANT**: note the `fetch-depth: 0` input in `Checkout` step. It is required  for the changelog to work correctly.
@@ -185,10 +187,10 @@ Following environment variables can be used as `step.env` keys
 ## Limitation
 
 `GITHUB_TOKEN` permissions [are limited to the repository](https://help.github.com/en/actions/configuring-and-managing-workflows/authenticating-with-the-github_token#about-the-github_token-secret)
-that contains your workflow. 
+that contains your workflow.
 
 If you need to push the homebrew tap to another repository, you must therefore create a custom [Personal Access Token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/)
-with `repo` permissions and [add it as a secret in the repository](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets). If you create a 
+with `repo` permissions and [add it as a secret in the repository](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets). If you create a
 secret named `GH_PAT`, the step will look like this:
 
 ```yaml

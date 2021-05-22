@@ -8,8 +8,8 @@ import * as tc from '@actions/tool-cache';
 const osPlat: string = os.platform();
 const osArch: string = os.arch();
 
-export async function getGoReleaser(version: string): Promise<string> {
-  const release: github.GitHubRelease | null = await github.getRelease(version);
+export async function getGoReleaser(distribution: string, version: string): Promise<string> {
+  const release: github.GitHubRelease | null = await github.getRelease(distribution, version);
   if (!release) {
     throw new Error(`Cannot find GoReleaser ${version} release`);
   }
@@ -17,7 +17,8 @@ export async function getGoReleaser(version: string): Promise<string> {
   core.info(`✅ GoReleaser version found: ${release.tag_name}`);
   const filename = getFilename();
   const downloadUrl = util.format(
-    'https://github.com/goreleaser/goreleaser/releases/download/%s/%s',
+    'https://github.com/goreleaser/%s/releases/download/%s/%s',
+    distribution,
     release.tag_name,
     filename
   );
