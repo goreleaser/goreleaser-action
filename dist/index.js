@@ -228,7 +228,7 @@ const isPro = (distribution) => {
     return distribution === 'goreleaser-pro';
 };
 const cleanTag = (tag) => {
-    return tag.replace(/-pro$/, "");
+    return tag.replace(/-pro$/, '');
 };
 //# sourceMappingURL=github.js.map
 
