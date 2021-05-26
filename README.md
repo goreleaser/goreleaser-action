@@ -57,12 +57,14 @@ jobs:
         name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
         with:
+          # either 'goreleaser' (default) or 'goreleaser-pro'
+          distribution: goreleaser
           version: latest
-          # distribution: goreleaser-pro # Uncomment if using GoReleaser Pro
           args: release --rm-dist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # GORELEASER_KEY: ${{ secrets.GORELEASER_KEY }} # Uncomment if using GoReleaser Pro
+          # Your GoReleaser Pro key, if you are using the 'goreleaser-pro' distribution
+          # GORELEASER_KEY: ${{ secrets.GORELEASER_KEY }}
 ```
 
 > **IMPORTANT**: note the `fetch-depth: 0` input in `Checkout` step. It is required  for the changelog to work correctly.
@@ -167,12 +169,13 @@ steps:
 
 Following inputs can be used as `step.with` keys
 
-| Name             | Type    | Default   | Description                               |
-|------------------|---------|-----------|-------------------------------------------|
-| `version`**¹**   | String  | `latest`  | GoReleaser version                        |
-| `args`           | String  |           | Arguments to pass to GoReleaser           |
-| `workdir`        | String  | `.`       | Working directory (below repository root) |
-| `install-only`   | Bool    | `false`   | Just install GoReleaser                   |
+| Name             | Type    | Default      | Description                                                      |
+|------------------|---------|--------------|------------------------------------------------------------------|
+| `distribution`   | String  | `goreleaser` | GoReleaser distribution, either `goreleaser` or `goreleaser-pro` |
+| `version`**¹**   | String  | `latest`     | GoReleaser version                                               |
+| `args`           | String  |              | Arguments to pass to GoReleaser                                  |
+| `workdir`        | String  | `.`          | Working directory (below repository root)                        |
+| `install-only`   | Bool    | `false`      | Just install GoReleaser                                          |
 
 > **¹** Can be a fixed version like `v0.117.0` or a max satisfying semver one like `~> 0.132`. In this case this will return `v0.132.1`.
 
@@ -180,9 +183,10 @@ Following inputs can be used as `step.with` keys
 
 Following environment variables can be used as `step.env` keys
 
-| Name           | Description                           |
-|----------------|---------------------------------------|
-| `GITHUB_TOKEN` | [GITHUB_TOKEN](https://help.github.com/en/actions/configuring-and-managing-workflows/authenticating-with-the-github_token) as provided by `secrets` |
+| Name             | Description                           |
+|------------------|---------------------------------------|
+| `GITHUB_TOKEN`   | [GITHUB_TOKEN](https://help.github.com/en/actions/configuring-and-managing-workflows/authenticating-with-the-github_token) as provided by `secrets` |
+| `GORELEASER_KEY` | Your [GoReleaser Pro](https://goreleaser.com/pro) License Key, in case you are using the `goreleaser-pro` distribution                              |
 
 ## Limitation
 
