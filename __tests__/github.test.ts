@@ -1,11 +1,16 @@
 import * as github from '../src/github';
 
 describe('github', () => {
+  it('suffixes pro distribution', async () => {
+    expect(github.suffix('goreleaser-pro')).toEqual('-pro');
+  });
+  it('does not suffix oss distribution', async () => {
+    expect(github.suffix('goreleaser')).toEqual('');
+  });
   it('returns latest GoReleaser GitHub release', async () => {
     const release = await github.getRelease('goreleaser', 'latest');
     expect(release).not.toBeNull();
     expect(release?.tag_name).not.toEqual('');
-    console.log(`tag_name: ${release?.tag_name}`);
   });
   it('returns v0.117.0 GoReleaser GitHub release', async () => {
     const release = await github.getRelease('goreleaser', 'v0.117.0');
@@ -21,16 +26,15 @@ describe('github', () => {
     const release = await github.getRelease('goreleaser-pro', 'latest');
     expect(release).not.toBeNull();
     expect(release?.tag_name).not.toEqual('');
-    console.log(`tag_name: ${release?.tag_name}`);
   });
-  it('returns v0.117.0 GoReleaser Pro GitHub release', async () => {
-    const release = await github.getRelease('goreleaser-pro', 'v0.166.0');
+  it('returns v0.166.0-pro GoReleaser Pro GitHub release', async () => {
+    const release = await github.getRelease('goreleaser-pro', 'v0.166.0-pro');
     expect(release).not.toBeNull();
-    expect(release?.tag_name).toEqual('v0.166.0');
+    expect(release?.tag_name).toEqual('v0.166.0-pro');
   });
-  it('returns v0.132.1 GoReleaser Pro GitHub release', async () => {
+  it('returns v0.166.0-pro GoReleaser Pro GitHub release when using semver', async () => {
     const release = await github.getRelease('goreleaser-pro', '~> 0.166');
     expect(release).not.toBeNull();
-    expect(release?.tag_name).toEqual('v0.166.0');
+    expect(release?.tag_name).toEqual('v0.166.0-pro');
   });
 });

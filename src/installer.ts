@@ -15,7 +15,7 @@ export async function getGoReleaser(distribution: string, version: string): Prom
   }
 
   core.info(`✅ GoReleaser version found: ${release.tag_name}`);
-  const filename = getFilename();
+  const filename = getFilename(distribution);
   const downloadUrl = util.format(
     'https://github.com/goreleaser/%s/releases/download/%s/%s',
     distribution,
@@ -45,9 +45,10 @@ export async function getGoReleaser(distribution: string, version: string): Prom
   return exePath;
 }
 
-const getFilename = (): string => {
+const getFilename = (distribution: string): string => {
   const platform: string = osPlat == 'win32' ? 'Windows' : osPlat == 'darwin' ? 'Darwin' : 'Linux';
   const arch: string = osArch == 'x64' ? 'x86_64' : 'i386';
   const ext: string = osPlat == 'win32' ? 'zip' : 'tar.gz';
-  return util.format('goreleaser_%s_%s.%s', platform, arch, ext);
+  const pro: string = github.suffix(distribution);
+  return util.format('goreleaser%s_%s_%s.%s', pro, platform, arch, ext);
 };

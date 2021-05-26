@@ -12,8 +12,8 @@ describe('installer', () => {
     expect(fs.existsSync(goreleaser)).toBe(true);
   }, 100000);
 
-  it('acquires v0.166.0 version of GoReleaser Pro', async () => {
-    const goreleaser = await installer.getGoReleaser('goreleaser-pro', 'v0.166.0');
+  it('acquires v0.166.0-pro version of GoReleaser Pro', async () => {
+    const goreleaser = await installer.getGoReleaser('goreleaser-pro', 'v0.166.0-pro');
     expect(fs.existsSync(goreleaser)).toBe(true);
   }, 100000);
 
