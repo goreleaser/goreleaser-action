@@ -202,7 +202,12 @@ const resolveVersion = (distribution, version) => __awaiter(void 0, void 0, void
         throw new Error(`Cannot find GoReleaser tags`);
     }
     core.debug(`Found ${allTags.length} tags in total`);
-    return semver.maxSatisfying(allTags, version) + exports.suffix(distribution);
+    if (version === 'latest' || !isPro(distribution)) {
+        return semver.maxSatisfying(allTags, version);
+    }
+    const cleanTags = allTags.map(tag => cleanTag(tag));
+    const cleanVersion = cleanTag(version);
+    return semver.maxSatisfying(cleanTags, cleanVersion) + exports.suffix(distribution);
 });
 const getAllTags = (distribution) => __awaiter(void 0, void 0, void 0, function* () {
     const http = new httpm.HttpClient('goreleaser-action');
@@ -213,11 +218,17 @@ const getAllTags = (distribution) => __awaiter(void 0, void 0, void 0, function*
         if (response.result == null) {
             return [];
         }
-        return response.result.map(obj => obj.tag_name.replace(/-pro$/, ""));
+        return response.result.map(obj => obj.tag_name);
     });
 });
 exports.suffix = (distribution) => {
-    return distribution == 'goreleaser-pro' ? '-pro' : '';
+    return isPro(distribution) ? '-pro' : '';
+};
+const isPro = (distribution) => {
+    return distribution === 'goreleaser-pro';
+};
+const cleanTag = (tag) => {
+    return tag.replace(/-pro$/, "");
 };
 //# sourceMappingURL=github.js.map
 
