@@ -22,7 +22,7 @@ const resolveVersion = async (distribution: string, version: string): Promise<st
   core.debug(`Found ${allTags.length} tags in total`);
 
   if (version === 'latest' || !isPro(distribution)) {
-    return semver.maxSatisfying(allTags, version)
+    return semver.maxSatisfying(allTags, version);
   }
 
   const cleanTags: Array<string> = allTags.map(tag => cleanTag(tag));
@@ -51,12 +51,12 @@ const getAllTags = async (distribution: string): Promise<Array<string>> => {
 
 export const suffix = (distribution: string): string => {
   return isPro(distribution) ? '-pro' : '';
-}
+};
 
 const isPro = (distribution: string): boolean => {
   return distribution === 'goreleaser-pro';
-}
+};
 
 const cleanTag = (tag: string): string => {
-  return tag.replace(/-pro$/, "");
-}
+  return tag.replace(/-pro$/, '');
+};
