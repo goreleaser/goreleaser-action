@@ -1,6 +1,7 @@
 import * as httpm from '@actions/http-client';
 import * as core from '@actions/core';
 import * as semver from 'semver';
+import * as pro from './pro';
 
 export interface GitHubRelease {
   id: number;
@@ -21,13 +22,13 @@ const resolveVersion = async (distribution: string, version: string): Promise<st
   }
   core.debug(`Found ${allTags.length} tags in total`);
 
-  if (version === 'latest' || !isPro(distribution)) {
+  if (version === 'latest' || !pro.isPro(distribution)) {
     return semver.maxSatisfying(allTags, version);
   }
 
   const cleanTags: Array<string> = allTags.map(tag => cleanTag(tag));
   const cleanVersion: string = cleanTag(version);
-  return semver.maxSatisfying(cleanTags, cleanVersion) + suffix(distribution);
+  return semver.maxSatisfying(cleanTags, cleanVersion) + pro.suffix(distribution);
 };
 
 interface GitHubTag {
@@ -36,8 +37,8 @@ interface GitHubTag {
 
 const getAllTags = async (distribution: string): Promise<Array<string>> => {
   const http: httpm.HttpClient = new httpm.HttpClient('goreleaser-action');
-  const pro: string = suffix(distribution);
-  const url: string = `https://goreleaser.com/static/releases${pro}.json`;
+  const suffix: string = pro.suffix(distribution);
+  const url: string = `https://goreleaser.com/static/releases${suffix}.json`;
   const getTags = http.getJson<Array<GitHubTag>>(url);
 
   return getTags.then(response => {
@@ -47,14 +48,6 @@ const getAllTags = async (distribution: string): Promise<Array<string>> => {
 
     return response.result.map(obj => obj.tag_name);
   });
-};
-
-export const suffix = (distribution: string): string => {
-  return isPro(distribution) ? '-pro' : '';
-};
-
-const isPro = (distribution: string): boolean => {
-  return distribution === 'goreleaser-pro';
 };
 
 const cleanTag = (tag: string): string => {

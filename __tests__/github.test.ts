@@ -1,12 +1,6 @@
 import * as github from '../src/github';
 
 describe('github', () => {
-  it('suffixes pro distribution', async () => {
-    expect(github.suffix('goreleaser-pro')).toEqual('-pro');
-  });
-  it('does not suffix oss distribution', async () => {
-    expect(github.suffix('goreleaser')).toEqual('');
-  });
   it('returns latest GoReleaser GitHub release', async () => {
     const release = await github.getRelease('goreleaser', 'latest');
     expect(release).not.toBeNull();

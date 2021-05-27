@@ -2,6 +2,7 @@ import * as os from 'os';
 import * as path from 'path';
 import * as util from 'util';
 import * as github from './github';
+import * as pro from './pro';
 import * as core from '@actions/core';
 import * as tc from '@actions/tool-cache';
 
@@ -49,6 +50,6 @@ const getFilename = (distribution: string): string => {
   const platform: string = osPlat == 'win32' ? 'Windows' : osPlat == 'darwin' ? 'Darwin' : 'Linux';
   const arch: string = osArch == 'x64' ? 'x86_64' : 'i386';
   const ext: string = osPlat == 'win32' ? 'zip' : 'tar.gz';
-  const pro: string = github.suffix(distribution);
-  return util.format('goreleaser%s_%s_%s.%s', pro, platform, arch, ext);
+  const suffix: string = pro.suffix(distribution);
+  return util.format('goreleaser%s_%s_%s.%s', suffix, platform, arch, ext);
 };
