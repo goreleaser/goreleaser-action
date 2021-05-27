@@ -6,11 +6,12 @@ import {dirname} from 'path';
 
 async function run(): Promise<void> {
   try {
+    const distribution = core.getInput('distribution') || 'goreleaser';
     const version = core.getInput('version') || 'latest';
     const args = core.getInput('args');
     const workdir = core.getInput('workdir') || '.';
     const isInstallOnly = /^true$/i.test(core.getInput('install-only'));
-    const goreleaser = await installer.getGoReleaser(version);
+    const goreleaser = await installer.getGoReleaser(distribution, version);
     core.info(`✅ GoReleaser installed successfully`);
 
     if (isInstallOnly) {
