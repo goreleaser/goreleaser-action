@@ -26,9 +26,9 @@ describe('github', () => {
     expect(release).not.toBeNull();
     expect(release?.tag_name).toEqual('v0.166.0-pro');
   });
-  it('returns v0.166.0-pro GoReleaser Pro GitHub release when using semver', async () => {
+  it('returns v0.166.1-pro GoReleaser Pro GitHub release when using semver', async () => {
     const release = await github.getRelease('goreleaser-pro', '~> 0.166');
     expect(release).not.toBeNull();
-    expect(release?.tag_name).toEqual('v0.166.0-pro');
+    expect(release?.tag_name).toEqual('v0.166.1-pro');
   });
 });
