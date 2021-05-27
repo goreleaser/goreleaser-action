@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.6.0 (2021/05/27)
+
+* Support downloading goreleaser pro (#284)
+
 ## 2.5.0 (2021/03/31)
 
 * Bump y18n from 4.0.0 to 4.0.1 (#272)
