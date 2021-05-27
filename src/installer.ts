@@ -2,20 +2,22 @@ import * as os from 'os';
 import * as path from 'path';
 import * as util from 'util';
 import * as github from './github';
+import * as pro from './pro';
 import * as core from '@actions/core';
 import * as tc from '@actions/tool-cache';
 
 const osPlat: string = os.platform();
 const osArch: string = os.arch();
 
-export async function getGoReleaser(distribution: string, version: string): Promise<string> {
-  const release: github.GitHubRelease | null = await github.getRelease(distribution, version);
+export async function getGoReleaser(version: string): Promise<string> {
+  const release: github.GitHubRelease | null = await github.getRelease(version);
   if (!release) {
     throw new Error(`Cannot find GoReleaser ${version} release`);
   }
 
   core.info(`✅ GoReleaser version found: ${release.tag_name}`);
-  const filename = getFilename(distribution);
+  const filename = getFilename();
+  const distribution = pro.distribution();
   const downloadUrl = util.format(
     'https://github.com/goreleaser/%s/releases/download/%s/%s',
     distribution,
@@ -45,10 +47,10 @@ export async function getGoReleaser(distribution: string, version: string): Prom
   return exePath;
 }
 
-const getFilename = (distribution: string): string => {
+const getFilename = (): string => {
   const platform: string = osPlat == 'win32' ? 'Windows' : osPlat == 'darwin' ? 'Darwin' : 'Linux';
   const arch: string = osArch == 'x64' ? 'x86_64' : 'i386';
   const ext: string = osPlat == 'win32' ? 'zip' : 'tar.gz';
-  const pro: string = github.suffix(distribution);
-  return util.format('goreleaser%s_%s_%s.%s', pro, platform, arch, ext);
+  const suffix: string = pro.suffix();
+  return util.format('goreleaser%s_%s_%s.%s', suffix, platform, arch, ext);
 };
