@@ -186,34 +186,33 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getRelease = void 0;
+exports.suffix = exports.getRelease = void 0;
 const httpm = __importStar(__webpack_require__(925));
 const core = __importStar(__webpack_require__(186));
 const semver = __importStar(__webpack_require__(911));
-const pro = __importStar(__webpack_require__(989));
-exports.getRelease = (version) => __awaiter(void 0, void 0, void 0, function* () {
-    const resolvedVersion = (yield resolveVersion(version)) || version;
-    const url = `https://github.com/goreleaser/${pro.distribution()}/releases/${resolvedVersion}`;
+exports.getRelease = (distribution, version) => __awaiter(void 0, void 0, void 0, function* () {
+    const resolvedVersion = (yield resolveVersion(distribution, version)) || version;
+    const url = `https://github.com/goreleaser/${distribution}/releases/${resolvedVersion}`;
     const http = new httpm.HttpClient('goreleaser-action');
     return (yield http.getJson(url)).result;
 });
-const resolveVersion = (version) => __awaiter(void 0, void 0, void 0, function* () {
-    const allTags = yield getAllTags();
+const resolveVersion = (distribution, version) => __awaiter(void 0, void 0, void 0, function* () {
+    const allTags = yield getAllTags(distribution);
     if (!allTags) {
         throw new Error(`Cannot find GoReleaser tags`);
     }
     core.debug(`Found ${allTags.length} tags in total`);
-    if (version === 'latest' || !pro.isPro()) {
+    if (version === 'latest' || !isPro(distribution)) {
         return semver.maxSatisfying(allTags, version);
     }
     const cleanTags = allTags.map(tag => cleanTag(tag));
     const cleanVersion = cleanTag(version);
-    return semver.maxSatisfying(cleanTags, cleanVersion) + pro.suffix();
+    return semver.maxSatisfying(cleanTags, cleanVersion) + exports.suffix(distribution);
 });
-const getAllTags = () => __awaiter(void 0, void 0, void 0, function* () {
+const getAllTags = (distribution) => __awaiter(void 0, void 0, void 0, function* () {
     const http = new httpm.HttpClient('goreleaser-action');
-    const suffix = pro.suffix();
-    const url = `https://goreleaser.com/static/releases${suffix}.json`;
+    const pro = exports.suffix(distribution);
+    const url = `https://goreleaser.com/static/releases${pro}.json`;
     const getTags = http.getJson(url);
     return getTags.then(response => {
         if (response.result == null) {
@@ -222,6 +221,12 @@ const getAllTags = () => __awaiter(void 0, void 0, void 0, function* () {
         return response.result.map(obj => obj.tag_name);
     });
 });
+exports.suffix = (distribution) => {
+    return isPro(distribution) ? '-pro' : '';
+};
+const isPro = (distribution) => {
+    return distribution === 'goreleaser-pro';
+};
 const cleanTag = (tag) => {
     return tag.replace(/-pro$/, '');
 };
@@ -268,20 +273,18 @@ const os = __importStar(__webpack_require__(87));
 const path = __importStar(__webpack_require__(622));
 const util = __importStar(__webpack_require__(669));
 const github = __importStar(__webpack_require__(928));
-const pro = __importStar(__webpack_require__(989));
 const core = __importStar(__webpack_require__(186));
 const tc = __importStar(__webpack_require__(784));
 const osPlat = os.platform();
 const osArch = os.arch();
-function getGoReleaser(version) {
+function getGoReleaser(distribution, version) {
     return __awaiter(this, void 0, void 0, function* () {
-        const release = yield github.getRelease(version);
+        const release = yield github.getRelease(distribution, version);
         if (!release) {
             throw new Error(`Cannot find GoReleaser ${version} release`);
         }
         core.info(`✅ GoReleaser version found: ${release.tag_name}`);
-        const filename = getFilename();
-        const distribution = pro.distribution();
+        const filename = getFilename(distribution);
         const downloadUrl = util.format('https://github.com/goreleaser/%s/releases/download/%s/%s', distribution, release.tag_name, filename);
         core.info(`⬇️ Downloading ${downloadUrl}...`);
         const downloadPath = yield tc.downloadTool(downloadUrl);
@@ -303,12 +306,12 @@ function getGoReleaser(version) {
     });
 }
 exports.getGoReleaser = getGoReleaser;
-const getFilename = () => {
+const getFilename = (distribution) => {
     const platform = osPlat == 'win32' ? 'Windows' : osPlat == 'darwin' ? 'Darwin' : 'Linux';
     const arch = osArch == 'x64' ? 'x86_64' : 'i386';
     const ext = osPlat == 'win32' ? 'zip' : 'tar.gz';
-    const suffix = pro.suffix();
-    return util.format('goreleaser%s_%s_%s.%s', suffix, platform, arch, ext);
+    const pro = github.suffix(distribution);
+    return util.format('goreleaser%s_%s_%s.%s', pro, platform, arch, ext);
 };
 //# sourceMappingURL=installer.js.map
 
@@ -356,11 +359,12 @@ const path_1 = __webpack_require__(622);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            const distribution = core.getInput('distribution') || 'goreleaser';
             const version = core.getInput('version') || 'latest';
             const args = core.getInput('args');
             const workdir = core.getInput('workdir') || '.';
             const isInstallOnly = /^true$/i.test(core.getInput('install-only'));
-            const goreleaser = yield installer.getGoReleaser(version);
+            const goreleaser = yield installer.getGoReleaser(distribution, version);
             core.info(`✅ GoReleaser installed successfully`);
             if (isInstallOnly) {
                 const goreleaserDir = path_1.dirname(goreleaser);
@@ -403,26 +407,6 @@ function run() {
 }
 run();
 //# sourceMappingURL=main.js.map
-
-/***/ }),
-
-/***/ 989:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.isPro = exports.suffix = exports.distribution = void 0;
-exports.distribution = () => {
-    return 'goreleaser' + exports.suffix();
-};
-exports.suffix = () => {
-    return exports.isPro() ? '-pro' : '';
-};
-exports.isPro = () => {
-    return process.env.GORELEASER_CURRENT_TAG !== '';
-};
-//# sourceMappingURL=pro.js.map
 
 /***/ }),
 

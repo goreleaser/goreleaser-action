@@ -57,11 +57,13 @@ jobs:
         name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
         with:
+          # either 'goreleaser' (default) or 'goreleaser-pro'
+          distribution: goreleaser
           version: latest
           args: release --rm-dist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # Your GoReleaser Pro key, if you want to use the pro version
+          # Your GoReleaser Pro key, if you are using the 'goreleaser-pro' distribution
           # GORELEASER_KEY: ${{ secrets.GORELEASER_KEY }}
 ```
 
@@ -169,6 +171,7 @@ Following inputs can be used as `step.with` keys
 
 | Name             | Type    | Default      | Description                                                      |
 |------------------|---------|--------------|------------------------------------------------------------------|
+| `distribution`   | String  | `goreleaser` | GoReleaser distribution, either `goreleaser` or `goreleaser-pro` |
 | `version`**¹**   | String  | `latest`     | GoReleaser version                                               |
 | `args`           | String  |              | Arguments to pass to GoReleaser                                  |
 | `workdir`        | String  | `.`          | Working directory (below repository root)                        |
@@ -183,7 +186,7 @@ Following environment variables can be used as `step.env` keys
 | Name             | Description                           |
 |------------------|---------------------------------------|
 | `GITHUB_TOKEN`   | [GITHUB_TOKEN](https://help.github.com/en/actions/configuring-and-managing-workflows/authenticating-with-the-github_token) as provided by `secrets` |
-| `GORELEASER_KEY` | Your [GoReleaser Pro](https://goreleaser.com/pro) License Key, if you want to use the Pro version                                                   |
+| `GORELEASER_KEY` | Your [GoReleaser Pro](https://goreleaser.com/pro) License Key, in case you are using the `goreleaser-pro` distribution                              |
 
 ## Limitation
 

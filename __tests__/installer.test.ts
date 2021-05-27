@@ -3,26 +3,22 @@ import * as installer from '../src/installer';
 
 describe('installer', () => {
   it('acquires v0.117.0 version of GoReleaser', async () => {
-    process.env.GORELEASER_CURRENT_TAG = '';
-    const goreleaser = await installer.getGoReleaser('v0.117.0');
+    const goreleaser = await installer.getGoReleaser('goreleaser', 'v0.117.0');
     expect(fs.existsSync(goreleaser)).toBe(true);
   }, 100000);
 
   it('acquires latest version of GoReleaser', async () => {
-    process.env.GORELEASER_CURRENT_TAG = '';
-    const goreleaser = await installer.getGoReleaser('latest');
+    const goreleaser = await installer.getGoReleaser('goreleaser', 'latest');
     expect(fs.existsSync(goreleaser)).toBe(true);
   }, 100000);
 
   it('acquires v0.166.0-pro version of GoReleaser Pro', async () => {
-    process.env.GORELEASER_CURRENT_TAG = 'key';
-    const goreleaser = await installer.getGoReleaser('v0.166.0-pro');
+    const goreleaser = await installer.getGoReleaser('goreleaser-pro', 'v0.166.0-pro');
     expect(fs.existsSync(goreleaser)).toBe(true);
   }, 100000);
 
   it('acquires latest version of GoReleaser Pro', async () => {
-    process.env.GORELEASER_CURRENT_TAG = 'key';
-    const goreleaser = await installer.getGoReleaser('latest');
+    const goreleaser = await installer.getGoReleaser('goreleaser-pro', 'latest');
     expect(fs.existsSync(goreleaser)).toBe(true);
   }, 100000);
 });
