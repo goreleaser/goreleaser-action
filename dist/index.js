@@ -420,7 +420,7 @@ exports.suffix = () => {
     return exports.isPro() ? '-pro' : '';
 };
 exports.isPro = () => {
-    return process.env.GORELEASER_CURRENT_TAG !== '';
+    return process.env.GORELEASER_KEY !== '';
 };
 //# sourceMappingURL=pro.js.map
 

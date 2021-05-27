@@ -7,5 +7,5 @@ export const suffix = (): string => {
 };
 
 export const isPro = (): boolean => {
-  return process.env.GORELEASER_CURRENT_TAG !== '';
+  return process.env.GORELEASER_KEY !== '';
 };
