@@ -26,7 +26,10 @@ jobs:
           - windows-latest
         version:
           - latest
-          - v0.145.0
+          - '~> 0.166'
+        distribution:
+          - goreleaser
+          - goreleaser-pro
     steps:
       -
         name: Checkout
@@ -37,7 +40,7 @@ jobs:
         name: Set up Go
         uses: actions/setup-go@v2
         with:
-          go-version: 1.15
+          go-version: 1.16
       -
         name: Check
         uses: ./
@@ -47,8 +50,12 @@ jobs:
           workdir: ./test
       -
         name: GoReleaser
+        if: ${{ !(github.event_name == 'pull_request' && matrix.distribution == 'goreleaser-pro') }}
         uses: ./
+        env:
+          GORELEASER_KEY: ${{ secrets.GORELEASER_KEY }}
         with:
+          distribution: ${{ matrix.distribution }}
           version: ${{ matrix.version }}
           args: release --skip-publish --rm-dist
           workdir: ./test
@@ -60,7 +67,10 @@ jobs:
       matrix:
         version:
           - latest
-          - v0.145.0
+          - '~> 0.166'
+        distribution:
+          - goreleaser
+          - goreleaser-pro
     steps:
       -
         name: Checkout
@@ -71,15 +81,18 @@ jobs:
         name: Set up Go
         uses: actions/setup-go@v2
         with:
-          go-version: 1.15
+          go-version: 1.16
       -
         name: GoReleaser
+        if: ${{ !(github.event_name == 'pull_request' && matrix.distribution == 'goreleaser-pro') }}
         uses: ./
         with:
+          distribution: ${{ matrix.distribution }}
           version: ${{ matrix.version }}
           install-only: true
       -
         name: Check
+        if: ${{ !(github.event_name == 'pull_request' && matrix.distribution == 'goreleaser-pro') }}
         run: |
           goreleaser check --debug
 
@@ -103,7 +116,7 @@ jobs:
         name: Set up Go
         uses: actions/setup-go@v2
         with:
-          go-version: 1.15
+          go-version: 1.16
       -
         name: Import GPG key
         id: import_gpg
@@ -142,7 +155,7 @@ jobs:
         name: Set up Go
         uses: actions/setup-go@v2
         with:
-          go-version: 1.15
+          go-version: 1.16
       -
         name: Check
         uses: ./
