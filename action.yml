@@ -7,6 +7,10 @@ branding:
   icon: 'package'
 
 inputs:
+  distribution:
+    description: 'GoReleaser Distribution (goreleaser or goreleaser-pro)'
+    default: 'goreleaser'
+    required: false
   version:
     description: 'GoReleaser version'
     default: 'latest'
