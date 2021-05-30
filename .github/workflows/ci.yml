@@ -61,6 +61,7 @@ jobs:
 
   install-only:
     runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' && matrix.distribution != 'goreleaser-pro'
     strategy:
       fail-fast: false
       matrix:
