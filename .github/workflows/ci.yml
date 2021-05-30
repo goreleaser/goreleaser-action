@@ -26,7 +26,10 @@ jobs:
           - windows-latest
         version:
           - latest
-          - v0.145.0
+          - v0.166
+        distribution:
+          - goreleaser
+          - goreleaser-pro
     steps:
       -
         name: Checkout
@@ -48,6 +51,8 @@ jobs:
       -
         name: GoReleaser
         uses: ./
+        env:
+          GORELEASER_KEY: ${{ secrets.GORELEASER_KEY }}
         with:
           version: ${{ matrix.version }}
           args: release --skip-publish --rm-dist
