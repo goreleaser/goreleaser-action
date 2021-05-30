@@ -92,6 +92,7 @@ jobs:
           install-only: true
       -
         name: Check
+        if: ${{ !(github.event_name == 'pull_request' && matrix.distribution == 'goreleaser-pro') }}
         run: |
           goreleaser check --debug
 
