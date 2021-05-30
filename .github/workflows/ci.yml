@@ -17,7 +17,7 @@ on:
 jobs:
   ci:
     runs-on: ${{ matrix.os }}
-    if: !(github.event_name == 'pull_request' && matrix.distribution == 'goreleaser-pro')
+    if: ${{ !(github.event_name == 'pull_request' && matrix.distribution == 'goreleaser-pro') }}
     strategy:
       fail-fast: false
       matrix:
@@ -62,7 +62,7 @@ jobs:
 
   install-only:
     runs-on: ubuntu-latest
-    if: !(github.event_name == 'pull_request' && matrix.distribution == 'goreleaser-pro')
+    if: ${{ !(github.event_name == 'pull_request' && matrix.distribution == 'goreleaser-pro') }}
     strategy:
       fail-fast: false
       matrix:
