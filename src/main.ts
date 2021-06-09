@@ -12,7 +12,7 @@ async function run(): Promise<void> {
     const workdir = core.getInput('workdir') || '.';
     const isInstallOnly = /^true$/i.test(core.getInput('install-only'));
     const goreleaser = await installer.getGoReleaser(distribution, version);
-    core.info(`✅ GoReleaser installed successfully`);
+    core.info(`GoReleaser ${version} installed successfully`);
 
     if (isInstallOnly) {
       const goreleaserDir = dirname(goreleaser);
@@ -20,11 +20,12 @@ async function run(): Promise<void> {
       core.debug(`Added ${goreleaserDir} to PATH`);
       return;
     } else if (!args) {
-      throw new Error('args input required');
+      core.setFailed('args input required');
+      return;
     }
 
     if (workdir && workdir !== '.') {
-      core.info(`📂 Using ${workdir} as working directory...`);
+      core.info(`Using ${workdir} as working directory`);
       process.chdir(workdir);
     }
 
@@ -35,16 +36,15 @@ async function run(): Promise<void> {
     let snapshot = '';
     if (args.split(' ').indexOf('release') > -1) {
       if (isTagDirty) {
-        core.info(`⚠️ No tag found for commit ${commit}. Snapshot forced`);
+        core.info(`No tag found for commit ${commit}. Snapshot forced`);
         if (!args.includes('--snapshot')) {
           snapshot = ' --snapshot';
         }
       } else {
-        core.info(`✅ ${tag} tag found for commit ${commit}`);
+        core.info(`${tag} tag found for commit ${commit}`);
       }
     }
 
-    core.info('🏃 Running GoReleaser...');
     if (!('GORELEASER_CURRENT_TAG' in process.env)) {
       process.env.GORELEASER_CURRENT_TAG = tag;
     }

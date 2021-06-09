@@ -15,7 +15,6 @@ export async function getGoReleaser(distribution: string, version: string): Prom
     throw new Error(`Cannot find GoReleaser ${version} release`);
   }
 
-  core.info(`✅ GoReleaser version found: ${release.tag_name}`);
   const filename = getFilename(distribution);
   const downloadUrl = util.format(
     'https://github.com/goreleaser/%s/releases/download/%s/%s',
@@ -24,11 +23,11 @@ export async function getGoReleaser(distribution: string, version: string): Prom
     filename
   );
 
-  core.info(`⬇️ Downloading ${downloadUrl}...`);
+  core.info(`Downloading ${downloadUrl}`);
   const downloadPath: string = await tc.downloadTool(downloadUrl);
   core.debug(`Downloaded to ${downloadPath}`);
 
-  core.info('📦 Extracting GoReleaser...');
+  core.info('Extracting GoReleaser');
   let extPath: string;
   if (osPlat == 'win32') {
     extPath = await tc.extractZip(downloadPath);
