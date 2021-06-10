@@ -2,68 +2,6 @@ module.exports =
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 757:
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.exec = void 0;
-const actionsExec = __importStar(__webpack_require__(514));
-exports.exec = (command, args = [], silent) => __awaiter(void 0, void 0, void 0, function* () {
-    let stdout = '';
-    let stderr = '';
-    const options = {
-        silent: silent,
-        ignoreReturnCode: true
-    };
-    options.listeners = {
-        stdout: (data) => {
-            stdout += data.toString();
-        },
-        stderr: (data) => {
-            stderr += data.toString();
-        }
-    };
-    const returnCode = yield actionsExec.exec(command, args, options);
-    return {
-        success: returnCode === 0,
-        stdout: stdout.trim(),
-        stderr: stderr.trim()
-    };
-});
-//# sourceMappingURL=exec.js.map
-
-/***/ }),
-
 /***/ 374:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
@@ -99,10 +37,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getShortCommit = exports.isTagDirty = exports.getTag = void 0;
-const exec = __importStar(__webpack_require__(757));
+const exec = __importStar(__webpack_require__(514));
 const git = (args = []) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield exec.exec(`git`, args, true).then(res => {
-        if (res.stderr != '' && !res.success) {
+    return yield exec
+        .getExecOutput(`git`, args, {
+        ignoreReturnCode: true,
+        silent: true
+    })
+        .then(res => {
+        if (res.stderr.length > 0 && res.exitCode != 0) {
             throw new Error(res.stderr);
         }
         return res.stdout.trim();
@@ -279,13 +222,12 @@ function getGoReleaser(distribution, version) {
         if (!release) {
             throw new Error(`Cannot find GoReleaser ${version} release`);
         }
-        core.info(`✅ GoReleaser version found: ${release.tag_name}`);
         const filename = getFilename(distribution);
         const downloadUrl = util.format('https://github.com/goreleaser/%s/releases/download/%s/%s', distribution, release.tag_name, filename);
-        core.info(`⬇️ Downloading ${downloadUrl}...`);
+        core.info(`Downloading ${downloadUrl}`);
         const downloadPath = yield tc.downloadTool(downloadUrl);
         core.debug(`Downloaded to ${downloadPath}`);
-        core.info('📦 Extracting GoReleaser...');
+        core.info('Extracting GoReleaser');
         let extPath;
         if (osPlat == 'win32') {
             extPath = yield tc.extractZip(downloadPath);
@@ -361,7 +303,7 @@ function run() {
             const workdir = core.getInput('workdir') || '.';
             const isInstallOnly = /^true$/i.test(core.getInput('install-only'));
             const goreleaser = yield installer.getGoReleaser(distribution, version);
-            core.info(`✅ GoReleaser installed successfully`);
+            core.info(`GoReleaser ${version} installed successfully`);
             if (isInstallOnly) {
                 const goreleaserDir = path_1.dirname(goreleaser);
                 core.addPath(goreleaserDir);
@@ -369,10 +311,11 @@ function run() {
                 return;
             }
             else if (!args) {
-                throw new Error('args input required');
+                core.setFailed('args input required');
+                return;
             }
             if (workdir && workdir !== '.') {
-                core.info(`📂 Using ${workdir} as working directory...`);
+                core.info(`Using ${workdir} as working directory`);
                 process.chdir(workdir);
             }
             const commit = yield git.getShortCommit();
@@ -381,16 +324,15 @@ function run() {
             let snapshot = '';
             if (args.split(' ').indexOf('release') > -1) {
                 if (isTagDirty) {
-                    core.info(`⚠️ No tag found for commit ${commit}. Snapshot forced`);
+                    core.info(`No tag found for commit ${commit}. Snapshot forced`);
                     if (!args.includes('--snapshot')) {
                         snapshot = ' --snapshot';
                     }
                 }
                 else {
-                    core.info(`✅ ${tag} tag found for commit ${commit}`);
+                    core.info(`${tag} tag found for commit ${commit}`);
                 }
             }
-            core.info('🏃 Running GoReleaser...');
             if (!('GORELEASER_CURRENT_TAG' in process.env)) {
                 process.env.GORELEASER_CURRENT_TAG = tag;
             }

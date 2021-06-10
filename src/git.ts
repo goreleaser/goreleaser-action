@@ -1,12 +1,17 @@
-import * as exec from './exec';
+import * as exec from '@actions/exec';
 
 const git = async (args: string[] = []): Promise<string> => {
-  return await exec.exec(`git`, args, true).then(res => {
-    if (res.stderr != '' && !res.success) {
-      throw new Error(res.stderr);
-    }
-    return res.stdout.trim();
-  });
+  return await exec
+    .getExecOutput(`git`, args, {
+      ignoreReturnCode: true,
+      silent: true
+    })
+    .then(res => {
+      if (res.stderr.length > 0 && res.exitCode != 0) {
+        throw new Error(res.stderr);
+      }
+      return res.stdout.trim();
+    });
 };
 
 export async function getTag(): Promise<string> {
