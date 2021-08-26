@@ -47,7 +47,7 @@ export async function getGoReleaser(distribution: string, version: string): Prom
 
 const getFilename = (distribution: string): string => {
   const platform: string = osPlat == 'win32' ? 'Windows' : osPlat == 'darwin' ? 'Darwin' : 'Linux';
-  const arch: string = osArch == 'x64' ? 'x86_64' : 'i386';
+  const arch: string = osArch == 'x64' ? 'x86_64' : 'x32' ? 'i386' : osArch;
   const ext: string = osPlat == 'win32' ? 'zip' : 'tar.gz';
   const suffix: string = pro.suffix(distribution);
   return util.format('goreleaser%s_%s_%s.%s', suffix, platform, arch, ext);
