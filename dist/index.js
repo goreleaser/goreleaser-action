@@ -246,7 +246,7 @@ function getGoReleaser(distribution, version) {
 exports.getGoReleaser = getGoReleaser;
 const getFilename = (distribution) => {
     const platform = osPlat == 'win32' ? 'Windows' : osPlat == 'darwin' ? 'Darwin' : 'Linux';
-    const arch = osArch == 'x64' ? 'x86_64' :  true ? 'i386' : 0;
+    const arch = osArch == 'x64' ? 'x86_64' : osArch == 'x32' ? 'i386' : osArch;
     const ext = osPlat == 'win32' ? 'zip' : 'tar.gz';
     const suffix = pro.suffix(distribution);
     return util.format('goreleaser%s_%s_%s.%s', suffix, platform, arch, ext);
