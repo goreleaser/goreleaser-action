@@ -98,15 +98,16 @@ Or with a condition on GoReleaser step:
 
 ### Signing
 
-If [signing is enabled](https://goreleaser.com/customization/#Signing) in your GoReleaser configuration, you can use the [Import GPG](https://github.com/crazy-max/ghaction-import-gpg) GitHub Action along with this one:
+If [signing is enabled](https://goreleaser.com/customization/#Signing) in your GoReleaser configuration, you can use
+the [Import GPG](https://github.com/crazy-max/ghaction-import-gpg) GitHub Action along with this one:
 
 ```yaml
       -
         name: Import GPG key
         id: import_gpg
-        uses: crazy-max/ghaction-import-gpg@v3
+        uses: crazy-max/ghaction-import-gpg@v4
         with:
-          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
       -
         name: Run GoReleaser
