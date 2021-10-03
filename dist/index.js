@@ -245,8 +245,27 @@ function getGoReleaser(distribution, version) {
 }
 exports.getGoReleaser = getGoReleaser;
 const getFilename = (distribution) => {
+    let arch;
+    switch (osArch) {
+        case 'x64': {
+            arch = 'x86_64';
+            break;
+        }
+        case 'x32': {
+            arch = 'i386';
+            break;
+        }
+        case 'arm': {
+            const arm_version = process.config.variables.arm_version;
+            arch = arm_version ? 'armv' + arm_version : 'arm';
+            break;
+        }
+        default: {
+            arch = osArch;
+            break;
+        }
+    }
     const platform = osPlat == 'win32' ? 'Windows' : osPlat == 'darwin' ? 'Darwin' : 'Linux';
-    const arch = osArch == 'x64' ? 'x86_64' : osArch == 'x32' ? 'i386' : osArch;
     const ext = osPlat == 'win32' ? 'zip' : 'tar.gz';
     const suffix = pro.suffix(distribution);
     return util.format('goreleaser%s_%s_%s.%s', suffix, platform, arch, ext);
