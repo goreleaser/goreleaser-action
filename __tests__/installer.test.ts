@@ -2,8 +2,8 @@ import fs = require('fs');
 import * as installer from '../src/installer';
 
 describe('installer', () => {
-  it('acquires v0.117.0 version of GoReleaser', async () => {
-    const goreleaser = await installer.getGoReleaser('goreleaser', 'v0.117.0');
+  it('acquires v0.182.0 version of GoReleaser', async () => {
+    const goreleaser = await installer.getGoReleaser('goreleaser', 'v0.182.0');
     expect(fs.existsSync(goreleaser)).toBe(true);
   }, 100000);
 
@@ -12,8 +12,8 @@ describe('installer', () => {
     expect(fs.existsSync(goreleaser)).toBe(true);
   }, 100000);
 
-  it('acquires v0.166.0-pro version of GoReleaser Pro', async () => {
-    const goreleaser = await installer.getGoReleaser('goreleaser-pro', 'v0.166.0-pro');
+  it('acquires v0.182.0-pro version of GoReleaser Pro', async () => {
+    const goreleaser = await installer.getGoReleaser('goreleaser-pro', 'v0.182.0-pro');
     expect(fs.existsSync(goreleaser)).toBe(true);
   }, 100000);
 

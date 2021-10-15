@@ -8,10 +8,10 @@ describe('git', () => {
     expect(tag).not.toEqual('');
   });
   it('returns git tag through GITHUB_SHA', async () => {
-    process.env.GITHUB_SHA = '6e37040623d14330555c7be1603a9182cf92d32a';
+    process.env.GITHUB_SHA = '6389ff5bd287fd6948a7ccda8af8da4f0bbc856a';
     const tag: string = await git.getTag();
     console.log(`tag: ${tag}`);
-    expect(tag).toEqual('v1');
+    expect(tag).toEqual('v2.2.1');
   });
   it('returns git tag through GITHUB_REF', async () => {
     process.env.GITHUB_REF = 'refs/tags/v2.2.1';

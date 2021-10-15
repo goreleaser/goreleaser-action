@@ -265,6 +265,9 @@ const getFilename = (distribution) => {
             break;
         }
     }
+    if (osPlat == 'darwin') {
+        arch = 'all';
+    }
     const platform = osPlat == 'win32' ? 'Windows' : osPlat == 'darwin' ? 'Darwin' : 'Linux';
     const ext = osPlat == 'win32' ? 'zip' : 'tar.gz';
     const suffix = pro.suffix(distribution);
