@@ -27,6 +27,10 @@ inputs:
     default: 'false'
     required: false
 
+outputs:
+  tag:
+    description: The created tag
+
 runs:
   using: 'node12'
   main: 'dist/index.js'

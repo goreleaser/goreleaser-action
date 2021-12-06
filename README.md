@@ -180,6 +180,15 @@ Following inputs can be used as `step.with` keys
 
 > **¹** Can be a fixed version like `v0.117.0` or a max satisfying semver one like `~> 0.132`. In this case this will return `v0.132.1`.
 
+### outputs
+
+The following outputs can be used:
+
+| Name             | Type    | Default      | Description                                                      |
+|------------------|---------|--------------|------------------------------------------------------------------|
+| `tag`   | String  | `x.x.y-next` | The tag that was build. |
+
+
 ### environment variables
 
 Following environment variables can be used as `step.env` keys

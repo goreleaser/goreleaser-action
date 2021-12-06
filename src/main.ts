@@ -48,6 +48,14 @@ async function run(): Promise<void> {
     if (!('GORELEASER_CURRENT_TAG' in process.env)) {
       process.env.GORELEASER_CURRENT_TAG = tag;
     }
+
+    if (isTagDirty) {
+      core.setOutput("tag", `${tag}-next`);
+    } else {
+      core.setOutput("tag", tag);
+    }
+
+
     await exec.exec(`${goreleaser} ${args}${snapshot}`);
   } catch (error) {
     core.setFailed(error.message);
