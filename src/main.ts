@@ -2,7 +2,7 @@ import * as git from './git';
 import * as installer from './installer';
 import * as core from '@actions/core';
 import * as exec from '@actions/exec';
-import {dirname} from 'path';
+import { dirname } from 'path';
 
 async function run(): Promise<void> {
   try {
@@ -36,8 +36,8 @@ async function run(): Promise<void> {
     let snapshot = '';
     if (args.split(' ').indexOf('release') > -1) {
       if (isTagDirty) {
-        core.info(`No tag found for commit ${commit}. Snapshot forced`);
-        if (!args.includes('--snapshot')) {
+        if (!args.includes('--snapshot') && !args.includes('--nightly')) {
+          core.info(`No tag found for commit ${commit}. Snapshot forced`);
           snapshot = ' --snapshot';
         }
       } else {
