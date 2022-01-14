@@ -346,8 +346,8 @@ function run() {
             let snapshot = '';
             if (args.split(' ').indexOf('release') > -1) {
                 if (isTagDirty) {
-                    core.info(`No tag found for commit ${commit}. Snapshot forced`);
-                    if (!args.includes('--snapshot')) {
+                    if (!args.includes('--snapshot') && !args.includes('--nightly')) {
+                        core.info(`No tag found for commit ${commit}. Snapshot forced`);
                         snapshot = ' --snapshot';
                     }
                 }
