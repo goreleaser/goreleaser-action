@@ -2,7 +2,7 @@ import * as git from './git';
 import * as installer from './installer';
 import * as core from '@actions/core';
 import * as exec from '@actions/exec';
-import { dirname } from 'path';
+import {dirname} from 'path';
 
 async function run(): Promise<void> {
   try {
