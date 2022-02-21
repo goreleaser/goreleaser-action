@@ -1,32 +1,29 @@
+import * as path from 'path';
+import * as context from './context';
 import * as git from './git';
-import * as installer from './installer';
+import * as goreleaser from './goreleaser';
 import * as core from '@actions/core';
 import * as exec from '@actions/exec';
-import {dirname} from 'path';
 
 async function run(): Promise<void> {
   try {
-    const distribution = core.getInput('distribution') || 'goreleaser';
-    const version = core.getInput('version') || 'latest';
-    const args = core.getInput('args');
-    const workdir = core.getInput('workdir') || '.';
-    const isInstallOnly = /^true$/i.test(core.getInput('install-only'));
-    const goreleaser = await installer.getGoReleaser(distribution, version);
-    core.info(`GoReleaser ${version} installed successfully`);
+    const inputs: context.Inputs = await context.getInputs();
+    const bin = await goreleaser.install(inputs.distribution, inputs.version);
+    core.info(`GoReleaser ${inputs.version} installed successfully`);
 
-    if (isInstallOnly) {
-      const goreleaserDir = dirname(goreleaser);
+    if (inputs.installOnly) {
+      const goreleaserDir = path.dirname(bin);
       core.addPath(goreleaserDir);
       core.debug(`Added ${goreleaserDir} to PATH`);
       return;
-    } else if (!args) {
+    } else if (!inputs.args) {
       core.setFailed('args input required');
       return;
     }
 
-    if (workdir && workdir !== '.') {
-      core.info(`Using ${workdir} as working directory`);
-      process.chdir(workdir);
+    if (inputs.workdir && inputs.workdir !== '.') {
+      core.info(`Using ${inputs.workdir} as working directory`);
+      process.chdir(inputs.workdir);
     }
 
     const commit = await git.getShortCommit();
@@ -34,9 +31,9 @@ async function run(): Promise<void> {
     const isTagDirty = await git.isTagDirty(tag);
 
     let snapshot = '';
-    if (args.split(' ').indexOf('release') > -1) {
+    if (inputs.args.split(' ').indexOf('release') > -1) {
       if (isTagDirty) {
-        if (!args.includes('--snapshot') && !args.includes('--nightly')) {
+        if (!inputs.args.includes('--snapshot') && !inputs.args.includes('--nightly')) {
           core.info(`No tag found for commit ${commit}. Snapshot forced`);
           snapshot = ' --snapshot';
         }
@@ -45,10 +42,13 @@ async function run(): Promise<void> {
       }
     }
 
-    if (!('GORELEASER_CURRENT_TAG' in process.env)) {
-      process.env.GORELEASER_CURRENT_TAG = tag;
-    }
-    await exec.exec(`${goreleaser} ${args}${snapshot}`);
+    await exec.exec(`${bin} ${inputs.args}${snapshot}`, undefined, {
+      env: Object.assign({}, process.env, {
+        GORELEASER_CURRENT_TAG: tag || process.env.GORELEASER_CURRENT_TAG || ''
+      }) as {
+        [key: string]: string;
+      }
+    });
   } catch (error) {
     core.setFailed(error.message);
   }

@@ -1,6 +1,61 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ 842:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getInputs = exports.osArch = exports.osPlat = void 0;
+const os = __importStar(__nccwpck_require__(87));
+const core = __importStar(__nccwpck_require__(186));
+exports.osPlat = os.platform();
+exports.osArch = os.arch();
+function getInputs() {
+    return __awaiter(this, void 0, void 0, function* () {
+        return {
+            distribution: core.getInput('distribution') || 'goreleaser',
+            version: core.getInput('version'),
+            args: core.getInput('args'),
+            workdir: core.getInput('workdir') || '.',
+            installOnly: core.getBooleanInput('install-only')
+        };
+    });
+}
+exports.getInputs = getInputs;
+//# sourceMappingURL=context.js.map
+
+/***/ }),
+
 /***/ 374:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -129,10 +184,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getRelease = void 0;
-const httpm = __importStar(__nccwpck_require__(925));
-const core = __importStar(__nccwpck_require__(186));
+const goreleaser = __importStar(__nccwpck_require__(823));
 const semver = __importStar(__nccwpck_require__(911));
-const pro = __importStar(__nccwpck_require__(989));
+const core = __importStar(__nccwpck_require__(186));
+const httpm = __importStar(__nccwpck_require__(925));
 const getRelease = (distribution, version) => __awaiter(void 0, void 0, void 0, function* () {
     const resolvedVersion = (yield resolveVersion(distribution, version)) || version;
     const url = `https://github.com/goreleaser/${distribution}/releases/${resolvedVersion}`;
@@ -146,16 +201,16 @@ const resolveVersion = (distribution, version) => __awaiter(void 0, void 0, void
         throw new Error(`Cannot find GoReleaser tags`);
     }
     core.debug(`Found ${allTags.length} tags in total`);
-    if (version === 'latest' || !pro.isPro(distribution)) {
+    if (version === 'latest' || !goreleaser.isPro(distribution)) {
         return semver.maxSatisfying(allTags, version);
     }
     const cleanTags = allTags.map(tag => cleanTag(tag));
     const cleanVersion = cleanTag(version);
-    return semver.maxSatisfying(cleanTags, cleanVersion) + pro.suffix(distribution);
+    return semver.maxSatisfying(cleanTags, cleanVersion) + goreleaser.distribSuffix(distribution);
 });
 const getAllTags = (distribution) => __awaiter(void 0, void 0, void 0, function* () {
     const http = new httpm.HttpClient('goreleaser-action');
-    const suffix = pro.suffix(distribution);
+    const suffix = goreleaser.distribSuffix(distribution);
     const url = `https://goreleaser.com/static/releases${suffix}.json`;
     const getTags = http.getJson(url);
     return getTags.then(response => {
@@ -172,7 +227,7 @@ const cleanTag = (tag) => {
 
 /***/ }),
 
-/***/ 480:
+/***/ 823:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -206,17 +261,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getGoReleaser = void 0;
-const os = __importStar(__nccwpck_require__(87));
+exports.isPro = exports.distribSuffix = exports.install = void 0;
 const path = __importStar(__nccwpck_require__(622));
 const util = __importStar(__nccwpck_require__(669));
+const context = __importStar(__nccwpck_require__(842));
 const github = __importStar(__nccwpck_require__(928));
-const pro = __importStar(__nccwpck_require__(989));
 const core = __importStar(__nccwpck_require__(186));
 const tc = __importStar(__nccwpck_require__(784));
-const osPlat = os.platform();
-const osArch = os.arch();
-function getGoReleaser(distribution, version) {
+function install(distribution, version) {
     return __awaiter(this, void 0, void 0, function* () {
         const release = yield github.getRelease(distribution, version);
         if (!release) {
@@ -229,7 +281,7 @@ function getGoReleaser(distribution, version) {
         core.debug(`Downloaded to ${downloadPath}`);
         core.info('Extracting GoReleaser');
         let extPath;
-        if (osPlat == 'win32') {
+        if (context.osPlat == 'win32') {
             extPath = yield tc.extractZip(downloadPath);
         }
         else {
@@ -238,15 +290,23 @@ function getGoReleaser(distribution, version) {
         core.debug(`Extracted to ${extPath}`);
         const cachePath = yield tc.cacheDir(extPath, 'goreleaser-action', release.tag_name.replace(/^v/, ''));
         core.debug(`Cached to ${cachePath}`);
-        const exePath = path.join(cachePath, osPlat == 'win32' ? 'goreleaser.exe' : 'goreleaser');
+        const exePath = path.join(cachePath, context.osPlat == 'win32' ? 'goreleaser.exe' : 'goreleaser');
         core.debug(`Exe path is ${exePath}`);
         return exePath;
     });
 }
-exports.getGoReleaser = getGoReleaser;
+exports.install = install;
+const distribSuffix = (distribution) => {
+    return exports.isPro(distribution) ? '-pro' : '';
+};
+exports.distribSuffix = distribSuffix;
+const isPro = (distribution) => {
+    return distribution === 'goreleaser-pro';
+};
+exports.isPro = isPro;
 const getFilename = (distribution) => {
     let arch;
-    switch (osArch) {
+    switch (context.osArch) {
         case 'x64': {
             arch = 'x86_64';
             break;
@@ -261,19 +321,19 @@ const getFilename = (distribution) => {
             break;
         }
         default: {
-            arch = osArch;
+            arch = context.osArch;
             break;
         }
     }
-    if (osPlat == 'darwin') {
+    if (context.osPlat == 'darwin') {
         arch = 'all';
     }
-    const platform = osPlat == 'win32' ? 'Windows' : osPlat == 'darwin' ? 'Darwin' : 'Linux';
-    const ext = osPlat == 'win32' ? 'zip' : 'tar.gz';
-    const suffix = pro.suffix(distribution);
+    const platform = context.osPlat == 'win32' ? 'Windows' : context.osPlat == 'darwin' ? 'Darwin' : 'Linux';
+    const ext = context.osPlat == 'win32' ? 'zip' : 'tar.gz';
+    const suffix = exports.distribSuffix(distribution);
     return util.format('goreleaser%s_%s_%s.%s', suffix, platform, arch, ext);
 };
-//# sourceMappingURL=installer.js.map
+//# sourceMappingURL=goreleaser.js.map
 
 /***/ }),
 
@@ -311,42 +371,39 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+const path = __importStar(__nccwpck_require__(622));
+const context = __importStar(__nccwpck_require__(842));
 const git = __importStar(__nccwpck_require__(374));
-const installer = __importStar(__nccwpck_require__(480));
+const goreleaser = __importStar(__nccwpck_require__(823));
 const core = __importStar(__nccwpck_require__(186));
 const exec = __importStar(__nccwpck_require__(514));
-const path_1 = __nccwpck_require__(622);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const distribution = core.getInput('distribution') || 'goreleaser';
-            const version = core.getInput('version') || 'latest';
-            const args = core.getInput('args');
-            const workdir = core.getInput('workdir') || '.';
-            const isInstallOnly = /^true$/i.test(core.getInput('install-only'));
-            const goreleaser = yield installer.getGoReleaser(distribution, version);
-            core.info(`GoReleaser ${version} installed successfully`);
-            if (isInstallOnly) {
-                const goreleaserDir = path_1.dirname(goreleaser);
+            const inputs = yield context.getInputs();
+            const bin = yield goreleaser.install(inputs.distribution, inputs.version);
+            core.info(`GoReleaser ${inputs.version} installed successfully`);
+            if (inputs.installOnly) {
+                const goreleaserDir = path.dirname(bin);
                 core.addPath(goreleaserDir);
                 core.debug(`Added ${goreleaserDir} to PATH`);
                 return;
             }
-            else if (!args) {
+            else if (!inputs.args) {
                 core.setFailed('args input required');
                 return;
             }
-            if (workdir && workdir !== '.') {
-                core.info(`Using ${workdir} as working directory`);
-                process.chdir(workdir);
+            if (inputs.workdir && inputs.workdir !== '.') {
+                core.info(`Using ${inputs.workdir} as working directory`);
+                process.chdir(inputs.workdir);
             }
             const commit = yield git.getShortCommit();
             const tag = yield git.getTag();
             const isTagDirty = yield git.isTagDirty(tag);
             let snapshot = '';
-            if (args.split(' ').indexOf('release') > -1) {
+            if (inputs.args.split(' ').indexOf('release') > -1) {
                 if (isTagDirty) {
-                    if (!args.includes('--snapshot') && !args.includes('--nightly')) {
+                    if (!inputs.args.includes('--snapshot') && !inputs.args.includes('--nightly')) {
                         core.info(`No tag found for commit ${commit}. Snapshot forced`);
                         snapshot = ' --snapshot';
                     }
@@ -355,10 +412,11 @@ function run() {
                     core.info(`${tag} tag found for commit ${commit}`);
                 }
             }
-            if (!('GORELEASER_CURRENT_TAG' in process.env)) {
-                process.env.GORELEASER_CURRENT_TAG = tag;
-            }
-            yield exec.exec(`${goreleaser} ${args}${snapshot}`);
+            yield exec.exec(`${bin} ${inputs.args}${snapshot}`, undefined, {
+                env: Object.assign({}, process.env, {
+                    GORELEASER_CURRENT_TAG: tag || process.env.GORELEASER_CURRENT_TAG || ''
+                })
+            });
         }
         catch (error) {
             core.setFailed(error.message);
@@ -370,26 +428,7 @@ run();
 
 /***/ }),
 
-/***/ 989:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.isPro = exports.suffix = void 0;
-const suffix = (distribution) => {
-    return exports.isPro(distribution) ? '-pro' : '';
-};
-exports.suffix = suffix;
-const isPro = (distribution) => {
-    return distribution === 'goreleaser-pro';
-};
-exports.isPro = isPro;
-//# sourceMappingURL=pro.js.map
-
-/***/ }),
-
-/***/ 241:
+/***/ 351:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -523,7 +562,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getIDToken = exports.getState = exports.saveState = exports.group = exports.endGroup = exports.startGroup = exports.info = exports.notice = exports.warning = exports.error = exports.debug = exports.isDebug = exports.setFailed = exports.setCommandEcho = exports.setOutput = exports.getBooleanInput = exports.getMultilineInput = exports.getInput = exports.addPath = exports.setSecret = exports.exportVariable = exports.ExitCode = void 0;
-const command_1 = __nccwpck_require__(241);
+const command_1 = __nccwpck_require__(351);
 const file_command_1 = __nccwpck_require__(717);
 const utils_1 = __nccwpck_require__(278);
 const os = __importStar(__nccwpck_require__(87));
@@ -1136,7 +1175,7 @@ const os = __importStar(__nccwpck_require__(87));
 const events = __importStar(__nccwpck_require__(614));
 const child = __importStar(__nccwpck_require__(129));
 const path = __importStar(__nccwpck_require__(622));
-const io = __importStar(__nccwpck_require__(351));
+const io = __importStar(__nccwpck_require__(436));
 const ioUtil = __importStar(__nccwpck_require__(962));
 const timers_1 = __nccwpck_require__(213);
 /* eslint-disable @typescript-eslint/unbound-method */
@@ -2582,7 +2621,7 @@ exports.getCmdPath = getCmdPath;
 
 /***/ }),
 
-/***/ 351:
+/***/ 436:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -3194,7 +3233,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.evaluateVersions = exports.isExplicitVersion = exports.findFromManifest = exports.getManifestFromRepo = exports.findAllVersions = exports.find = exports.cacheFile = exports.cacheDir = exports.extractZip = exports.extractXar = exports.extractTar = exports.extract7z = exports.downloadTool = exports.HTTPError = void 0;
 const core = __importStar(__nccwpck_require__(186));
-const io = __importStar(__nccwpck_require__(351));
+const io = __importStar(__nccwpck_require__(436));
 const fs = __importStar(__nccwpck_require__(747));
 const mm = __importStar(__nccwpck_require__(473));
 const os = __importStar(__nccwpck_require__(87));
