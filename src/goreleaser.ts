@@ -1,5 +1,7 @@
+import * as fs from 'fs';
 import * as path from 'path';
 import * as util from 'util';
+import yaml from 'js-yaml';
 import * as context from './context';
 import * as github from './github';
 import * as core from '@actions/core';
@@ -78,3 +80,32 @@ const getFilename = (distribution: string): string => {
   const suffix: string = distribSuffix(distribution);
   return util.format('goreleaser%s_%s_%s.%s', suffix, platform, arch, ext);
 };
+
+export async function getDistPath(yamlfile: string): Promise<string> {
+  const cfg = yaml.load(yamlfile);
+  return cfg.dist || 'dist';
+}
+
+export async function getArtifacts(distpath: string): Promise<string | undefined> {
+  const artifactsFile = path.join(distpath, 'artifacts.json');
+  if (!fs.existsSync(artifactsFile)) {
+    return undefined;
+  }
+  const content = fs.readFileSync(artifactsFile, {encoding: 'utf-8'}).trim();
+  if (content === 'null') {
+    return undefined;
+  }
+  return content;
+}
+
+export async function getMetadata(distpath: string): Promise<string | undefined> {
+  const metadataFile = path.join(distpath, 'metadata.json');
+  if (!fs.existsSync(metadataFile)) {
+    return undefined;
+  }
+  const content = fs.readFileSync(metadataFile, {encoding: 'utf-8'}).trim();
+  if (content === 'null') {
+    return undefined;
+  }
+  return content;
+}

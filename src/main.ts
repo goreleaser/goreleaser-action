@@ -1,4 +1,6 @@
+import * as fs from 'fs';
 import * as path from 'path';
+import yargs from 'yargs';
 import * as context from './context';
 import * as git from './git';
 import * as goreleaser from './goreleaser';
@@ -30,6 +32,18 @@ async function run(): Promise<void> {
     const tag = await git.getTag();
     const isTagDirty = await git.isTagDirty(tag);
 
+    let yamlfile: string | unknown;
+    const argv = yargs.parse(inputs.args);
+    if (argv.config) {
+      yamlfile = argv.config;
+    } else {
+      ['.goreleaser.yaml', '.goreleaser.yml', 'goreleaser.yaml', 'goreleaser.yml'].forEach(f => {
+        if (fs.existsSync(f)) {
+          yamlfile = f;
+        }
+      });
+    }
+
     let snapshot = '';
     if (inputs.args.split(' ').indexOf('release') > -1) {
       if (isTagDirty) {
@@ -49,6 +63,23 @@ async function run(): Promise<void> {
         [key: string]: string;
       }
     });
+
+    if (typeof yamlfile === 'string') {
+      const artifacts = await goreleaser.getArtifacts(await goreleaser.getDistPath(yamlfile));
+      if (artifacts) {
+        await core.group(`Artifacts output`, async () => {
+          core.info(artifacts);
+          context.setOutput('artifacts', artifacts);
+        });
+      }
+      const metadata = await goreleaser.getMetadata(await goreleaser.getDistPath(yamlfile));
+      if (metadata) {
+        await core.group(`Metadata output`, async () => {
+          core.info(metadata);
+          context.setOutput('metadata', metadata);
+        });
+      }
+    }
   } catch (error) {
     core.setFailed(error.message);
   }
