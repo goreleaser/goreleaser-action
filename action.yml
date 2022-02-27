@@ -1,7 +1,7 @@
 # https://help.github.com/en/articles/metadata-syntax-for-github-actions
 name: 'GoReleaser Action'
 description: 'GitHub Action for GoReleaser, a release automation tool for Go projects'
-author: 'crazy-max'
+author: 'goreleaser'
 branding:
   color: 'green'
   icon: 'package'
