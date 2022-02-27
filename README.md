@@ -22,6 +22,7 @@ ___
   * [Install Only](#install-only)
 * [Customizing](#customizing)
   * [inputs](#inputs)
+  * [outputs](#outputs)
   * [environment variables](#environment-variables)
 * [Limitation](#limitation)
 * [Development](#development)
@@ -50,8 +51,6 @@ jobs:
       -
         name: Set up Go
         uses: actions/setup-go@v2
-        with:
-          go-version: 1.15
       -
         name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
@@ -178,6 +177,15 @@ Following inputs can be used as `step.with` keys
 | `install-only`   | Bool    | `false`      | Just install GoReleaser                                          |
 
 > **¹** Can be a fixed version like `v0.117.0` or a max satisfying semver one like `~> 0.132`. In this case this will return `v0.132.1`.
+
+### outputs
+
+Following outputs are available
+
+| Name              | Type    | Description                           |
+|-------------------|---------|---------------------------------------|
+| `artifacts`       | JSON    | Build result artifacts |
+| `metadata`        | JSON    | Build result metadata |
 
 ### environment variables
 
