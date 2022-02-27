@@ -7,7 +7,6 @@
     <a href="https://github.com/marketplace/actions/goreleaser-action"><img alt="GitHub marketplace" src="https://img.shields.io/badge/marketplace-goreleaser--action-blue?logo=github&style=flat-square"></a>
     <a href="https://github.com/goreleaser/goreleaser-action/actions?workflow=test"><img alt="Test workflow" src="https://img.shields.io/github/workflow/status/goreleaser/goreleaser-action/test?label=test&logo=github&style=flat-square"></a>
     <a href="https://codecov.io/gh/goreleaser/goreleaser-action"><img alt="Codecov" src="https://img.shields.io/codecov/c/github/goreleaser/goreleaser-action?logo=codecov&style=flat-square"></a>
-    <a href="https://github.com/sponsors/crazy-max"><img src="https://img.shields.io/badge/sponsor-crazy--max-181717.svg?logo=github&style=flat-square" alt="Become a sponsor"></a>
   </p>
 </p>
 
