@@ -58,7 +58,7 @@ async function run(): Promise<void> {
 
     await exec.exec(`${bin} ${inputs.args}${snapshot}`, undefined, {
       env: Object.assign({}, process.env, {
-        GORELEASER_CURRENT_TAG: tag || process.env.GORELEASER_CURRENT_TAG || ''
+        GORELEASER_CURRENT_TAG: process.env.GORELEASER_CURRENT_TAG || tag || ''
       }) as {
         [key: string]: string;
       }

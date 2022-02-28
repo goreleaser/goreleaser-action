@@ -477,7 +477,7 @@ function run() {
             }
             yield exec.exec(`${bin} ${inputs.args}${snapshot}`, undefined, {
                 env: Object.assign({}, process.env, {
-                    GORELEASER_CURRENT_TAG: tag || process.env.GORELEASER_CURRENT_TAG || ''
+                    GORELEASER_CURRENT_TAG: process.env.GORELEASER_CURRENT_TAG || tag || ''
                 })
             });
             if (typeof yamlfile === 'string') {
