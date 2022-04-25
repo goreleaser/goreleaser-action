@@ -10,7 +10,7 @@ export interface GitHubRelease {
 
 export const getRelease = async (distribution: string, version: string): Promise<GitHubRelease | null> => {
   const resolvedVersion: string = (await resolveVersion(distribution, version)) || version;
-  const url: string = `https://github.com/goreleaser/${distribution}/releases/${resolvedVersion}`;
+  const url = `https://github.com/goreleaser/${distribution}/releases/${resolvedVersion}`;
   const http: httpm.HttpClient = new httpm.HttpClient('goreleaser-action');
   return (await http.getJson<GitHubRelease>(url)).result;
 };
@@ -38,7 +38,7 @@ interface GitHubTag {
 const getAllTags = async (distribution: string): Promise<Array<string>> => {
   const http: httpm.HttpClient = new httpm.HttpClient('goreleaser-action');
   const suffix: string = goreleaser.distribSuffix(distribution);
-  const url: string = `https://goreleaser.com/static/releases${suffix}.json`;
+  const url = `https://goreleaser.com/static/releases${suffix}.json`;
   const getTags = http.getJson<Array<GitHubTag>>(url);
   return getTags.then(response => {
     if (response.result == null) {
