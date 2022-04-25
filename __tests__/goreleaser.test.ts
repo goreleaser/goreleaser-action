@@ -1,3 +1,4 @@
+import {describe, expect, it} from '@jest/globals';
 import * as fs from 'fs';
 import * as goreleaser from '../src/goreleaser';
 
@@ -27,6 +28,7 @@ describe('distribSuffix', () => {
   it('suffixes pro distribution', async () => {
     expect(goreleaser.distribSuffix('goreleaser-pro')).toEqual('-pro');
   });
+
   it('does not suffix oss distribution', async () => {
     expect(goreleaser.distribSuffix('goreleaser')).toEqual('');
   });
