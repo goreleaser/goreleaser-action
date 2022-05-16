@@ -1,0 +1,16 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: goreleaser-action
+  description: |
+    GitHub Action for GoReleaser
+  annotations:
+    github.com/project-slug: Tradeshift/goreleaser-action
+  tags:
+    - github-action
+    - nodejs
+    - fork
+spec:
+  type: library
+  owner: developer-productivity
+  lifecycle: production
