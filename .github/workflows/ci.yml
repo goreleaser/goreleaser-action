@@ -195,4 +195,4 @@ jobs:
           args: release --skip-publish --rm-dist
           workdir: ./test
         env:
-          GORELEASER_CURRENT_TAG: v1.2.3
+          GORELEASER_CURRENT_TAG: v99.99.99
