@@ -45,15 +45,15 @@ jobs:
     steps:
       -
         name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       -
         name: Set up Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v3
       -
         name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v2
+        uses: goreleaser/goreleaser-action@v3
         with:
           # either 'goreleaser' (default) or 'goreleaser-pro'
           distribution: goreleaser
@@ -83,7 +83,7 @@ Or with a condition on GoReleaser step:
 ```yaml
       -
         name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v2
+        uses: goreleaser/goreleaser-action@v3
         if: startsWith(github.ref, 'refs/tags/')
         with:
           version: latest
@@ -109,7 +109,7 @@ the [Import GPG](https://github.com/crazy-max/ghaction-import-gpg) GitHub Action
           passphrase: ${{ secrets.PASSPHRASE }}
       -
         name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v2
+        uses: goreleaser/goreleaser-action@v3
         with:
           version: latest
           args: release --rm-dist
@@ -134,7 +134,7 @@ purpose. You can do that with the [actions/upload-artifact](https://github.com/a
 ```yaml
       -
         name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v2
+        uses: goreleaser/goreleaser-action@v3
         with:
           version: latest
           args: release --rm-dist
@@ -142,7 +142,7 @@ purpose. You can do that with the [actions/upload-artifact](https://github.com/a
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       -
         name: Upload assets
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: myapp
           path: dist/*
@@ -154,7 +154,7 @@ purpose. You can do that with the [actions/upload-artifact](https://github.com/a
 steps:
   -
     name: Install GoReleaser
-    uses: goreleaser/goreleaser-action@v2
+    uses: goreleaser/goreleaser-action@v3
     with:
       install-only: true
   -
@@ -208,7 +208,7 @@ secret named `GH_PAT`, the step will look like this:
 ```yaml
       -
         name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v2
+        uses: goreleaser/goreleaser-action@v3
         with:
           version: latest
           args: release --rm-dist
