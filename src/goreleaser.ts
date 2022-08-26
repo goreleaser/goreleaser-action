@@ -82,7 +82,7 @@ const getFilename = (distribution: string): string => {
 };
 
 export async function getDistPath(yamlfile: string): Promise<string> {
-  const cfg = yaml.load(yamlfile);
+  const cfg = yaml.load(fs.readFileSync(yamlfile, 'utf8'));
   return cfg.dist || 'dist';
 }
 
