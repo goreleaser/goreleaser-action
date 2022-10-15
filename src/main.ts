@@ -69,14 +69,14 @@ async function run(): Promise<void> {
       if (artifacts) {
         await core.group(`Artifacts output`, async () => {
           core.info(artifacts);
-          context.setOutput('artifacts', artifacts);
+          core.setOutput('artifacts', artifacts);
         });
       }
       const metadata = await goreleaser.getMetadata(await goreleaser.getDistPath(yamlfile));
       if (metadata) {
         await core.group(`Metadata output`, async () => {
           core.info(metadata);
-          context.setOutput('metadata', metadata);
+          core.setOutput('metadata', metadata);
         });
       }
     }
