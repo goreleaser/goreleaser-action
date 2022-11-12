@@ -29,11 +29,12 @@ export async function install(distribution: string, version: string): Promise<st
   let extPath: string;
   if (context.osPlat == 'win32') {
     if(!downloadPath.endsWith('.zip')) {
-      let newPath = downloadPath + '.zip'
-      fs.renameSync(downloadPath, newPath)
-      downloadPath = newPath
+      let newPath = downloadPath + '.zip';
+      fs.renameSync(downloadPath, newPath);
+      extPath = await tc.extractZip(newPath);
+    } else {
+      extPath = await tc.extractZip(downloadPath);
     }
-    extPath = await tc.extractZip(downloadPath);
   } else {
     extPath = await tc.extractTar(downloadPath);
   }
