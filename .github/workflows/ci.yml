@@ -138,7 +138,7 @@ jobs:
         uses: ./
         with:
           version: latest
-          args: -f .goreleaser-signing.yml release --skip-publish --rm-dist
+          args: -f .goreleaser-signing.yml release --skip-publish --rm-dist --snapshot
           workdir: ./test
         env:
           GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
