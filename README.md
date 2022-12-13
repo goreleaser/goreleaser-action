@@ -138,6 +138,7 @@ purpose. You can do that with the [actions/upload-artifact](https://github.com/a
         with:
           version: latest
           args: release --rm-dist
+          workdir: myfolder
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       -
@@ -145,7 +146,7 @@ purpose. You can do that with the [actions/upload-artifact](https://github.com/a
         uses: actions/upload-artifact@v3
         with:
           name: myapp
-          path: dist/*
+          path: myfolder/dist/*
 ```
 
 ### Install Only
