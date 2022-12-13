@@ -2,7 +2,6 @@ import * as fs from 'fs';
 import * as path from 'path';
 import yargs from 'yargs';
 import * as context from './context';
-import * as git from './git';
 import * as goreleaser from './goreleaser';
 import * as core from '@actions/core';
 import * as exec from '@actions/exec';
@@ -28,9 +27,6 @@ async function run(): Promise<void> {
       process.chdir(inputs.workdir);
     }
 
-    const commit = await git.getShortCommit();
-    const tag = await git.getTag();
-
     let yamlfile: string | unknown;
     const argv = yargs.parse(inputs.args);
     if (argv.config) {
@@ -41,10 +37,6 @@ async function run(): Promise<void> {
           yamlfile = f;
         }
       });
-    }
-
-    if (inputs.args.split(' ').indexOf('release') > -1) {
-      core.info(`${tag} tag found for commit ${commit}`);
     }
 
     await exec.exec(`${bin} ${inputs.args}`);
