@@ -57,7 +57,7 @@ jobs:
         with:
           distribution: ${{ matrix.distribution }}
           version: ${{ matrix.version }}
-          args: release --skip-publish --rm-dist
+          args: release --skip-publish --rm-dist --snapshot
           workdir: ./test
 
   install-only:
