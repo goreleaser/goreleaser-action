@@ -30,7 +30,6 @@ async function run(): Promise<void> {
 
     const commit = await git.getShortCommit();
     const tag = await git.getTag();
-    const isTagDirty = await git.isTagDirty(tag);
 
     let yamlfile: string | unknown;
     const argv = yargs.parse(inputs.args);
@@ -44,19 +43,11 @@ async function run(): Promise<void> {
       });
     }
 
-    let snapshot = '';
     if (inputs.args.split(' ').indexOf('release') > -1) {
-      if (isTagDirty) {
-        if (!inputs.args.includes('--snapshot') && !inputs.args.includes('--nightly')) {
-          core.info(`No tag found for commit ${commit}. Snapshot forced`);
-          snapshot = ' --snapshot';
-        }
-      } else {
-        core.info(`${tag} tag found for commit ${commit}`);
-      }
+      core.info(`${tag} tag found for commit ${commit}`);
     }
 
-    await exec.exec(`${bin} ${inputs.args}${snapshot}`);
+    await exec.exec(`${bin} ${inputs.args}`);
 
     if (typeof yamlfile === 'string') {
       const artifacts = await goreleaser.getArtifacts(await goreleaser.getDistPath(yamlfile));

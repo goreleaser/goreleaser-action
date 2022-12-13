@@ -35,15 +35,6 @@ export async function getTag(): Promise<string> {
   }
 }
 
-export async function isTagDirty(currentTag: string): Promise<boolean> {
-  try {
-    await git(['describe', '--exact-match', '--tags', '--match', currentTag]);
-  } catch (err) {
-    return true;
-  }
-  return false;
-}
-
 export async function getShortCommit(): Promise<string> {
   return await git(['show', "--format='%h'", 'HEAD', '--quiet']);
 }

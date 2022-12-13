@@ -20,10 +20,6 @@ describe('git', () => {
     expect(tag).toEqual('v2.2.1');
   });
 
-  it('checks if tag is dirty', async () => {
-    expect(await git.isTagDirty('v1.3.1')).toBe(true);
-  });
-
   it('returns short commit', async () => {
     const commit: string = await git.getShortCommit();
     expect(commit).not.toEqual('');
