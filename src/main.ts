@@ -56,27 +56,21 @@ async function run(): Promise<void> {
       }
     }
 
-    await exec.exec(`${bin} ${inputs.args}${snapshot}`, undefined, {
-      env: Object.assign({}, process.env, {
-        GORELEASER_CURRENT_TAG: process.env.GORELEASER_CURRENT_TAG || ''
-      }) as {
-        [key: string]: string;
-      }
-    });
+    await exec.exec(`${bin} ${inputs.args}${snapshot}`);
 
     if (typeof yamlfile === 'string') {
       const artifacts = await goreleaser.getArtifacts(await goreleaser.getDistPath(yamlfile));
       if (artifacts) {
         await core.group(`Artifacts output`, async () => {
           core.info(artifacts);
-          context.setOutput('artifacts', artifacts);
+          core.setOutput('artifacts', artifacts);
         });
       }
       const metadata = await goreleaser.getMetadata(await goreleaser.getDistPath(yamlfile));
       if (metadata) {
         await core.group(`Metadata output`, async () => {
           core.info(metadata);
-          context.setOutput('metadata', metadata);
+          core.setOutput('metadata', metadata);
         });
       }
     }
