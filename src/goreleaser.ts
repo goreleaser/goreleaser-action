@@ -28,8 +28,8 @@ export async function install(distribution: string, version: string): Promise<st
   core.info('Extracting GoReleaser');
   let extPath: string;
   if (context.osPlat == 'win32') {
-    if(!downloadPath.endsWith('.zip')) {
-      let newPath = downloadPath + '.zip';
+    if (!downloadPath.endsWith('.zip')) {
+      const newPath = downloadPath + '.zip';
       fs.renameSync(downloadPath, newPath);
       extPath = await tc.extractZip(newPath);
     } else {
