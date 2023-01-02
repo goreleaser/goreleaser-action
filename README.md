@@ -217,6 +217,10 @@ secret named `GH_PAT`, the step will look like this:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
 ```
 
+## Migrating from v3
+
+If you need the auto-snapshot feature, take a look at [this example repository](https://github.com/caarlos0/goreleaser-action-v4-auto-snapshot-example): it's a minimal working example with all you need.
+
 ## Development
 
 ```
