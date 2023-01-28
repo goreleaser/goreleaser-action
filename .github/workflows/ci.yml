@@ -3,6 +3,7 @@ name: ci
 on:
   schedule:
     - cron: '0 10 * * *' # everyday at 10am
+  workflow_dispatch:
   push:
     branches:
       - 'master'
