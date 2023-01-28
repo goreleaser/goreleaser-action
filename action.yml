@@ -28,7 +28,7 @@ inputs:
     required: false
   github-token:
     description: >
-       Used to verifiy the Git tag exists on docker/buildx repo. Since there's a
+       Used to verifiy the Git tag exists on goreleaser/goreleaser repo. Since there's a
        default, this is typically not supplied by the user. When running this
        action on github.com, the default value is sufficient. When running on
        GHES, you can pass a personal access token for github.com if you are
