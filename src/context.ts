@@ -10,6 +10,7 @@ export interface Inputs {
   args: string;
   workdir: string;
   installOnly: boolean;
+  githubToken: string;
 }
 
 export async function getInputs(): Promise<Inputs> {
@@ -18,6 +19,7 @@ export async function getInputs(): Promise<Inputs> {
     version: core.getInput('version'),
     args: core.getInput('args'),
     workdir: core.getInput('workdir') || '.',
+    githubToken: core.getInput('github-token'),
     installOnly: core.getBooleanInput('install-only')
   };
 }
