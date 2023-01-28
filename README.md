@@ -186,7 +186,7 @@ and pass it as the `github_token` input for the action:
 uses: goreleaser/goreleaser-action@v4
 with:
 github_token: ${{ secrets.GH_DOTCOM_TOKEN }}
-version: v0.10.1
+version: v1.14.1
 ```
 
 If the runner is not able to access `github.com`, it will take the default one
