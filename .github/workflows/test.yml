@@ -6,9 +6,6 @@ on:
       - 'master'
       - 'releases/v*'
   pull_request:
-    branches:
-      - 'master'
-      - 'releases/v*'
 
 jobs:
   test:
@@ -29,8 +26,6 @@ jobs:
         uses: docker/bake-action@v2
         with:
           targets: test
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       -
         name: Upload coverage
         uses: codecov/codecov-action@v3

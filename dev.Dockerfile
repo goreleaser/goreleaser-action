@@ -65,8 +65,7 @@ ENV RUNNER_TEMP=/tmp/github_runner
 ENV RUNNER_TOOL_CACHE=/tmp/github_tool_cache
 RUN --mount=type=bind,target=.,rw \
   --mount=type=cache,target=/src/node_modules \
-  --mount=type=secret,id=GITHUB_TOKEN \
-  GITHUB_TOKEN=$(cat /run/secrets/GITHUB_TOKEN) yarn run test --coverageDirectory=/tmp/coverage
+  yarn run test --coverageDirectory=/tmp/coverage
 
 FROM scratch AS test-coverage
 COPY --from=test /tmp/coverage /

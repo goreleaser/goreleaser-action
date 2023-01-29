@@ -10,16 +10,14 @@ export interface Inputs {
   args: string;
   workdir: string;
   installOnly: boolean;
-  githubToken: string;
 }
 
 export async function getInputs(): Promise<Inputs> {
   return {
     distribution: core.getInput('distribution') || 'goreleaser',
-    version: core.getInput('version'),
+    version: core.getInput('version') || 'latest',
     args: core.getInput('args'),
     workdir: core.getInput('workdir') || '.',
-    githubToken: core.getInput('github-token'),
     installOnly: core.getBooleanInput('install-only')
   };
 }
