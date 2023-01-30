@@ -4,26 +4,22 @@ import * as goreleaser from '../src/goreleaser';
 
 describe('install', () => {
   it('acquires v0.182.0 version of GoReleaser', async () => {
-    const githubToken = process.env.GITHUB_TOKEN || '';
-    const bin = await goreleaser.install('goreleaser', 'v0.182.0', githubToken);
+    const bin = await goreleaser.install('goreleaser', 'v0.182.0');
     expect(fs.existsSync(bin)).toBe(true);
   }, 100000);
 
   it('acquires latest version of GoReleaser', async () => {
-    const githubToken = process.env.GITHUB_TOKEN || '';
-    const bin = await goreleaser.install('goreleaser', 'latest', githubToken);
+    const bin = await goreleaser.install('goreleaser', 'latest');
     expect(fs.existsSync(bin)).toBe(true);
   }, 100000);
 
   it('acquires v0.182.0-pro version of GoReleaser Pro', async () => {
-    const githubToken = process.env.GITHUB_TOKEN || '';
-    const bin = await goreleaser.install('goreleaser-pro', 'v0.182.0-pro', githubToken);
+    const bin = await goreleaser.install('goreleaser-pro', 'v0.182.0-pro');
     expect(fs.existsSync(bin)).toBe(true);
   }, 100000);
 
   it('acquires latest version of GoReleaser Pro', async () => {
-    const githubToken = process.env.GITHUB_TOKEN || '';
-    const bin = await goreleaser.install('goreleaser-pro', 'latest', githubToken);
+    const bin = await goreleaser.install('goreleaser-pro', 'latest');
     expect(fs.existsSync(bin)).toBe(true);
   }, 100000);
 });

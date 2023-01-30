@@ -20,7 +20,6 @@ ___
   * [Signing](#signing)
   * [Upload artifacts](#upload-artifacts)
   * [Install Only](#install-only)
-  * [Using on GHES](#using-on-ghes)
 * [Customizing](#customizing)
   * [inputs](#inputs)
   * [outputs](#outputs)
@@ -163,37 +162,6 @@ steps:
     name: Show GoReleaser version
     run: goreleaser -v
 ```
-### Using on GHES
-
-If you specify a version or `latest` of GoReleaser in your workflow, the
-version will be downloaded from [GitHub Releases in
-`goreleaser/goreleaser`](https://github.com/goreleaser/goreleaser/releases)
-repository. These calls to `goreleaser/goreleaser` are made via unauthenticated
-requests, which are limited to [60 requests per hour per
-IP](https://docs.github.com/en/rest/overview/resources-in-the-rest-api#rate-limiting).
-
-If more requests are made within the time frame, then you will start to see
-rate-limit errors during downloading that looks like:
-
-```
-##[error]API rate limit exceeded for...
-```
-
-To get a higher rate limit, you can [generate a personal access token on github.com](https://github.com/settings/tokens/new)
-and pass it as the `github_token` input for the action:
-
-```yaml
-uses: goreleaser/goreleaser-action@v4
-with:
-github_token: ${{ secrets.GH_DOTCOM_TOKEN }}
-version: v1.14.1
-```
-
-If the runner is not able to access `github.com`, it will take the default one
-available on the GitHub Runner or runner's tool cache. See "[Setting up the
-tool cache on self-hosted runners without internet
-access](https://docs.github.com/en/enterprise-server@3.2/admin/github-actions/managing-access-to-actions-from-githubcom/setting-up-the-tool-cache-on-self-hosted-runners-without-internet-access)"
-for more information.
 
 ## Customizing
 
@@ -215,17 +183,17 @@ Following inputs can be used as `step.with` keys
 
 Following outputs are available
 
-| Name              | Type    | Description                           |
-|-------------------|---------|---------------------------------------|
-| `artifacts`       | JSON    | Build result artifacts |
-| `metadata`        | JSON    | Build result metadata |
+| Name        | Type | Description            |
+|-------------|------|------------------------|
+| `artifacts` | JSON | Build result artifacts |
+| `metadata`  | JSON | Build result metadata  |
 
 ### environment variables
 
 Following environment variables can be used as `step.env` keys
 
-| Name             | Description                           |
-|------------------|---------------------------------------|
+| Name             | Description                                                                                                                                         |
+|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
 | `GITHUB_TOKEN`   | [GITHUB_TOKEN](https://help.github.com/en/actions/configuring-and-managing-workflows/authenticating-with-the-github_token) as provided by `secrets` |
 | `GORELEASER_KEY` | Your [GoReleaser Pro](https://goreleaser.com/pro) License Key, in case you are using the `goreleaser-pro` distribution                              |
 

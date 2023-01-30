@@ -7,12 +7,8 @@ import * as github from './github';
 import * as core from '@actions/core';
 import * as tc from '@actions/tool-cache';
 
-export async function install(distribution: string, version: string, githubToken: string): Promise<string> {
-  const release: github.Release | null = await github.getRelease(distribution, version, githubToken);
-  if (!release) {
-    throw new Error(`Cannot find GoReleaser ${version} release`);
-  }
-
+export async function install(distribution: string, version: string): Promise<string> {
+  const release: github.GitHubRelease = await github.getRelease(distribution, version);
   const filename = getFilename(distribution);
   const downloadUrl = util.format(
     'https://github.com/goreleaser/%s/releases/download/%s/%s',

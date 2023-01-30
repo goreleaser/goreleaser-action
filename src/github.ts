@@ -2,58 +2,50 @@ import * as goreleaser from './goreleaser';
 import * as semver from 'semver';
 import * as core from '@actions/core';
 import * as httpm from '@actions/http-client';
-import * as github from '@actions/github';
 
-export interface Release {
-  id: number;
+export interface GitHubRelease {
   tag_name: string;
 }
 
-const owner = 'goreleaser';
-
-export const getRelease = async (
-  distribution: string,
-  version: string,
-  githubToken: string
-): Promise<Release | null> => {
+export const getRelease = async (distribution: string, version: string): Promise<GitHubRelease> => {
   if (version === 'latest') {
-    return getLatestRelease(distribution, githubToken);
+    return getLatestRelease(distribution);
   }
+  return getReleaseTag(distribution, version);
+};
+
+export const getReleaseTag = async (distribution: string, version: string): Promise<GitHubRelease> => {
   const tag: string = (await resolveVersion(distribution, version)) || version;
-  return getReleaseTag(distribution, tag, githubToken);
+  const suffix: string = goreleaser.distribSuffix(distribution);
+  const url = `https://goreleaser.com/static/releases${suffix}.json`;
+  const http: httpm.HttpClient = new httpm.HttpClient('goreleaser-action');
+  const resp: httpm.HttpClientResponse = await http.get(url);
+  const body = await resp.readBody();
+  const statusCode = resp.message.statusCode || 500;
+  if (statusCode >= 400) {
+    throw new Error(
+      `Failed to get GoReleaser release ${version}${suffix} from ${url} with status code ${statusCode}: ${body}`
+    );
+  }
+  const releases = <Array<GitHubRelease>>JSON.parse(body);
+  const res = releases.filter(r => r.tag_name === tag).shift();
+  if (res) {
+    return res;
+  }
+  throw new Error(`Cannot find GoReleaser release ${version}${suffix} in ${url}`);
 };
 
-export const getReleaseTag = async (repo: string, tag: string, githubToken: string): Promise<Release> => {
-  core.info(`Getting tag ${resolveVersion}...`);
-  return (
-    await github
-      .getOctokit(githubToken, {
-        baseUrl: 'https://api.github.com'
-      })
-      .rest.repos.getReleaseByTag({
-        owner,
-        repo,
-        tag
-      })
-      .catch(error => {
-        throw new Error(`Cannot get ${repo} release ${tag}: ${error}`);
-      })
-  ).data as Release;
-};
-
-export const getLatestRelease = async (repo: string, githubToken: string): Promise<Release> => {
-  core.info(`Getting tag latest...`);
-  return (
-    await github
-      .getOctokit(githubToken)
-      .rest.repos.getLatestRelease({
-        owner,
-        repo
-      })
-      .catch(error => {
-        throw new Error(`Cannot get latest release: ${error}`);
-      })
-  ).data as Release;
+export const getLatestRelease = async (distribution: string): Promise<GitHubRelease> => {
+  const suffix: string = goreleaser.distribSuffix(distribution);
+  const url = `https://goreleaser.com/static/latest${suffix}`;
+  const http: httpm.HttpClient = new httpm.HttpClient('goreleaser-action');
+  const resp: httpm.HttpClientResponse = await http.get(url);
+  const body = await resp.readBody();
+  const statusCode = resp.message.statusCode || 500;
+  if (statusCode >= 400) {
+    throw new Error(`Failed to get GoReleaser release latest from ${url} with status code ${statusCode}: ${body}`);
+  }
+  return {tag_name: body};
 };
 
 const resolveVersion = async (distribution: string, version: string): Promise<string | null> => {
@@ -76,7 +68,7 @@ const getAllTags = async (distribution: string): Promise<Array<string>> => {
   const http: httpm.HttpClient = new httpm.HttpClient('goreleaser-action');
   const suffix: string = goreleaser.distribSuffix(distribution);
   const url = `https://goreleaser.com/static/releases${suffix}.json`;
-  core.info(`Downloading ${url}`);
+  core.debug(`Downloading ${url}`);
   const getTags = http.getJson<Array<GitHubTag>>(url);
   return getTags.then(response => {
     if (response.result == null) {
