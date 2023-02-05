@@ -58,7 +58,7 @@ jobs:
         with:
           distribution: ${{ matrix.distribution }}
           version: ${{ matrix.version }}
-          args: release --skip-publish --rm-dist --snapshot
+          args: release --skip-publish --clean --snapshot
           workdir: ./test
 
   install-only:
@@ -139,7 +139,7 @@ jobs:
         uses: ./
         with:
           version: latest
-          args: -f .goreleaser-signing.yml release --skip-publish --rm-dist --snapshot
+          args: -f .goreleaser-signing.yml release --skip-publish --clean --snapshot
           workdir: ./test
         env:
           GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
@@ -167,7 +167,7 @@ jobs:
         name: GoReleaser
         uses: ./
         with:
-          args: release --skip-publish --rm-dist --snapshot
+          args: release --skip-publish --clean --snapshot
           workdir: ./test
       -
         name: Upload assets
@@ -193,7 +193,7 @@ jobs:
         name: GoReleaser
         uses: ./
         with:
-          args: release --config .goreleaser-dist.yml --skip-publish --rm-dist --snapshot
+          args: release --config .goreleaser-dist.yml --skip-publish --clean --snapshot
           workdir: ./test
       -
         name: Check dist
