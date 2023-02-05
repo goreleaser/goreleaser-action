@@ -14,20 +14,20 @@ ___
 
 ![GoRelease Action](.github/goreleaser-action.png)
 
-- [Usage](#usage)
-  - [Workflow](#workflow)
-  - [Run on new tag](#run-on-new-tag)
-  - [Signing](#signing)
-  - [Upload artifacts](#upload-artifacts)
-  - [Install Only](#install-only)
-- [Customizing](#customizing)
-  - [inputs](#inputs)
-  - [outputs](#outputs)
-  - [environment variables](#environment-variables)
-- [Limitation](#limitation)
-- [Migrating from v3](#migrating-from-v3)
-- [Development](#development)
-- [License](#license)
+* [Usage](#usage)
+  * [Workflow](#workflow)
+  * [Run on new tag](#run-on-new-tag)
+  * [Signing](#signing)
+  * [Upload artifacts](#upload-artifacts)
+  * [Install Only](#install-only)
+* [Customizing](#customizing)
+  * [inputs](#inputs)
+  * [outputs](#outputs)
+  * [environment variables](#environment-variables)
+* [Limitation](#limitation)
+* [Development](#development)
+* [License](#license)
+
 
 ## Usage
 
