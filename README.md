@@ -58,7 +58,7 @@ jobs:
           # either 'goreleaser' (default) or 'goreleaser-pro'
           distribution: goreleaser
           version: latest
-          args: release --rm-dist
+          args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Your GoReleaser Pro key, if you are using the 'goreleaser-pro' distribution
@@ -87,7 +87,7 @@ Or with a condition on GoReleaser step:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           version: latest
-          args: release --rm-dist
+          args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
@@ -112,7 +112,7 @@ the [Import GPG](https://github.com/crazy-max/ghaction-import-gpg) GitHub Action
         uses: goreleaser/goreleaser-action@v4
         with:
           version: latest
-          args: release --rm-dist
+          args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
@@ -137,7 +137,7 @@ purpose. You can do that with the [actions/upload-artifact](https://github.com/a
         uses: goreleaser/goreleaser-action@v4
         with:
           version: latest
-          args: release --rm-dist
+          args: release --clean
           workdir: myfolder
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -212,7 +212,7 @@ secret named `GH_PAT`, the step will look like this:
         uses: goreleaser/goreleaser-action@v4
         with:
           version: latest
-          args: release --rm-dist
+          args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
 ```
