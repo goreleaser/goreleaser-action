@@ -27,7 +27,7 @@ jobs:
           - windows-latest
         version:
           - latest
-          - '~> 0.182'
+          - '~> 1.15'
         distribution:
           - goreleaser
           - goreleaser-pro
