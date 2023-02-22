@@ -39,6 +39,9 @@ on:
   pull_request:
   push:
 
+permissions:
+  contents: write
+
 jobs:
   goreleaser:
     runs-on: ubuntu-latest
@@ -194,7 +197,7 @@ Following environment variables can be used as `step.env` keys
 
 | Name             | Description                                                                                                                                         |
 |------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
-| `GITHUB_TOKEN`   | [GITHUB_TOKEN](https://help.github.com/en/actions/configuring-and-managing-workflows/authenticating-with-the-github_token) as provided by `secrets` |
+| `GITHUB_TOKEN`   | [GITHUB_TOKEN](https://help.github.com/en/actions/configuring-and-managing-workflows/authenticating-with-the-github_token) as provided by `secrets` and requires `contents:write` |
 | `GORELEASER_KEY` | Your [GoReleaser Pro](https://goreleaser.com/pro) License Key, in case you are using the `goreleaser-pro` distribution                              |
 
 ## Limitation
