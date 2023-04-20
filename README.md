@@ -30,6 +30,12 @@ ___
 
 ## Usage
 
+GoReleaser Action runs [goreleaser][], please follow its [docs][gdocs] for
+more information about how to customize what GoReleaser do.
+
+[goreleaser]: https://goreleaser.com/
+[gdocs]: https://goreleaser.com/customization
+
 ### Workflow
 
 ```yaml
