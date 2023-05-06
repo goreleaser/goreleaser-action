@@ -28,7 +28,7 @@ async function run(): Promise<void> {
     }
 
     let yamlfile: string | unknown;
-    const argv = yargs.parse(inputs.args);
+    const argv: {config: string} = yargs.parse(inputs.args) as never;
     if (argv.config) {
       yamlfile = argv.config;
     } else {
