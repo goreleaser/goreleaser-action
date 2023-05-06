@@ -1,13 +1,12 @@
 {
   "name": "goreleaser-action",
   "description": "GitHub Action for GoReleaser, a release automation tool for Go projects",
-  "main": "lib/main.js",
+  "main": "src/main.ts",
   "scripts": {
-    "build": "ncc build src/main.ts --source-map --minify --license licenses.txt",
+    "build": "ncc build --source-map --minify --license licenses.txt",
     "lint": "eslint src/**/*.ts __tests__/**/*.ts",
     "format": "eslint --fix src/**/*.ts __tests__/**/*.ts",
-    "test": "jest --coverage",
-    "all": "yarn run build && yarn run format && yarn test"
+    "test": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -20,6 +19,7 @@
   ],
   "author": "CrazyMax",
   "license": "MIT",
+  "packageManager": "yarn@3.5.1",
   "dependencies": {
     "@actions/core": "^1.10.0",
     "@actions/exec": "^1.1.1",
