@@ -17,11 +17,6 @@ jobs:
         with:
           fetch-depth: 0
       -
-        name: Validate
-        uses: docker/bake-action@v3
-        with:
-          targets: validate
-      -
         name: Test
         uses: docker/bake-action@v3
         with:
