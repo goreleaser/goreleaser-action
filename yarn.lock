@@ -2911,13 +2911,13 @@ __metadata:
     eslint-plugin-jest: ^27.2.1
     eslint-plugin-prettier: ^4.2.1
     jest: ^29.5.0
-    js-yaml: ^4.1.0
     prettier: ^2.8.8
     semver: ^7.5.0
     tmp: ^0.2.1
     ts-jest: ^29.1.0
     ts-node: ^10.9.1
     typescript: ^4.9.5
+    yaml: ^2.2.2
     yargs: ^17.7.2
   languageName: unknown
   linkType: soft
@@ -5180,6 +5180,13 @@ __metadata:
   version: 4.0.0
   resolution: "yallist@npm:4.0.0"
   checksum: 343617202af32df2a15a3be36a5a8c0c8545208f3d3dfbc6bb7c3e3b7e8c6f8e7485432e4f3b88da3031a6e20afa7c711eded32ddfb122896ac5d914e75848d5
+  languageName: node
+  linkType: hard
+
+"yaml@npm:^2.2.2":
+  version: 2.2.2
+  resolution: "yaml@npm:2.2.2"
+  checksum: d90c235e099e30094dcff61ba3350437aef53325db4a6bcd04ca96e1bfe7e348b191f6a7a52b5211e2dbc4eeedb22a00b291527da030de7c189728ef3f2b4eb3
   languageName: node
   linkType: hard
 

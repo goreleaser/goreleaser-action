@@ -25,8 +25,8 @@
     "@actions/exec": "^1.1.1",
     "@actions/http-client": "^2.1.0",
     "@actions/tool-cache": "^2.0.1",
-    "js-yaml": "^4.1.0",
     "semver": "^7.5.0",
+    "yaml": "^2.2.2",
     "yargs": "^17.7.2"
   },
   "devDependencies": {

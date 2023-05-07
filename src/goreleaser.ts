@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as util from 'util';
-import yaml from 'js-yaml';
+import * as yaml from 'yaml';
 import * as context from './context';
 import * as github from './github';
 import * as core from '@actions/core';
@@ -85,8 +85,13 @@ const getFilename = (distribution: string): string => {
 };
 
 export async function getDistPath(yamlfile: string): Promise<string> {
-  const cfg = yaml.load(fs.readFileSync(yamlfile, 'utf8'));
-  return cfg.dist || 'dist';
+  const doc = yaml.parseDocument(fs.readFileSync(yamlfile, 'utf8'), {
+    prettyErrors: true
+  });
+  if (doc.errors.length > 0) {
+    throw new Error(doc.errors.join('\n'));
+  }
+  return doc.toJSON().dist || 'dist';
 }
 
 export async function getArtifacts(distpath: string): Promise<string | undefined> {
