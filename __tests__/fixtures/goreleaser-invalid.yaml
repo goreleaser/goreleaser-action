@@ -1,0 +1,8 @@
+&shared:
+  build: &build_base
+    env:
+      - CGO_ENABLED=0
+
+project_name: test
+builds:
+  - <<: *build_base

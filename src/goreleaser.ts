@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as util from 'util';
-import yaml from 'js-yaml';
+import * as yaml from 'js-yaml';
 import * as context from './context';
 import * as github from './github';
 import * as core from '@actions/core';
