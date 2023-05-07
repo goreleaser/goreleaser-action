@@ -1,7 +1,6 @@
-&shared:
-  build: &build_base
-    env:
-      - CGO_ENABLED=0
+x-build: &build_base
+  env:
+    - CGO_ENABLED=0
 
 env:
   - GO111MODULE=on
