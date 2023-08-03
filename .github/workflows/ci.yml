@@ -212,6 +212,7 @@ jobs:
           - windows-latest
         distribution:
           - goreleaser-pro
+          - goreleaser
     steps:
       -
         name: Checkout
