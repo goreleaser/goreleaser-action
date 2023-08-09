@@ -32,6 +32,12 @@ describe('getRelease', () => {
     expect(release?.tag_name).not.toEqual('');
   });
 
+  it('returns nightly GoReleaser GitHub release', async () => {
+    const release = await github.getRelease('goreleaser', 'nightly');
+    expect(release).not.toBeNull();
+    expect(release?.tag_name).not.toEqual('');
+  });
+
   it('returns nightly GoReleaser Pro GitHub release', async () => {
     const release = await github.getRelease('goreleaser-pro', 'nightly');
     expect(release).not.toBeNull();

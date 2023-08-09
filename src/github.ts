@@ -15,7 +15,7 @@ export const getRelease = async (distribution: string, version: string): Promise
 };
 
 export const getReleaseTag = async (distribution: string, version: string): Promise<GitHubRelease> => {
-  if (distribution === 'goreleaser-pro' && version === 'nightly') {
+  if (version === 'nightly') {
     return {tag_name: version};
   }
   const tag: string = (await resolveVersion(distribution, version)) || version;
