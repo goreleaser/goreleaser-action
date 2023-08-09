@@ -236,5 +236,5 @@ jobs:
         run: |
           goreleaser check -f ./test/.goreleaser.yml
           goreleaser --version
-          goreleaser --version | grep pro-nightly
+          goreleaser --version | grep nightly
 
