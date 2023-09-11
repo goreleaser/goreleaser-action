@@ -62,7 +62,7 @@ jobs:
         uses: actions/setup-go@v4
       -
         name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v4
+        uses: goreleaser/goreleaser-action@v5
         with:
           # either 'goreleaser' (default) or 'goreleaser-pro'
           distribution: goreleaser
@@ -92,7 +92,7 @@ Or with a condition on GoReleaser step:
 ```yaml
       -
         name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v4
+        uses: goreleaser/goreleaser-action@v5
         if: startsWith(github.ref, 'refs/tags/')
         with:
           version: latest
@@ -112,13 +112,13 @@ the [Import GPG](https://github.com/crazy-max/ghaction-import-gpg) GitHub Action
       -
         name: Import GPG key
         id: import_gpg
-        uses: crazy-max/ghaction-import-gpg@v5
+        uses: crazy-max/ghaction-import-gpg@v6
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
       -
         name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v4
+        uses: goreleaser/goreleaser-action@v5
         with:
           version: latest
           args: release --clean
@@ -143,7 +143,7 @@ purpose. You can do that with the [actions/upload-artifact](https://github.com/a
 ```yaml
       -
         name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v4
+        uses: goreleaser/goreleaser-action@v5
         with:
           version: latest
           args: release --clean
@@ -164,7 +164,7 @@ purpose. You can do that with the [actions/upload-artifact](https://github.com/a
 steps:
   -
     name: Install GoReleaser
-    uses: goreleaser/goreleaser-action@v4
+    uses: goreleaser/goreleaser-action@v5
     with:
       install-only: true
   -
@@ -218,7 +218,7 @@ secret named `GH_PAT`, the step will look like this:
 ```yaml
       -
         name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v4
+        uses: goreleaser/goreleaser-action@v5
         with:
           version: latest
           args: release --clean
