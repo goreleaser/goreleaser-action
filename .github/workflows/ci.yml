@@ -172,7 +172,7 @@ jobs:
           workdir: ./test
       -
         name: Upload assets
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: myapp
           path: ./test/dist/*
