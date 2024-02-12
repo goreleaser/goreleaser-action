@@ -50,12 +50,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@actions/http-client@npm:^2.1.1":
-  version: 2.1.1
-  resolution: "@actions/http-client@npm:2.1.1"
+"@actions/http-client@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "@actions/http-client@npm:2.2.0"
   dependencies:
     tunnel: ^0.0.6
-  checksum: 5a3fd0407020a11cd3864b6c9ed8ef36912e08418df34fac675d15fc71543abb419db236ddb8fbd649f8ad8b5057bd78f1ac301f87283dfc706aa85578a90658
+    undici: ^5.25.4
+  checksum: 075fc21e8c05e865239bfc5cc91ce42aff7ac7877a5828145545cb27c572f74af8f96f90233f3ba2376525a9032bb8eadebd7221c007ce62459b99d5d2362f94
   languageName: node
   linkType: hard
 
@@ -832,6 +833,13 @@ __metadata:
   version: 8.49.0
   resolution: "@eslint/js@npm:8.49.0"
   checksum: a6601807c8aeeefe866926ad92ed98007c034a735af20ff709009e39ad1337474243d47908500a3bde04e37bfba16bcf1d3452417f962e1345bc8756edd6b830
+  languageName: node
+  linkType: hard
+
+"@fastify/busboy@npm:^2.0.0":
+  version: 2.1.0
+  resolution: "@fastify/busboy@npm:2.1.0"
+  checksum: 3233abd10f73e50668cb4bb278a79b7b3fadd30215ac6458299b0e5a09a29c3586ec07597aae6bd93f5cbedfcef43a8aeea51829cd28fc13850cdbcd324c28d5
   languageName: node
   linkType: hard
 
@@ -3083,7 +3091,7 @@ __metadata:
   dependencies:
     "@actions/core": ^1.10.1
     "@actions/exec": ^1.1.1
-    "@actions/http-client": ^2.1.1
+    "@actions/http-client": ^2.2.0
     "@actions/tool-cache": ^2.0.1
     "@types/node": ^20.6.0
     "@typescript-eslint/eslint-plugin": ^6.6.0
@@ -3097,7 +3105,7 @@ __metadata:
     jest: ^29.6.4
     js-yaml: ^4.1.0
     prettier: ^3.0.3
-    semver: ^7.5.4
+    semver: ^7.6.0
     tmp: ^0.2.1
     ts-jest: ^29.1.1
     ts-node: ^10.9.1
@@ -4887,6 +4895,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"semver@npm:^7.6.0":
+  version: 7.6.0
+  resolution: "semver@npm:7.6.0"
+  dependencies:
+    lru-cache: ^6.0.0
+  bin:
+    semver: bin/semver.js
+  checksum: 7427f05b70786c696640edc29fdd4bc33b2acf3bbe1740b955029044f80575fc664e1a512e4113c3af21e767154a94b4aa214bf6cd6e42a1f6dba5914e0b208c
+  languageName: node
+  linkType: hard
+
 "set-blocking@npm:^2.0.0":
   version: 2.0.0
   resolution: "set-blocking@npm:2.0.0"
@@ -5358,6 +5377,15 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 0f4da2f15e6f1245e49db15801dbee52f2bbfb267e1c39225afdab5afee1a72839cd86000e65ee9d7e4dfaff12239d28beaf5ee431357fcced15fb08583d72ca
+  languageName: node
+  linkType: hard
+
+"undici@npm:^5.25.4":
+  version: 5.28.3
+  resolution: "undici@npm:5.28.3"
+  dependencies:
+    "@fastify/busboy": ^2.0.0
+  checksum: fa1e65aff896c5e2ee23637b632e306f9e3a2b32a3dc0b23ea71e5555ad350bcc25713aea894b3dccc0b7dc2c5e92a5a58435ebc2033b731a5524506f573dfd2
   languageName: node
   linkType: hard
 
