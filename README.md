@@ -66,6 +66,7 @@ jobs:
         with:
           # either 'goreleaser' (default) or 'goreleaser-pro'
           distribution: goreleaser
+          # 'latest', 'nightly', or a semver
           version: latest
           args: release --clean
         env:
