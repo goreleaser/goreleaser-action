@@ -4,8 +4,13 @@ ARG NODE_VERSION=20
 
 FROM node:${NODE_VERSION}-alpine AS base
 RUN apk add --no-cache cpio findutils git
-RUN yarn config set --home enableTelemetry 0
 WORKDIR /src
+RUN --mount=type=bind,target=.,rw \
+  --mount=type=cache,target=/src/.yarn/cache <<EOT
+  corepack enable
+  yarn --version
+  yarn config set --home enableTelemetry 0
+EOT
 
 FROM base AS deps
 RUN --mount=type=bind,target=.,rw \
