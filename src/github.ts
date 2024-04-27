@@ -9,6 +9,9 @@ export interface GitHubRelease {
 
 export const getRelease = async (distribution: string, version: string): Promise<GitHubRelease> => {
   if (version === 'latest') {
+    core.warning(
+      "You are using 'latest' as default version. This might include breaking changes. It is recommended to use a SemVer to lock to a major version (e.g. ~> v1)."
+    );
     return getLatestRelease(distribution);
   }
   return getReleaseTag(distribution, version);
