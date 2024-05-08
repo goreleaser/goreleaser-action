@@ -13,7 +13,7 @@ inputs:
     required: false
   version:
     description: 'GoReleaser version'
-    default: 'latest'
+    default: '~> v1'
     required: false
   args:
     description: 'Arguments to pass to GoReleaser'

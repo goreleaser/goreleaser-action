@@ -1,4 +1,4 @@
-import { describe, expect, it } from '@jest/globals';
+import {describe, expect, it} from '@jest/globals';
 import * as github from '../src/github';
 
 describe('getRelease', () => {
