@@ -3105,7 +3105,7 @@ __metadata:
     jest: ^29.6.4
     js-yaml: ^4.1.0
     prettier: ^3.0.3
-    semver: ^7.6.0
+    semver: ^7.6.1
     tmp: ^0.2.1
     ts-jest: ^29.1.1
     ts-node: ^10.9.1
@@ -4895,14 +4895,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semver@npm:^7.6.0":
-  version: 7.6.0
-  resolution: "semver@npm:7.6.0"
-  dependencies:
-    lru-cache: ^6.0.0
+"semver@npm:^7.6.1":
+  version: 7.6.1
+  resolution: "semver@npm:7.6.1"
   bin:
     semver: bin/semver.js
-  checksum: 7427f05b70786c696640edc29fdd4bc33b2acf3bbe1740b955029044f80575fc664e1a512e4113c3af21e767154a94b4aa214bf6cd6e42a1f6dba5914e0b208c
+  checksum: 2c9c89b985230c0fcf02c96ae6a3ca40c474f2f4e838634394691e6e10c347a0c6def0f14fc355d82f90f1744a073b8b9c45457b108aa728280b5d68ed7961cd
   languageName: node
   linkType: hard
 
