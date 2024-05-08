@@ -1,4 +1,4 @@
-import {describe, expect, it} from '@jest/globals';
+import { describe, expect, it } from '@jest/globals';
 import * as github from '../src/github';
 
 describe('getRelease', () => {
@@ -28,6 +28,18 @@ describe('getRelease', () => {
 
   it('returns latest GoReleaser Pro GitHub release', async () => {
     const release = await github.getRelease('goreleaser-pro', 'latest');
+    expect(release).not.toBeNull();
+    expect(release?.tag_name).not.toEqual('');
+  });
+
+  it('returns latest v1 GoReleaser Pro GitHub release', async () => {
+    const release = await github.getRelease('goreleaser-pro', '~> v1');
+    expect(release).not.toBeNull();
+    expect(release?.tag_name).not.toEqual('');
+  });
+
+  it('returns latest v1 GoReleaser GitHub release', async () => {
+    const release = await github.getRelease('goreleaser', '~> v1');
     expect(release).not.toBeNull();
     expect(release?.tag_name).not.toEqual('');
   });
