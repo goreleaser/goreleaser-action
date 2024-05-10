@@ -67,7 +67,7 @@ jobs:
           # either 'goreleaser' (default) or 'goreleaser-pro'
           distribution: goreleaser
           # 'latest', 'nightly', or a semver
-          version: latest
+          version: '~> v1'
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -96,7 +96,7 @@ Or with a condition on GoReleaser step:
         uses: goreleaser/goreleaser-action@v5
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          version: latest
+          version: '~> v1'
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -121,7 +121,7 @@ the [Import GPG](https://github.com/crazy-max/ghaction-import-gpg) GitHub Action
         name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v5
         with:
-          version: latest
+          version: '~> v1'
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -146,7 +146,7 @@ purpose. You can do that with the [actions/upload-artifact](https://github.com/a
         name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v5
         with:
-          version: latest
+          version: '~> v1'
           args: release --clean
           workdir: myfolder
         env:
@@ -182,7 +182,7 @@ Following inputs can be used as `step.with` keys
 | Name             | Type    | Default      | Description                                                      |
 |------------------|---------|--------------|------------------------------------------------------------------|
 | `distribution`   | String  | `goreleaser` | GoReleaser distribution, either `goreleaser` or `goreleaser-pro` |
-| `version`**¹**   | String  | `latest`     | GoReleaser version                                               |
+| `version`**¹**   | String  | `~> v1`      | GoReleaser version                                               |
 | `args`           | String  |              | Arguments to pass to GoReleaser                                  |
 | `workdir`        | String  | `.`          | Working directory (below repository root)                        |
 | `install-only`   | Bool    | `false`      | Just install GoReleaser                                          |
@@ -221,7 +221,7 @@ secret named `GH_PAT`, the step will look like this:
         name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v5
         with:
-          version: latest
+          version: '~> v1'
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}

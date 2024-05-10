@@ -8,8 +8,10 @@ export interface GitHubRelease {
 }
 
 export const getRelease = async (distribution: string, version: string): Promise<GitHubRelease> => {
+  // TODO: change this to ~> v2 on a future major, once goreleaser v2 is out
   if (version === 'latest') {
-    return getLatestRelease(distribution);
+    core.warning("You are using 'latest' as default version. Will lock to '~> v1'.");
+    return getReleaseTag(distribution, '~> v1');
   }
   return getReleaseTag(distribution, version);
 };
@@ -36,19 +38,6 @@ export const getReleaseTag = async (distribution: string, version: string): Prom
     return res;
   }
   throw new Error(`Cannot find GoReleaser release ${version}${suffix} in ${url}`);
-};
-
-export const getLatestRelease = async (distribution: string): Promise<GitHubRelease> => {
-  const suffix: string = goreleaser.distribSuffix(distribution);
-  const url = `https://goreleaser.com/static/latest${suffix}`;
-  const http: httpm.HttpClient = new httpm.HttpClient('goreleaser-action');
-  const resp: httpm.HttpClientResponse = await http.get(url);
-  const body = await resp.readBody();
-  const statusCode = resp.message.statusCode || 500;
-  if (statusCode >= 400) {
-    throw new Error(`Failed to get GoReleaser release latest from ${url} with status code ${statusCode}: ${body}`);
-  }
-  return {tag_name: body};
 };
 
 const resolveVersion = async (distribution: string, version: string): Promise<string | null> => {

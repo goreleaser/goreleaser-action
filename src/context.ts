@@ -15,7 +15,7 @@ export interface Inputs {
 export async function getInputs(): Promise<Inputs> {
   return {
     distribution: core.getInput('distribution') || 'goreleaser',
-    version: core.getInput('version') || 'latest',
+    version: core.getInput('version') || '~> v1',
     args: core.getInput('args'),
     workdir: core.getInput('workdir') || '.',
     installOnly: core.getBooleanInput('install-only')
