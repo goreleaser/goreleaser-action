@@ -10,7 +10,7 @@ export interface GitHubRelease {
 export const getRelease = async (distribution: string, version: string): Promise<GitHubRelease> => {
   if (version === 'latest') {
     core.warning("You are using 'latest' as default version. Will lock to '~> v2'.");
-    return getReleaseTag(distribution, '~> v1');
+    return getReleaseTag(distribution, '~> v2');
   }
   return getReleaseTag(distribution, version);
 };
