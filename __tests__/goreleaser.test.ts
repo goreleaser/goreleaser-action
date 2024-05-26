@@ -1,4 +1,4 @@
-import {describe, expect, it} from '@jest/globals';
+import { describe, expect, it } from '@jest/globals';
 import * as fs from 'fs';
 import * as goreleaser from '../src/goreleaser';
 
@@ -27,6 +27,17 @@ describe('install', () => {
     const bin = await goreleaser.install('goreleaser-pro', '~> v1');
     expect(fs.existsSync(bin)).toBe(true);
   }, 100000);
+
+  it('acquires latest v2 version of GoReleaser', async () => {
+    const bin = await goreleaser.install('goreleaser', '~> v2');
+    expect(fs.existsSync(bin)).toBe(true);
+  }, 100000);
+
+  it('acquires latest v2 version of GoReleaser Pro', async () => {
+    const bin = await goreleaser.install('goreleaser-pro', '~> v2');
+    expect(fs.existsSync(bin)).toBe(true);
+  }, 100000);
+
 
   it('acquires latest version of GoReleaser Pro', async () => {
     const bin = await goreleaser.install('goreleaser-pro', 'latest');

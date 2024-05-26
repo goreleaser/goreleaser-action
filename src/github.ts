@@ -8,9 +8,8 @@ export interface GitHubRelease {
 }
 
 export const getRelease = async (distribution: string, version: string): Promise<GitHubRelease> => {
-  // TODO: change this to ~> v2 on a future major, once goreleaser v2 is out
   if (version === 'latest') {
-    core.warning("You are using 'latest' as default version. Will lock to '~> v1'.");
+    core.warning("You are using 'latest' as default version. Will lock to '~> v2'.");
     return getReleaseTag(distribution, '~> v1');
   }
   return getReleaseTag(distribution, version);
@@ -18,7 +17,7 @@ export const getRelease = async (distribution: string, version: string): Promise
 
 export const getReleaseTag = async (distribution: string, version: string): Promise<GitHubRelease> => {
   if (version === 'nightly') {
-    return {tag_name: version};
+    return { tag_name: version };
   }
   const tag: string = (await resolveVersion(distribution, version)) || version;
   const suffix: string = goreleaser.distribSuffix(distribution);
