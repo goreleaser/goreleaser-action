@@ -17,7 +17,7 @@ export const getRelease = async (distribution: string, version: string): Promise
 
 export const getReleaseTag = async (distribution: string, version: string): Promise<GitHubRelease> => {
   if (version === 'nightly') {
-    return { tag_name: version };
+    return {tag_name: version};
   }
   const tag: string = (await resolveVersion(distribution, version)) || version;
   const suffix: string = goreleaser.distribSuffix(distribution);
