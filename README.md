@@ -62,7 +62,7 @@ jobs:
         uses: actions/setup-go@v5
       -
         name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v5
+        uses: goreleaser/goreleaser-action@v6
         with:
           # either 'goreleaser' (default) or 'goreleaser-pro'
           distribution: goreleaser
@@ -93,7 +93,7 @@ Or with a condition on GoReleaser step:
 ```yaml
       -
         name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v5
+        uses: goreleaser/goreleaser-action@v6
         if: startsWith(github.ref, 'refs/tags/')
         with:
           version: '~> v2'
@@ -119,7 +119,7 @@ the [Import GPG](https://github.com/crazy-max/ghaction-import-gpg) GitHub Action
           passphrase: ${{ secrets.PASSPHRASE }}
       -
         name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v5
+        uses: goreleaser/goreleaser-action@v6
         with:
           version: '~> v2'
           args: release --clean
@@ -144,7 +144,7 @@ purpose. You can do that with the [actions/upload-artifact](https://github.com/a
 ```yaml
       -
         name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v5
+        uses: goreleaser/goreleaser-action@v6
         with:
           version: '~> v2'
           args: release --clean
@@ -165,7 +165,7 @@ purpose. You can do that with the [actions/upload-artifact](https://github.com/a
 steps:
   -
     name: Install GoReleaser
-    uses: goreleaser/goreleaser-action@v5
+    uses: goreleaser/goreleaser-action@v6
     with:
       install-only: true
   -
@@ -219,7 +219,7 @@ secret named `GH_PAT`, the step will look like this:
 ```yaml
       -
         name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v5
+        uses: goreleaser/goreleaser-action@v6
         with:
           version: '~> v2'
           args: release --clean
