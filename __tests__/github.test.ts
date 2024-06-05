@@ -44,6 +44,18 @@ describe('getRelease', () => {
     expect(release?.tag_name).not.toEqual('');
   });
 
+  it('returns latest v2 GoReleaser Pro GitHub release', async () => {
+    const release = await github.getRelease('goreleaser-pro', '~> v2');
+    expect(release).not.toBeNull();
+    expect(release?.tag_name).not.toEqual('');
+  });
+
+  it('returns latest v2 GoReleaser GitHub release', async () => {
+    const release = await github.getRelease('goreleaser', '~> v2');
+    expect(release).not.toBeNull();
+    expect(release?.tag_name).not.toEqual('');
+  });
+
   it('returns nightly GoReleaser GitHub release', async () => {
     const release = await github.getRelease('goreleaser', 'nightly');
     expect(release).not.toBeNull();
