@@ -31,7 +31,7 @@ ___
 ## Usage
 
 GoReleaser Action runs [goreleaser][], please follow its [docs][gdocs] for
-more information about how to customize what GoReleaser do.
+more information about how to customize what GoReleaser does.
 
 [goreleaser]: https://goreleaser.com/
 [gdocs]: https://goreleaser.com/customization
@@ -139,7 +139,7 @@ signs:
 ### Upload artifacts
 
 For some events like pull request or schedule you might want to store the artifacts somewhere for testing
-purpose. You can do that with the [actions/upload-artifact](https://github.com/actions/upload-artifact) action:
+purposes. You can do that with the [actions/upload-artifact](https://github.com/actions/upload-artifact) action:
 
 ```yaml
       -
@@ -153,7 +153,7 @@ purpose. You can do that with the [actions/upload-artifact](https://github.com/a
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       -
         name: Upload assets
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: myapp
           path: myfolder/dist/*
