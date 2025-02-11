@@ -27,16 +27,14 @@ export const getReleaseTag = async (distribution: string, version: string): Prom
   const body = await resp.readBody();
   const statusCode = resp.message.statusCode || 500;
   if (statusCode >= 400) {
-    throw new Error(
-      `Failed to get GoReleaser release ${version}${suffix} from ${url} with status code ${statusCode}: ${body}`
-    );
+    throw new Error(`Failed to get GoReleaser release ${version} from ${url} with status code ${statusCode}: ${body}`);
   }
   const releases = <Array<GitHubRelease>>JSON.parse(body);
   const res = releases.filter(r => r.tag_name === tag).shift();
   if (res) {
     return res;
   }
-  throw new Error(`Cannot find GoReleaser release ${version}${suffix} in ${url}`);
+  throw new Error(`Cannot find GoReleaser release ${version} in ${url}`);
 };
 
 const resolveVersion = async (distribution: string, version: string): Promise<string | null> => {
@@ -48,7 +46,16 @@ const resolveVersion = async (distribution: string, version: string): Promise<st
 
   const cleanTags: Array<string> = allTags.map(tag => cleanTag(tag));
   const cleanVersion: string = cleanTag(version);
-  return semver.maxSatisfying(cleanTags, cleanVersion) + goreleaser.distribSuffix(distribution);
+  if (!semver.valid(cleanVersion) && !semver.validRange(cleanVersion)) {
+    // if the given version is invalid, return whatever we got.
+    return version;
+  }
+  const v = semver.maxSatisfying(cleanTags, cleanVersion);
+  if (semver.lt(v, '2.7.0')) {
+    // if its a version older than 2.7.0, append the suffix.
+    return v + goreleaser.distribSuffix(distribution);
+  }
+  return v;
 };
 
 interface GitHubTag {
