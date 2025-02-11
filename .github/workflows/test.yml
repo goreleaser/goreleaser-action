@@ -22,11 +22,11 @@ jobs:
           fetch-depth: 0
       -
         name: Test
-        uses: docker/bake-action@v5
+        uses: docker/bake-action@v6
         with:
           targets: test
       -
         name: Upload coverage
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           file: ./coverage/clover.xml
