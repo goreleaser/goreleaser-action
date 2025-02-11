@@ -17,11 +17,5 @@ builds:
       - "386"
       - "amd64"
 
-archives:
-  -
-    format_overrides:
-      - goos: windows
-        formats: [ zip ]
-
 checksum:
   name_template: 'checksums.txt'

@@ -28,6 +28,7 @@ jobs:
           - windows-latest
         version:
           - latest
+          - '~> 2.6'
           - '~> 1.26'
         distribution:
           - goreleaser
@@ -69,6 +70,7 @@ jobs:
       matrix:
         version:
           - latest
+          - '~> 2.6'
           - '~> 1.26'
         distribution:
           - goreleaser
