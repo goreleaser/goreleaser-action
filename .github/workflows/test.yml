@@ -29,4 +29,4 @@ jobs:
         name: Upload coverage
         uses: codecov/codecov-action@v5
         with:
-          file: ./coverage/clover.xml
+          files: ./coverage/clover.xml
