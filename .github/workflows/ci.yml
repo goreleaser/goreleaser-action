@@ -24,7 +24,7 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-          - macOS-latest
+          - macos-latest
           - windows-latest
         version:
           - latest
@@ -108,7 +108,7 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-          - macOS-latest
+          - macos-latest
           - windows-latest
     steps:
       -
@@ -210,7 +210,7 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-          - macOS-latest
+          - macos-latest
           - windows-latest
         distribution:
           - goreleaser-pro

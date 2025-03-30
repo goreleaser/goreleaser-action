@@ -24,6 +24,7 @@ jobs:
         name: Test
         uses: docker/bake-action@v6
         with:
+          source: .
           targets: test
       -
         name: Upload coverage

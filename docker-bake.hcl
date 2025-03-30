@@ -1,3 +1,9 @@
+target "_common" {
+  args = {
+    BUILDKIT_CONTEXT_KEEP_GIT_DIR = 1
+  }
+}
+
 group "default" {
   targets = ["build"]
 }
@@ -17,6 +23,7 @@ target "build" {
 }
 
 target "build-validate" {
+  inherits = ["_common"]
   dockerfile = "dev.Dockerfile"
   target = "build-validate"
   output = ["type=cacheonly"]
@@ -41,6 +48,7 @@ target "vendor" {
 }
 
 target "vendor-validate" {
+  inherits = ["_common"]
   dockerfile = "dev.Dockerfile"
   target = "vendor-validate"
   output = ["type=cacheonly"]
