@@ -32,7 +32,14 @@ async function run(): Promise<void> {
     if (argv.config) {
       yamlfile = argv.config;
     } else {
-      ['.goreleaser.yaml', '.goreleaser.yml', 'goreleaser.yaml', 'goreleaser.yml'].forEach(f => {
+      [
+        '.config/goreleaser.yaml',
+        '.config/goreleaser.yml',
+        '.goreleaser.yaml',
+        '.goreleaser.yml',
+        'goreleaser.yaml',
+        'goreleaser.yml'
+      ].forEach(f => {
         if (fs.existsSync(f)) {
           yamlfile = f;
         }
