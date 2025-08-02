@@ -19,6 +19,21 @@ export const getReleaseTag = async (distribution: string, version: string): Prom
   if (version === 'nightly') {
     return {tag_name: version};
   }
+
+  // If version is a specific version (not a range), skip the JSON check
+  const cleanVersion: string = cleanTag(version);
+  if (semver.valid(cleanVersion)) {
+    let tag = version.startsWith('v') ? version : `v${version}`;
+
+    // Handle GoReleaser Pro suffix for versions < 2.7.0, but only if not already present
+    // TODO: remove all this `-pro` thing at some point.
+    if (goreleaser.isPro(distribution) && semver.lt(cleanVersion, '2.7.0') && !tag.endsWith('-pro')) {
+      tag = tag + goreleaser.distribSuffix(distribution);
+    }
+
+    return {tag_name: tag};
+  }
+
   const tag: string = (await resolveVersion(distribution, version)) || version;
   const suffix: string = goreleaser.distribSuffix(distribution);
   const url = `https://goreleaser.com/static/releases${suffix}.json`;
