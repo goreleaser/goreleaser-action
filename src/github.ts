@@ -3,6 +3,29 @@ import * as semver from 'semver';
 import * as core from '@actions/core';
 import * as httpm from '@actions/http-client';
 
+const maxRetries = 10;
+const timeoutMs = 1000;
+const withRetry = async <T>(operation: () => Promise<T>): Promise<T> => {
+  let lastError: Error;
+
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      return await operation();
+    } catch (error) {
+      lastError = error as Error;
+
+      if (attempt === maxRetries) {
+        break;
+      }
+
+      core.debug(`Attempt ${attempt + 1} failed, retrying in ${timeoutMs}: ${lastError.message}`);
+      await new Promise(resolve => setTimeout(resolve, timeoutMs));
+    }
+  }
+
+  throw lastError;
+};
+
 export interface GitHubRelease {
   tag_name: string;
 }
@@ -37,14 +60,20 @@ export const getReleaseTag = async (distribution: string, version: string): Prom
   const tag: string = (await resolveVersion(distribution, version)) || version;
   const suffix: string = goreleaser.distribSuffix(distribution);
   const url = `https://goreleaser.com/static/releases${suffix}.json`;
-  const http: httpm.HttpClient = new httpm.HttpClient('goreleaser-action');
-  const resp: httpm.HttpClientResponse = await http.get(url);
-  const body = await resp.readBody();
-  const statusCode = resp.message.statusCode || 500;
-  if (statusCode >= 400) {
-    throw new Error(`Failed to get GoReleaser release ${version} from ${url} with status code ${statusCode}: ${body}`);
-  }
-  const releases = <Array<GitHubRelease>>JSON.parse(body);
+
+  const releases = await withRetry(async () => {
+    const http: httpm.HttpClient = new httpm.HttpClient('goreleaser-action');
+    const resp: httpm.HttpClientResponse = await http.get(url);
+    const body = await resp.readBody();
+    const statusCode = resp.message.statusCode || 500;
+    if (statusCode >= 400) {
+      throw new Error(
+        `Failed to get GoReleaser release ${version} from ${url} with status code ${statusCode}: ${body}`
+      );
+    }
+    return <Array<GitHubRelease>>JSON.parse(body);
+  });
+
   const res = releases.filter(r => r.tag_name === tag).shift();
   if (res) {
     return res;
@@ -78,12 +107,13 @@ interface GitHubTag {
 }
 
 const getAllTags = async (distribution: string): Promise<Array<string>> => {
-  const http: httpm.HttpClient = new httpm.HttpClient('goreleaser-action');
   const suffix: string = goreleaser.distribSuffix(distribution);
   const url = `https://goreleaser.com/static/releases${suffix}.json`;
   core.debug(`Downloading ${url}`);
-  const getTags = http.getJson<Array<GitHubTag>>(url);
-  return getTags.then(response => {
+
+  return withRetry(async () => {
+    const http: httpm.HttpClient = new httpm.HttpClient('goreleaser-action');
+    const response = await http.getJson<Array<GitHubTag>>(url);
     if (response.result == null) {
       return [];
     }
