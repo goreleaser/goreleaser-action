@@ -17,6 +17,19 @@ export async function install(distribution: string, version: string): Promise<st
     filename
   );
 
+  const toolPath: string = tc.find('goreleaser-action', release.tag_name.replace(/^v/, ''), context.osArch);
+  if (toolPath) {
+    core.info(`Found in cache @ ${toolPath}`);
+    const exePath: string = path.join(toolPath, context.osPlat == 'win32' ? 'goreleaser.exe' : 'goreleaser');
+    try {
+      // return path only after confirming it exists and is executable
+      await fs.promises.access(exePath, fs.constants.F_OK | fs.constants.X_OK)
+      return exePath;
+    } catch (err) {
+      core.warning(`Cached tool directory found but executable is not accessible or not executable: ${err.message}`);
+    }
+  }
+
   core.info(`Downloading ${downloadUrl}`);
   const downloadPath: string = await tc.downloadTool(downloadUrl);
   core.debug(`Downloaded to ${downloadPath}`);
