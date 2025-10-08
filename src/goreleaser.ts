@@ -6,9 +6,11 @@ import * as context from './context';
 import * as github from './github';
 import * as core from '@actions/core';
 import * as tc from '@actions/tool-cache';
+import * as cache from '@actions/cache';
 
-export async function install(distribution: string, version: string): Promise<string> {
+export async function install(distribution: string, version: string, cacheBinary?: boolean): Promise<string> {
   const release: github.GitHubRelease = await github.getRelease(distribution, version);
+  const semver: string = release.tag_name.replace(/^v/, '');
   const filename = getFilename(distribution);
   const downloadUrl = util.format(
     'https://github.com/goreleaser/%s/releases/download/%s/%s',
@@ -17,16 +19,31 @@ export async function install(distribution: string, version: string): Promise<st
     filename
   );
 
-  const toolPath: string = tc.find('goreleaser-action', release.tag_name.replace(/^v/, ''), context.osArch);
+  const toolPath: string = tc.find('goreleaser-action', semver, context.osArch);
   if (toolPath) {
     core.info(`Found in cache @ ${toolPath}`);
-    const exePath: string = path.join(toolPath, context.osPlat == 'win32' ? 'goreleaser.exe' : 'goreleaser');
+    const exePath: string = getExePath(toolPath);
     try {
       // return path only after confirming it exists and is executable
-      await fs.promises.access(exePath, fs.constants.F_OK | fs.constants.X_OK)
+      await fs.promises.access(exePath, fs.constants.F_OK | fs.constants.X_OK);
       return exePath;
     } catch (err) {
       core.warning(`Cached tool directory found but executable is not accessible or not executable: ${err.message}`);
+    }
+  }
+
+  const goreleaserHome = path.join(process.env.HOME, '.goreleaser');
+  if (!fs.existsSync(goreleaserHome)) {
+    fs.mkdirSync(goreleaserHome, {recursive: true});
+  }
+
+  if (cacheBinary && cache.isFeatureAvailable()) {
+    core.debug(`GitHub actions cache feature available`);
+    const cacheKey = await cache.restoreCache([getExePath(goreleaserHome)], getCacheKey(semver));
+    if (cacheKey) {
+      core.info(`Restored ${cacheKey} from GitHub actions cache`);
+      const cachePath: string = await tc.cacheDir(goreleaserHome, 'goreleaser-action', semver);
+      return getExePath(cachePath);
     }
   }
 
@@ -40,22 +57,23 @@ export async function install(distribution: string, version: string): Promise<st
     if (!downloadPath.endsWith('.zip')) {
       const newPath = downloadPath + '.zip';
       fs.renameSync(downloadPath, newPath);
-      extPath = await tc.extractZip(newPath);
+      extPath = await tc.extractZip(newPath, goreleaserHome);
     } else {
-      extPath = await tc.extractZip(downloadPath);
+      extPath = await tc.extractZip(downloadPath, goreleaserHome);
     }
   } else {
-    extPath = await tc.extractTar(downloadPath);
+    extPath = await tc.extractTar(downloadPath, goreleaserHome);
   }
   core.debug(`Extracted to ${extPath}`);
 
-  const cachePath: string = await tc.cacheDir(extPath, 'goreleaser-action', release.tag_name.replace(/^v/, ''));
+  const cachePath: string = await tc.cacheDir(extPath, 'goreleaser-action', semver);
   core.debug(`Cached to ${cachePath}`);
+  if (cacheBinary && cache.isFeatureAvailable()) {
+    core.debug(`Caching to GitHub actions cache`);
+    await cache.saveCache([getExePath(goreleaserHome)], getCacheKey(semver));
+  }
 
-  const exePath: string = path.join(cachePath, context.osPlat == 'win32' ? 'goreleaser.exe' : 'goreleaser');
-  core.debug(`Exe path is ${exePath}`);
-
-  return exePath;
+  return getExePath(cachePath);
 }
 
 export const distribSuffix = (distribution: string): string => {
@@ -125,3 +143,14 @@ export async function getMetadata(distpath: string): Promise<string | undefined>
   }
   return content;
 }
+
+const getCacheKey = (semver: string): string => {
+  return util.format('goreleaser-cache-%s', semver);
+};
+
+const getExePath = (basePath: string): string => {
+  const exePath: string = path.join(basePath, context.osPlat == 'win32' ? 'goreleaser.exe' : 'goreleaser');
+  core.debug(`Exe path is ${exePath}`);
+
+  return exePath;
+};
