@@ -40,13 +40,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@actions/http-client@npm:^2.2.3":
-  version: 2.2.3
-  resolution: "@actions/http-client@npm:2.2.3"
+"@actions/http-client@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@actions/http-client@npm:3.0.0"
   dependencies:
     tunnel: ^0.0.6
-    undici: ^5.25.4
-  checksum: 5d395df575d30ae599efa10dd715e72944b015e753db61f0a823f737acbb0e99743d4a9f25e812b18ec8cc34f86c73565d075c449e01ffa891577b6595212dde
+    undici: ^5.28.5
+  checksum: 840ec7a4c224a3945d1958b56b01fb870ae19c1d1502b8f0d1a7c291bbe061aff50b6c3bbf6c09b6afa3b56386ec09ecd16029c6fcb3016fb9e21cd1ab5f49fc
   languageName: node
   linkType: hard
 
@@ -3080,7 +3080,7 @@ __metadata:
   dependencies:
     "@actions/core": ^1.11.1
     "@actions/exec": ^1.1.1
-    "@actions/http-client": ^2.2.3
+    "@actions/http-client": ^3.0.0
     "@actions/tool-cache": ^2.0.2
     "@types/node": ^20.6.0
     "@typescript-eslint/eslint-plugin": ^6.6.0
@@ -5367,7 +5367,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici@npm:^5.25.4":
+"undici@npm:^5.28.5":
   version: 5.29.0
   resolution: "undici@npm:5.29.0"
   dependencies:
