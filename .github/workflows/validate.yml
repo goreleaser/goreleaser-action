@@ -23,11 +23,11 @@ jobs:
     steps:
       -
         name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       -
         name: List targets
         id: generate
-        uses: docker/bake-action/subaction/list-targets@v6
+        uses: docker/bake-action/subaction/list-targets@3acf805d94d93a86cce4ca44798a76464a75b88c # v6.9.0
         with:
           target: validate
 
@@ -42,6 +42,6 @@ jobs:
     steps:
       -
         name: Validate
-        uses: docker/bake-action@v6
+        uses: docker/bake-action@3acf805d94d93a86cce4ca44798a76464a75b88c # v6.9.0
         with:
           targets: ${{ matrix.target }}
