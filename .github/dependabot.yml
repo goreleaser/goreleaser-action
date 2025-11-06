@@ -31,6 +31,6 @@ updates:
       prefix: "chore"
       include: "scope"
     groups:
-      go:
+      npm:
         patterns:
           - "*"
