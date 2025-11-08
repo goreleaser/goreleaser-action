@@ -26,6 +26,10 @@ inputs:
     description: 'Just install GoReleaser'
     default: 'false'
     required: false
+  cache-binary:
+    description: 'Cache binary to GitHub Actions cache backend'
+    default: 'false'
+    required: false
 
 outputs:
   artifacts:
