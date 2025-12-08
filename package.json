@@ -28,11 +28,11 @@
   "dependencies": {
     "@actions/core": "^1.11.1",
     "@actions/exec": "^1.1.1",
-    "@actions/http-client": "^2.2.3",
+    "@actions/http-client": "^3.0.0",
     "@actions/tool-cache": "^2.0.2",
-    "js-yaml": "^4.1.0",
-    "semver": "^7.7.2",
-    "yargs": "^17.7.2"
+    "js-yaml": "^4.1.1",
+    "semver": "^7.7.3",
+    "yargs": "^18.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.6.0",
