@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import yargs from 'yargs';
+import type {Arguments} from 'yargs';
 import * as context from './context';
 import * as goreleaser from './goreleaser';
 import * as core from '@actions/core';
@@ -28,7 +29,9 @@ async function run(): Promise<void> {
     }
 
     let yamlfile: string | unknown;
-    const argv: {config: string} = yargs.parse(inputs.args) as never;
+    const argv: Arguments<{config?: string}> = yargs(inputs.args.split(' ')).parseSync() as Arguments<{
+      config?: string;
+    }>;
     if (argv.config) {
       yamlfile = argv.config;
     } else {

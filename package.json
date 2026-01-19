@@ -2,16 +2,17 @@
   "name": "goreleaser-action",
   "description": "GitHub Action for GoReleaser, a release automation tool for Go projects",
   "main": "src/main.ts",
+  "type": "module",
   "scripts": {
-    "build": "ncc build src/main.ts --source-map --minify --license licenses.txt",
-    "lint": "yarn run prettier && yarn run eslint",
-    "format": "yarn run prettier:fix && yarn run eslint:fix",
+    "build": "ncc build src/main.ts --minify --license licenses.txt",
+    "lint": "npm run prettier && npm run eslint",
+    "format": "npm run prettier:fix && npm run eslint:fix",
     "eslint": "eslint --max-warnings=0 .",
     "eslint:fix": "eslint --fix .",
     "prettier": "prettier --check \"./**/*.ts\"",
     "prettier:fix": "prettier --write \"./**/*.ts\"",
     "test": "jest",
-    "all": "yarn run build && yarn run format && yarn test"
+    "all": "npm run build && npm run format && npm test"
   },
   "repository": {
     "type": "git",
@@ -24,7 +25,7 @@
   ],
   "author": "CrazyMax",
   "license": "MIT",
-  "packageManager": "yarn@3.6.3",
+
   "dependencies": {
     "@actions/core": "^2.0.2",
     "@actions/exec": "^2.0.0",
@@ -35,7 +36,7 @@
     "yargs": "^18.0.0"
   },
   "devDependencies": {
-    "@types/node": "^20.6.0",
+    "@types/node": "^24.0.0",
     "@typescript-eslint/eslint-plugin": "^6.6.0",
     "@typescript-eslint/parser": "^6.6.0",
     "@vercel/ncc": "^0.38.0",
