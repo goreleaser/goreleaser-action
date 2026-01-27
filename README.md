@@ -186,6 +186,7 @@ Following inputs can be used as `step.with` keys
 | `args`           | String  |              | Arguments to pass to GoReleaser                                  |
 | `workdir`        | String  | `.`          | Working directory (below repository root)                        |
 | `install-only`   | Bool    | `false`      | Just install GoReleaser                                          |
+| `cache-binary`   | Bool    | `false`      | Cache binary to GitHub Actions cache backend                     |
 
 > **¹** Can be a fixed version like `v0.117.0` or a max satisfying semver one like `~> 0.132`. In this case this will return `v0.132.1`.
 
