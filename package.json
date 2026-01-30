@@ -27,10 +27,10 @@
   "license": "MIT",
 
   "dependencies": {
-    "@actions/core": "^2.0.2",
-    "@actions/exec": "^2.0.0",
+    "@actions/core": "^3.0.0",
+    "@actions/exec": "^3.0.0",
     "@actions/http-client": "^3.0.1",
-    "@actions/tool-cache": "^3.0.0",
+    "@actions/tool-cache": "^4.0.0",
     "js-yaml": "^4.1.1",
     "semver": "^7.7.3",
     "yargs": "^18.0.0"
