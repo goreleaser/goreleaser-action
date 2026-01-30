@@ -1,4 +1,2 @@
-/.yarn/releases/** binary
-/.yarn/plugins/** binary
-/dist/** linguist-generated=true
-/lib/** linguist-generated=true
+/dist/** linguist-generated=true -diff
+/lib/** linguist-generated=true -diff

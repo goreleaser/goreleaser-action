@@ -1,4 +1,4 @@
-import tmp = require('tmp');
+import * as tmp from 'tmp';
 
 tmp.setGracefulCleanup();
 const tmpdir = tmp.dirSync({template: 'goreleaser-XXXXXX'});
