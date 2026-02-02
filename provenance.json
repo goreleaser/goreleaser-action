@@ -1,0 +1,1181 @@
+{
+  "_type": "https://in-toto.io/Statement/v0.1",
+  "predicateType": "https://slsa.dev/provenance/v0.2",
+  "subject": [
+    {
+      "name": "dist/index.js",
+      "digest": {
+        "sha256": "17d39958de0fe41f1b02123ca472e700f12926ba82c5a5bfb8c266e886ecf1d5"
+      }
+    },
+    {
+      "name": "dist/index.js.map",
+      "digest": {
+        "sha256": "84bb103ea9c05392853e5c3bd51ef117f155dba740e3dcd5fffc6a212bdc13c0"
+      }
+    },
+    {
+      "name": "dist/licenses.txt",
+      "digest": {
+        "sha256": "24dce42a43a91d71f2a6359d6f14fc10eaa0bc55b12418e0d2c2d69aa95b4d10"
+      }
+    },
+    {
+      "name": "dist/package.json",
+      "digest": {
+        "sha256": "3ca9d4afd21425087cf31893b8f9f63c81b0b8408db5e343ca76e5f8aa26ab9a"
+      }
+    },
+    {
+      "name": "dist/sourcemap-register.js",
+      "digest": {
+        "sha256": "c2a14a81784d12c15b7baeed88c1faae3457e84890d1e5244cbfc0f4455b5e06"
+      }
+    }
+  ],
+  "predicate": {
+    "builder": {
+      "id": "https://github.com/goreleaser/goreleaser-action/actions/runs/21587684049/attempts/1"
+    },
+    "buildType": "https://mobyproject.org/buildkit@v1",
+    "materials": [
+      {
+        "uri": "pkg:docker/docker/dockerfile@1",
+        "digest": {
+          "sha256": "b6afd42430b15f2d2a4c5a02b919e98a525b785b1aaff16747d2f623364e39b6"
+        }
+      },
+      {
+        "uri": "pkg:docker/node@24-alpine?platform=linux%2Famd64",
+        "digest": {
+          "sha256": "cd6fb7efa6490f039f3471a189214d5f548c11df1ff9e5b181aa49e22c14383e"
+        }
+      },
+      {
+        "uri": "https://github.com/goreleaser/goreleaser-action.git#refs/pull/537/merge",
+        "digest": {
+          "sha1": "41ea21bdd9c9d2c6884c14c33e2101566fc4f1fc"
+        }
+      }
+    ],
+    "invocation": {
+      "configSource": {
+        "uri": "https://github.com/goreleaser/goreleaser-action.git#refs/pull/537/merge",
+        "digest": {
+          "sha1": "41ea21bdd9c9d2c6884c14c33e2101566fc4f1fc"
+        },
+        "entryPoint": "dev.Dockerfile"
+      },
+      "parameters": {
+        "frontend": "gateway.v0",
+        "args": {
+          "cmdline": "docker/dockerfile:1",
+          "source": "docker/dockerfile:1",
+          "target": "build-update"
+        },
+        "secrets": [
+          {
+            "id": "GIT_AUTH_HEADER",
+            "optional": true
+          },
+          {
+            "id": "GIT_AUTH_TOKEN",
+            "optional": true
+          }
+        ]
+      },
+      "environment": {
+        "github_actor": "dependabot[bot]",
+        "github_actor_id": "49699333",
+        "github_event_name": "pull_request",
+        "github_event_payload": {
+          "action": "opened",
+          "number": 537,
+          "organization": {
+            "avatar_url": "https://avatars.githubusercontent.com/u/24697112?v=4",
+            "description": "Release engineering, simplified",
+            "events_url": "https://api.github.com/orgs/goreleaser/events",
+            "hooks_url": "https://api.github.com/orgs/goreleaser/hooks",
+            "id": 24697112,
+            "issues_url": "https://api.github.com/orgs/goreleaser/issues",
+            "login": "goreleaser",
+            "members_url": "https://api.github.com/orgs/goreleaser/members{/member}",
+            "node_id": "MDEyOk9yZ2FuaXphdGlvbjI0Njk3MTEy",
+            "public_members_url": "https://api.github.com/orgs/goreleaser/public_members{/member}",
+            "repos_url": "https://api.github.com/orgs/goreleaser/repos",
+            "url": "https://api.github.com/orgs/goreleaser"
+          },
+          "pull_request": {
+            "_links": {
+              "comments": {
+                "href": "https://api.github.com/repos/goreleaser/goreleaser-action/issues/537/comments"
+              },
+              "commits": {
+                "href": "https://api.github.com/repos/goreleaser/goreleaser-action/pulls/537/commits"
+              },
+              "html": {
+                "href": "https://github.com/goreleaser/goreleaser-action/pull/537"
+              },
+              "issue": {
+                "href": "https://api.github.com/repos/goreleaser/goreleaser-action/issues/537"
+              },
+              "review_comment": {
+                "href": "https://api.github.com/repos/goreleaser/goreleaser-action/pulls/comments{/number}"
+              },
+              "review_comments": {
+                "href": "https://api.github.com/repos/goreleaser/goreleaser-action/pulls/537/comments"
+              },
+              "self": {
+                "href": "https://api.github.com/repos/goreleaser/goreleaser-action/pulls/537"
+              },
+              "statuses": {
+                "href": "https://api.github.com/repos/goreleaser/goreleaser-action/statuses/79413d2ec34b0f62c12f1e80f828a822de466067"
+              }
+            },
+            "active_lock_reason": null,
+            "additions": 5,
+            "assignee": null,
+            "assignees": [],
+            "author_association": "CONTRIBUTOR",
+            "auto_merge": null,
+            "base": {
+              "label": "goreleaser:master",
+              "ref": "master",
+              "repo": {
+                "allow_auto_merge": true,
+                "allow_forking": true,
+                "allow_merge_commit": false,
+                "allow_rebase_merge": false,
+                "allow_squash_merge": true,
+                "allow_update_branch": false,
+                "archive_url": "https://api.github.com/repos/goreleaser/goreleaser-action/{archive_format}{/ref}",
+                "archived": false,
+                "assignees_url": "https://api.github.com/repos/goreleaser/goreleaser-action/assignees{/user}",
+                "blobs_url": "https://api.github.com/repos/goreleaser/goreleaser-action/git/blobs{/sha}",
+                "branches_url": "https://api.github.com/repos/goreleaser/goreleaser-action/branches{/branch}",
+                "clone_url": "https://github.com/goreleaser/goreleaser-action.git",
+                "collaborators_url": "https://api.github.com/repos/goreleaser/goreleaser-action/collaborators{/collaborator}",
+                "comments_url": "https://api.github.com/repos/goreleaser/goreleaser-action/comments{/number}",
+                "commits_url": "https://api.github.com/repos/goreleaser/goreleaser-action/commits{/sha}",
+                "compare_url": "https://api.github.com/repos/goreleaser/goreleaser-action/compare/{base}...{head}",
+                "contents_url": "https://api.github.com/repos/goreleaser/goreleaser-action/contents/{+path}",
+                "contributors_url": "https://api.github.com/repos/goreleaser/goreleaser-action/contributors",
+                "created_at": "2019-09-20T20:10:48Z",
+                "default_branch": "master",
+                "delete_branch_on_merge": true,
+                "deployments_url": "https://api.github.com/repos/goreleaser/goreleaser-action/deployments",
+                "description": "GitHub Action for GoReleaser",
+                "disabled": false,
+                "downloads_url": "https://api.github.com/repos/goreleaser/goreleaser-action/downloads",
+                "events_url": "https://api.github.com/repos/goreleaser/goreleaser-action/events",
+                "fork": false,
+                "forks": 89,
+                "forks_count": 89,
+                "forks_url": "https://api.github.com/repos/goreleaser/goreleaser-action/forks",
+                "full_name": "goreleaser/goreleaser-action",
+                "git_commits_url": "https://api.github.com/repos/goreleaser/goreleaser-action/git/commits{/sha}",
+                "git_refs_url": "https://api.github.com/repos/goreleaser/goreleaser-action/git/refs{/sha}",
+                "git_tags_url": "https://api.github.com/repos/goreleaser/goreleaser-action/git/tags{/sha}",
+                "git_url": "git://github.com/goreleaser/goreleaser-action.git",
+                "has_discussions": false,
+                "has_downloads": true,
+                "has_issues": true,
+                "has_pages": false,
+                "has_projects": false,
+                "has_wiki": false,
+                "homepage": "https://github.com/marketplace/actions/goreleaser-action",
+                "hooks_url": "https://api.github.com/repos/goreleaser/goreleaser-action/hooks",
+                "html_url": "https://github.com/goreleaser/goreleaser-action",
+                "id": 209873006,
+                "is_template": false,
+                "issue_comment_url": "https://api.github.com/repos/goreleaser/goreleaser-action/issues/comments{/number}",
+                "issue_events_url": "https://api.github.com/repos/goreleaser/goreleaser-action/issues/events{/number}",
+                "issues_url": "https://api.github.com/repos/goreleaser/goreleaser-action/issues{/number}",
+                "keys_url": "https://api.github.com/repos/goreleaser/goreleaser-action/keys{/key_id}",
+                "labels_url": "https://api.github.com/repos/goreleaser/goreleaser-action/labels{/name}",
+                "language": "TypeScript",
+                "languages_url": "https://api.github.com/repos/goreleaser/goreleaser-action/languages",
+                "license": {
+                  "key": "mit",
+                  "name": "MIT License",
+                  "node_id": "MDc6TGljZW5zZTEz",
+                  "spdx_id": "MIT",
+                  "url": "https://api.github.com/licenses/mit"
+                },
+                "merge_commit_message": "PR_TITLE",
+                "merge_commit_title": "MERGE_MESSAGE",
+                "merges_url": "https://api.github.com/repos/goreleaser/goreleaser-action/merges",
+                "milestones_url": "https://api.github.com/repos/goreleaser/goreleaser-action/milestones{/number}",
+                "mirror_url": null,
+                "name": "goreleaser-action",
+                "node_id": "MDEwOlJlcG9zaXRvcnkyMDk4NzMwMDY=",
+                "notifications_url": "https://api.github.com/repos/goreleaser/goreleaser-action/notifications{?since,all,participating}",
+                "open_issues": 8,
+                "open_issues_count": 8,
+                "owner": {
+                  "avatar_url": "https://avatars.githubusercontent.com/u/24697112?v=4",
+                  "events_url": "https://api.github.com/users/goreleaser/events{/privacy}",
+                  "followers_url": "https://api.github.com/users/goreleaser/followers",
+                  "following_url": "https://api.github.com/users/goreleaser/following{/other_user}",
+                  "gists_url": "https://api.github.com/users/goreleaser/gists{/gist_id}",
+                  "gravatar_id": "",
+                  "html_url": "https://github.com/goreleaser",
+                  "id": 24697112,
+                  "login": "goreleaser",
+                  "node_id": "MDEyOk9yZ2FuaXphdGlvbjI0Njk3MTEy",
+                  "organizations_url": "https://api.github.com/users/goreleaser/orgs",
+                  "received_events_url": "https://api.github.com/users/goreleaser/received_events",
+                  "repos_url": "https://api.github.com/users/goreleaser/repos",
+                  "site_admin": false,
+                  "starred_url": "https://api.github.com/users/goreleaser/starred{/owner}{/repo}",
+                  "subscriptions_url": "https://api.github.com/users/goreleaser/subscriptions",
+                  "type": "Organization",
+                  "url": "https://api.github.com/users/goreleaser",
+                  "user_view_type": "public"
+                },
+                "private": false,
+                "pulls_url": "https://api.github.com/repos/goreleaser/goreleaser-action/pulls{/number}",
+                "pushed_at": "2026-02-02T11:08:12Z",
+                "releases_url": "https://api.github.com/repos/goreleaser/goreleaser-action/releases{/id}",
+                "size": 8974,
+                "squash_merge_commit_message": "COMMIT_MESSAGES",
+                "squash_merge_commit_title": "COMMIT_OR_PR_TITLE",
+                "ssh_url": "git@github.com:goreleaser/goreleaser-action.git",
+                "stargazers_count": 974,
+                "stargazers_url": "https://api.github.com/repos/goreleaser/goreleaser-action/stargazers",
+                "statuses_url": "https://api.github.com/repos/goreleaser/goreleaser-action/statuses/{sha}",
+                "subscribers_url": "https://api.github.com/repos/goreleaser/goreleaser-action/subscribers",
+                "subscription_url": "https://api.github.com/repos/goreleaser/goreleaser-action/subscription",
+                "svn_url": "https://github.com/goreleaser/goreleaser-action",
+                "tags_url": "https://api.github.com/repos/goreleaser/goreleaser-action/tags",
+                "teams_url": "https://api.github.com/repos/goreleaser/goreleaser-action/teams",
+                "topics": [
+                  "actions",
+                  "github-actions",
+                  "golang",
+                  "goreleaser",
+                  "hacktoberfest"
+                ],
+                "trees_url": "https://api.github.com/repos/goreleaser/goreleaser-action/git/trees{/sha}",
+                "updated_at": "2026-02-02T08:03:04Z",
+                "url": "https://api.github.com/repos/goreleaser/goreleaser-action",
+                "use_squash_pr_title_as_default": false,
+                "visibility": "public",
+                "watchers": 974,
+                "watchers_count": 974,
+                "web_commit_signoff_required": false
+              },
+              "sha": "902ab4a70dd43cbbbe029e9917e939ba355a50dd",
+              "user": {
+                "avatar_url": "https://avatars.githubusercontent.com/u/24697112?v=4",
+                "events_url": "https://api.github.com/users/goreleaser/events{/privacy}",
+                "followers_url": "https://api.github.com/users/goreleaser/followers",
+                "following_url": "https://api.github.com/users/goreleaser/following{/other_user}",
+                "gists_url": "https://api.github.com/users/goreleaser/gists{/gist_id}",
+                "gravatar_id": "",
+                "html_url": "https://github.com/goreleaser",
+                "id": 24697112,
+                "login": "goreleaser",
+                "node_id": "MDEyOk9yZ2FuaXphdGlvbjI0Njk3MTEy",
+                "organizations_url": "https://api.github.com/users/goreleaser/orgs",
+                "received_events_url": "https://api.github.com/users/goreleaser/received_events",
+                "repos_url": "https://api.github.com/users/goreleaser/repos",
+                "site_admin": false,
+                "starred_url": "https://api.github.com/users/goreleaser/starred{/owner}{/repo}",
+                "subscriptions_url": "https://api.github.com/users/goreleaser/subscriptions",
+                "type": "Organization",
+                "url": "https://api.github.com/users/goreleaser",
+                "user_view_type": "public"
+              }
+            },
+            "body": "Bumps the npm group with 1 update: [@actions/http-client](https://github.com/actions/toolkit/tree/HEAD/packages/http-client).\n\nUpdates `@actions/http-client` from 3.0.2 to 4.0.0\n\u003cdetails\u003e\n\u003csummary\u003eChangelog\u003c/summary\u003e\n\u003cp\u003e\u003cem\u003eSourced from \u003ca href=\"https://github.com/actions/toolkit/blob/main/packages/http-client/RELEASES.md\"\u003e\u003ccode\u003e@​actions/http-client\u003c/code\u003e's changelog\u003c/a\u003e.\u003c/em\u003e\u003c/p\u003e\n\u003cblockquote\u003e\n\u003ch2\u003e4.0.0\u003c/h2\u003e\n\u003cul\u003e\n\u003cli\u003e\u003cstrong\u003eBreaking change\u003c/strong\u003e: Package is now ESM-only\n\u003cul\u003e\n\u003cli\u003eCommonJS consumers must use dynamic \u003ccode\u003eimport()\u003c/code\u003e instead of \u003ccode\u003erequire()\u003c/code\u003e\u003c/li\u003e\n\u003c/ul\u003e\n\u003c/li\u003e\n\u003c/ul\u003e\n\u003c/blockquote\u003e\n\u003c/details\u003e\n\u003cdetails\u003e\n\u003csummary\u003eCommits\u003c/summary\u003e\n\u003cul\u003e\n\u003cli\u003eSee full diff in \u003ca href=\"https://github.com/actions/toolkit/commits/@actions/cache@4.0.0/packages/http-client\"\u003ecompare view\u003c/a\u003e\u003c/li\u003e\n\u003c/ul\u003e\n\u003c/details\u003e\n\u003cbr /\u003e\n\n\n[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=@actions/http-client\u0026package-manager=npm_and_yarn\u0026previous-version=3.0.2\u0026new-version=4.0.0)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)\n\nDependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.\n\n[//]: # (dependabot-automerge-start)\n[//]: # (dependabot-automerge-end)\n\n---\n\n\u003cdetails\u003e\n\u003csummary\u003eDependabot commands and options\u003c/summary\u003e\n\u003cbr /\u003e\n\nYou can trigger Dependabot actions by commenting on this PR:\n- `@dependabot rebase` will rebase this PR\n- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it\n- `@dependabot merge` will merge this PR after your CI passes on it\n- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it\n- `@dependabot cancel merge` will cancel a previously requested merge and block automerging\n- `@dependabot reopen` will reopen this PR if it is closed\n- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually\n- `@dependabot show \u003cdependency name\u003e ignore conditions` will show all of the ignore conditions of the specified dependency\n- `@dependabot ignore \u003cdependency name\u003e major version` will close this group update PR and stop Dependabot creating any more for the specific dependency's major version (unless you unignore this specific dependency's major version or upgrade to it yourself)\n- `@dependabot ignore \u003cdependency name\u003e minor version` will close this group update PR and stop Dependabot creating any more for the specific dependency's minor version (unless you unignore this specific dependency's minor version or upgrade to it yourself)\n- `@dependabot ignore \u003cdependency name\u003e` will close this group update PR and stop Dependabot creating any more for the specific dependency (unless you unignore this specific dependency or upgrade to it yourself)\n- `@dependabot unignore \u003cdependency name\u003e` will remove all of the ignore conditions of the specified dependency\n- `@dependabot unignore \u003cdependency name\u003e \u003cignore condition\u003e` will remove the ignore condition of the specified dependency and ignore conditions\n\n\n\u003c/details\u003e",
+            "changed_files": 2,
+            "closed_at": null,
+            "comments": 0,
+            "comments_url": "https://api.github.com/repos/goreleaser/goreleaser-action/issues/537/comments",
+            "commits": 1,
+            "commits_url": "https://api.github.com/repos/goreleaser/goreleaser-action/pulls/537/commits",
+            "created_at": "2026-02-02T11:08:13Z",
+            "deletions": 37,
+            "diff_url": "https://github.com/goreleaser/goreleaser-action/pull/537.diff",
+            "draft": false,
+            "head": {
+              "label": "goreleaser:dependabot/npm_and_yarn/npm-ec1fe30c8f",
+              "ref": "dependabot/npm_and_yarn/npm-ec1fe30c8f",
+              "repo": {
+                "allow_auto_merge": true,
+                "allow_forking": true,
+                "allow_merge_commit": false,
+                "allow_rebase_merge": false,
+                "allow_squash_merge": true,
+                "allow_update_branch": false,
+                "archive_url": "https://api.github.com/repos/goreleaser/goreleaser-action/{archive_format}{/ref}",
+                "archived": false,
+                "assignees_url": "https://api.github.com/repos/goreleaser/goreleaser-action/assignees{/user}",
+                "blobs_url": "https://api.github.com/repos/goreleaser/goreleaser-action/git/blobs{/sha}",
+                "branches_url": "https://api.github.com/repos/goreleaser/goreleaser-action/branches{/branch}",
+                "clone_url": "https://github.com/goreleaser/goreleaser-action.git",
+                "collaborators_url": "https://api.github.com/repos/goreleaser/goreleaser-action/collaborators{/collaborator}",
+                "comments_url": "https://api.github.com/repos/goreleaser/goreleaser-action/comments{/number}",
+                "commits_url": "https://api.github.com/repos/goreleaser/goreleaser-action/commits{/sha}",
+                "compare_url": "https://api.github.com/repos/goreleaser/goreleaser-action/compare/{base}...{head}",
+                "contents_url": "https://api.github.com/repos/goreleaser/goreleaser-action/contents/{+path}",
+                "contributors_url": "https://api.github.com/repos/goreleaser/goreleaser-action/contributors",
+                "created_at": "2019-09-20T20:10:48Z",
+                "default_branch": "master",
+                "delete_branch_on_merge": true,
+                "deployments_url": "https://api.github.com/repos/goreleaser/goreleaser-action/deployments",
+                "description": "GitHub Action for GoReleaser",
+                "disabled": false,
+                "downloads_url": "https://api.github.com/repos/goreleaser/goreleaser-action/downloads",
+                "events_url": "https://api.github.com/repos/goreleaser/goreleaser-action/events",
+                "fork": false,
+                "forks": 89,
+                "forks_count": 89,
+                "forks_url": "https://api.github.com/repos/goreleaser/goreleaser-action/forks",
+                "full_name": "goreleaser/goreleaser-action",
+                "git_commits_url": "https://api.github.com/repos/goreleaser/goreleaser-action/git/commits{/sha}",
+                "git_refs_url": "https://api.github.com/repos/goreleaser/goreleaser-action/git/refs{/sha}",
+                "git_tags_url": "https://api.github.com/repos/goreleaser/goreleaser-action/git/tags{/sha}",
+                "git_url": "git://github.com/goreleaser/goreleaser-action.git",
+                "has_discussions": false,
+                "has_downloads": true,
+                "has_issues": true,
+                "has_pages": false,
+                "has_projects": false,
+                "has_wiki": false,
+                "homepage": "https://github.com/marketplace/actions/goreleaser-action",
+                "hooks_url": "https://api.github.com/repos/goreleaser/goreleaser-action/hooks",
+                "html_url": "https://github.com/goreleaser/goreleaser-action",
+                "id": 209873006,
+                "is_template": false,
+                "issue_comment_url": "https://api.github.com/repos/goreleaser/goreleaser-action/issues/comments{/number}",
+                "issue_events_url": "https://api.github.com/repos/goreleaser/goreleaser-action/issues/events{/number}",
+                "issues_url": "https://api.github.com/repos/goreleaser/goreleaser-action/issues{/number}",
+                "keys_url": "https://api.github.com/repos/goreleaser/goreleaser-action/keys{/key_id}",
+                "labels_url": "https://api.github.com/repos/goreleaser/goreleaser-action/labels{/name}",
+                "language": "TypeScript",
+                "languages_url": "https://api.github.com/repos/goreleaser/goreleaser-action/languages",
+                "license": {
+                  "key": "mit",
+                  "name": "MIT License",
+                  "node_id": "MDc6TGljZW5zZTEz",
+                  "spdx_id": "MIT",
+                  "url": "https://api.github.com/licenses/mit"
+                },
+                "merge_commit_message": "PR_TITLE",
+                "merge_commit_title": "MERGE_MESSAGE",
+                "merges_url": "https://api.github.com/repos/goreleaser/goreleaser-action/merges",
+                "milestones_url": "https://api.github.com/repos/goreleaser/goreleaser-action/milestones{/number}",
+                "mirror_url": null,
+                "name": "goreleaser-action",
+                "node_id": "MDEwOlJlcG9zaXRvcnkyMDk4NzMwMDY=",
+                "notifications_url": "https://api.github.com/repos/goreleaser/goreleaser-action/notifications{?since,all,participating}",
+                "open_issues": 8,
+                "open_issues_count": 8,
+                "owner": {
+                  "avatar_url": "https://avatars.githubusercontent.com/u/24697112?v=4",
+                  "events_url": "https://api.github.com/users/goreleaser/events{/privacy}",
+                  "followers_url": "https://api.github.com/users/goreleaser/followers",
+                  "following_url": "https://api.github.com/users/goreleaser/following{/other_user}",
+                  "gists_url": "https://api.github.com/users/goreleaser/gists{/gist_id}",
+                  "gravatar_id": "",
+                  "html_url": "https://github.com/goreleaser",
+                  "id": 24697112,
+                  "login": "goreleaser",
+                  "node_id": "MDEyOk9yZ2FuaXphdGlvbjI0Njk3MTEy",
+                  "organizations_url": "https://api.github.com/users/goreleaser/orgs",
+                  "received_events_url": "https://api.github.com/users/goreleaser/received_events",
+                  "repos_url": "https://api.github.com/users/goreleaser/repos",
+                  "site_admin": false,
+                  "starred_url": "https://api.github.com/users/goreleaser/starred{/owner}{/repo}",
+                  "subscriptions_url": "https://api.github.com/users/goreleaser/subscriptions",
+                  "type": "Organization",
+                  "url": "https://api.github.com/users/goreleaser",
+                  "user_view_type": "public"
+                },
+                "private": false,
+                "pulls_url": "https://api.github.com/repos/goreleaser/goreleaser-action/pulls{/number}",
+                "pushed_at": "2026-02-02T11:08:12Z",
+                "releases_url": "https://api.github.com/repos/goreleaser/goreleaser-action/releases{/id}",
+                "size": 8974,
+                "squash_merge_commit_message": "COMMIT_MESSAGES",
+                "squash_merge_commit_title": "COMMIT_OR_PR_TITLE",
+                "ssh_url": "git@github.com:goreleaser/goreleaser-action.git",
+                "stargazers_count": 974,
+                "stargazers_url": "https://api.github.com/repos/goreleaser/goreleaser-action/stargazers",
+                "statuses_url": "https://api.github.com/repos/goreleaser/goreleaser-action/statuses/{sha}",
+                "subscribers_url": "https://api.github.com/repos/goreleaser/goreleaser-action/subscribers",
+                "subscription_url": "https://api.github.com/repos/goreleaser/goreleaser-action/subscription",
+                "svn_url": "https://github.com/goreleaser/goreleaser-action",
+                "tags_url": "https://api.github.com/repos/goreleaser/goreleaser-action/tags",
+                "teams_url": "https://api.github.com/repos/goreleaser/goreleaser-action/teams",
+                "topics": [
+                  "actions",
+                  "github-actions",
+                  "golang",
+                  "goreleaser",
+                  "hacktoberfest"
+                ],
+                "trees_url": "https://api.github.com/repos/goreleaser/goreleaser-action/git/trees{/sha}",
+                "updated_at": "2026-02-02T08:03:04Z",
+                "url": "https://api.github.com/repos/goreleaser/goreleaser-action",
+                "use_squash_pr_title_as_default": false,
+                "visibility": "public",
+                "watchers": 974,
+                "watchers_count": 974,
+                "web_commit_signoff_required": false
+              },
+              "sha": "79413d2ec34b0f62c12f1e80f828a822de466067",
+              "user": {
+                "avatar_url": "https://avatars.githubusercontent.com/u/24697112?v=4",
+                "events_url": "https://api.github.com/users/goreleaser/events{/privacy}",
+                "followers_url": "https://api.github.com/users/goreleaser/followers",
+                "following_url": "https://api.github.com/users/goreleaser/following{/other_user}",
+                "gists_url": "https://api.github.com/users/goreleaser/gists{/gist_id}",
+                "gravatar_id": "",
+                "html_url": "https://github.com/goreleaser",
+                "id": 24697112,
+                "login": "goreleaser",
+                "node_id": "MDEyOk9yZ2FuaXphdGlvbjI0Njk3MTEy",
+                "organizations_url": "https://api.github.com/users/goreleaser/orgs",
+                "received_events_url": "https://api.github.com/users/goreleaser/received_events",
+                "repos_url": "https://api.github.com/users/goreleaser/repos",
+                "site_admin": false,
+                "starred_url": "https://api.github.com/users/goreleaser/starred{/owner}{/repo}",
+                "subscriptions_url": "https://api.github.com/users/goreleaser/subscriptions",
+                "type": "Organization",
+                "url": "https://api.github.com/users/goreleaser",
+                "user_view_type": "public"
+              }
+            },
+            "html_url": "https://github.com/goreleaser/goreleaser-action/pull/537",
+            "id": 3236048293,
+            "issue_url": "https://api.github.com/repos/goreleaser/goreleaser-action/issues/537",
+            "labels": [
+              {
+                "color": "0366d6",
+                "default": false,
+                "description": "Pull requests that update a dependency file",
+                "id": 1594558555,
+                "name": "dependencies",
+                "node_id": "MDU6TGFiZWwxNTk0NTU4NTU1",
+                "url": "https://api.github.com/repos/goreleaser/goreleaser-action/labels/dependencies"
+              }
+            ],
+            "locked": false,
+            "maintainer_can_modify": false,
+            "merge_commit_sha": null,
+            "mergeable": null,
+            "mergeable_state": "unknown",
+            "merged": false,
+            "merged_at": null,
+            "merged_by": null,
+            "milestone": null,
+            "node_id": "PR_kwDODIJobs7A4i2l",
+            "number": 537,
+            "patch_url": "https://github.com/goreleaser/goreleaser-action/pull/537.patch",
+            "rebaseable": null,
+            "requested_reviewers": [
+              {
+                "avatar_url": "https://avatars.githubusercontent.com/u/245435?v=4",
+                "events_url": "https://api.github.com/users/caarlos0/events{/privacy}",
+                "followers_url": "https://api.github.com/users/caarlos0/followers",
+                "following_url": "https://api.github.com/users/caarlos0/following{/other_user}",
+                "gists_url": "https://api.github.com/users/caarlos0/gists{/gist_id}",
+                "gravatar_id": "",
+                "html_url": "https://github.com/caarlos0",
+                "id": 245435,
+                "login": "caarlos0",
+                "node_id": "MDQ6VXNlcjI0NTQzNQ==",
+                "organizations_url": "https://api.github.com/users/caarlos0/orgs",
+                "received_events_url": "https://api.github.com/users/caarlos0/received_events",
+                "repos_url": "https://api.github.com/users/caarlos0/repos",
+                "site_admin": false,
+                "starred_url": "https://api.github.com/users/caarlos0/starred{/owner}{/repo}",
+                "subscriptions_url": "https://api.github.com/users/caarlos0/subscriptions",
+                "type": "User",
+                "url": "https://api.github.com/users/caarlos0",
+                "user_view_type": "public"
+              },
+              {
+                "avatar_url": "https://avatars.githubusercontent.com/u/1951866?v=4",
+                "events_url": "https://api.github.com/users/crazy-max/events{/privacy}",
+                "followers_url": "https://api.github.com/users/crazy-max/followers",
+                "following_url": "https://api.github.com/users/crazy-max/following{/other_user}",
+                "gists_url": "https://api.github.com/users/crazy-max/gists{/gist_id}",
+                "gravatar_id": "",
+                "html_url": "https://github.com/crazy-max",
+                "id": 1951866,
+                "login": "crazy-max",
+                "node_id": "MDQ6VXNlcjE5NTE4NjY=",
+                "organizations_url": "https://api.github.com/users/crazy-max/orgs",
+                "received_events_url": "https://api.github.com/users/crazy-max/received_events",
+                "repos_url": "https://api.github.com/users/crazy-max/repos",
+                "site_admin": false,
+                "starred_url": "https://api.github.com/users/crazy-max/starred{/owner}{/repo}",
+                "subscriptions_url": "https://api.github.com/users/crazy-max/subscriptions",
+                "type": "User",
+                "url": "https://api.github.com/users/crazy-max",
+                "user_view_type": "public"
+              }
+            ],
+            "requested_teams": [],
+            "review_comment_url": "https://api.github.com/repos/goreleaser/goreleaser-action/pulls/comments{/number}",
+            "review_comments": 0,
+            "review_comments_url": "https://api.github.com/repos/goreleaser/goreleaser-action/pulls/537/comments",
+            "state": "open",
+            "statuses_url": "https://api.github.com/repos/goreleaser/goreleaser-action/statuses/79413d2ec34b0f62c12f1e80f828a822de466067",
+            "title": "chore(deps): bump @actions/http-client from 3.0.2 to 4.0.0 in the npm group",
+            "updated_at": "2026-02-02T11:08:14Z",
+            "url": "https://api.github.com/repos/goreleaser/goreleaser-action/pulls/537",
+            "user": {
+              "avatar_url": "https://avatars.githubusercontent.com/in/29110?v=4",
+              "events_url": "https://api.github.com/users/dependabot%5Bbot%5D/events{/privacy}",
+              "followers_url": "https://api.github.com/users/dependabot%5Bbot%5D/followers",
+              "following_url": "https://api.github.com/users/dependabot%5Bbot%5D/following{/other_user}",
+              "gists_url": "https://api.github.com/users/dependabot%5Bbot%5D/gists{/gist_id}",
+              "gravatar_id": "",
+              "html_url": "https://github.com/apps/dependabot",
+              "id": 49699333,
+              "login": "dependabot[bot]",
+              "node_id": "MDM6Qm90NDk2OTkzMzM=",
+              "organizations_url": "https://api.github.com/users/dependabot%5Bbot%5D/orgs",
+              "received_events_url": "https://api.github.com/users/dependabot%5Bbot%5D/received_events",
+              "repos_url": "https://api.github.com/users/dependabot%5Bbot%5D/repos",
+              "site_admin": false,
+              "starred_url": "https://api.github.com/users/dependabot%5Bbot%5D/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/dependabot%5Bbot%5D/subscriptions",
+              "type": "Bot",
+              "url": "https://api.github.com/users/dependabot%5Bbot%5D",
+              "user_view_type": "public"
+            }
+          },
+          "repository": {
+            "allow_forking": true,
+            "archive_url": "https://api.github.com/repos/goreleaser/goreleaser-action/{archive_format}{/ref}",
+            "archived": false,
+            "assignees_url": "https://api.github.com/repos/goreleaser/goreleaser-action/assignees{/user}",
+            "blobs_url": "https://api.github.com/repos/goreleaser/goreleaser-action/git/blobs{/sha}",
+            "branches_url": "https://api.github.com/repos/goreleaser/goreleaser-action/branches{/branch}",
+            "clone_url": "https://github.com/goreleaser/goreleaser-action.git",
+            "collaborators_url": "https://api.github.com/repos/goreleaser/goreleaser-action/collaborators{/collaborator}",
+            "comments_url": "https://api.github.com/repos/goreleaser/goreleaser-action/comments{/number}",
+            "commits_url": "https://api.github.com/repos/goreleaser/goreleaser-action/commits{/sha}",
+            "compare_url": "https://api.github.com/repos/goreleaser/goreleaser-action/compare/{base}...{head}",
+            "contents_url": "https://api.github.com/repos/goreleaser/goreleaser-action/contents/{+path}",
+            "contributors_url": "https://api.github.com/repos/goreleaser/goreleaser-action/contributors",
+            "created_at": "2019-09-20T20:10:48Z",
+            "custom_properties": {},
+            "default_branch": "master",
+            "deployments_url": "https://api.github.com/repos/goreleaser/goreleaser-action/deployments",
+            "description": "GitHub Action for GoReleaser",
+            "disabled": false,
+            "downloads_url": "https://api.github.com/repos/goreleaser/goreleaser-action/downloads",
+            "events_url": "https://api.github.com/repos/goreleaser/goreleaser-action/events",
+            "fork": false,
+            "forks": 89,
+            "forks_count": 89,
+            "forks_url": "https://api.github.com/repos/goreleaser/goreleaser-action/forks",
+            "full_name": "goreleaser/goreleaser-action",
+            "git_commits_url": "https://api.github.com/repos/goreleaser/goreleaser-action/git/commits{/sha}",
+            "git_refs_url": "https://api.github.com/repos/goreleaser/goreleaser-action/git/refs{/sha}",
+            "git_tags_url": "https://api.github.com/repos/goreleaser/goreleaser-action/git/tags{/sha}",
+            "git_url": "git://github.com/goreleaser/goreleaser-action.git",
+            "has_discussions": false,
+            "has_downloads": true,
+            "has_issues": true,
+            "has_pages": false,
+            "has_projects": false,
+            "has_wiki": false,
+            "homepage": "https://github.com/marketplace/actions/goreleaser-action",
+            "hooks_url": "https://api.github.com/repos/goreleaser/goreleaser-action/hooks",
+            "html_url": "https://github.com/goreleaser/goreleaser-action",
+            "id": 209873006,
+            "is_template": false,
+            "issue_comment_url": "https://api.github.com/repos/goreleaser/goreleaser-action/issues/comments{/number}",
+            "issue_events_url": "https://api.github.com/repos/goreleaser/goreleaser-action/issues/events{/number}",
+            "issues_url": "https://api.github.com/repos/goreleaser/goreleaser-action/issues{/number}",
+            "keys_url": "https://api.github.com/repos/goreleaser/goreleaser-action/keys{/key_id}",
+            "labels_url": "https://api.github.com/repos/goreleaser/goreleaser-action/labels{/name}",
+            "language": "TypeScript",
+            "languages_url": "https://api.github.com/repos/goreleaser/goreleaser-action/languages",
+            "license": {
+              "key": "mit",
+              "name": "MIT License",
+              "node_id": "MDc6TGljZW5zZTEz",
+              "spdx_id": "MIT",
+              "url": "https://api.github.com/licenses/mit"
+            },
+            "merges_url": "https://api.github.com/repos/goreleaser/goreleaser-action/merges",
+            "milestones_url": "https://api.github.com/repos/goreleaser/goreleaser-action/milestones{/number}",
+            "mirror_url": null,
+            "name": "goreleaser-action",
+            "node_id": "MDEwOlJlcG9zaXRvcnkyMDk4NzMwMDY=",
+            "notifications_url": "https://api.github.com/repos/goreleaser/goreleaser-action/notifications{?since,all,participating}",
+            "open_issues": 8,
+            "open_issues_count": 8,
+            "owner": {
+              "avatar_url": "https://avatars.githubusercontent.com/u/24697112?v=4",
+              "events_url": "https://api.github.com/users/goreleaser/events{/privacy}",
+              "followers_url": "https://api.github.com/users/goreleaser/followers",
+              "following_url": "https://api.github.com/users/goreleaser/following{/other_user}",
+              "gists_url": "https://api.github.com/users/goreleaser/gists{/gist_id}",
+              "gravatar_id": "",
+              "html_url": "https://github.com/goreleaser",
+              "id": 24697112,
+              "login": "goreleaser",
+              "node_id": "MDEyOk9yZ2FuaXphdGlvbjI0Njk3MTEy",
+              "organizations_url": "https://api.github.com/users/goreleaser/orgs",
+              "received_events_url": "https://api.github.com/users/goreleaser/received_events",
+              "repos_url": "https://api.github.com/users/goreleaser/repos",
+              "site_admin": false,
+              "starred_url": "https://api.github.com/users/goreleaser/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/goreleaser/subscriptions",
+              "type": "Organization",
+              "url": "https://api.github.com/users/goreleaser",
+              "user_view_type": "public"
+            },
+            "private": false,
+            "pulls_url": "https://api.github.com/repos/goreleaser/goreleaser-action/pulls{/number}",
+            "pushed_at": "2026-02-02T11:08:12Z",
+            "releases_url": "https://api.github.com/repos/goreleaser/goreleaser-action/releases{/id}",
+            "size": 8974,
+            "ssh_url": "git@github.com:goreleaser/goreleaser-action.git",
+            "stargazers_count": 974,
+            "stargazers_url": "https://api.github.com/repos/goreleaser/goreleaser-action/stargazers",
+            "statuses_url": "https://api.github.com/repos/goreleaser/goreleaser-action/statuses/{sha}",
+            "subscribers_url": "https://api.github.com/repos/goreleaser/goreleaser-action/subscribers",
+            "subscription_url": "https://api.github.com/repos/goreleaser/goreleaser-action/subscription",
+            "svn_url": "https://github.com/goreleaser/goreleaser-action",
+            "tags_url": "https://api.github.com/repos/goreleaser/goreleaser-action/tags",
+            "teams_url": "https://api.github.com/repos/goreleaser/goreleaser-action/teams",
+            "topics": [
+              "actions",
+              "github-actions",
+              "golang",
+              "goreleaser",
+              "hacktoberfest"
+            ],
+            "trees_url": "https://api.github.com/repos/goreleaser/goreleaser-action/git/trees{/sha}",
+            "updated_at": "2026-02-02T08:03:04Z",
+            "url": "https://api.github.com/repos/goreleaser/goreleaser-action",
+            "visibility": "public",
+            "watchers": 974,
+            "watchers_count": 974,
+            "web_commit_signoff_required": false
+          },
+          "sender": {
+            "avatar_url": "https://avatars.githubusercontent.com/in/29110?v=4",
+            "events_url": "https://api.github.com/users/dependabot%5Bbot%5D/events{/privacy}",
+            "followers_url": "https://api.github.com/users/dependabot%5Bbot%5D/followers",
+            "following_url": "https://api.github.com/users/dependabot%5Bbot%5D/following{/other_user}",
+            "gists_url": "https://api.github.com/users/dependabot%5Bbot%5D/gists{/gist_id}",
+            "gravatar_id": "",
+            "html_url": "https://github.com/apps/dependabot",
+            "id": 49699333,
+            "login": "dependabot[bot]",
+            "node_id": "MDM6Qm90NDk2OTkzMzM=",
+            "organizations_url": "https://api.github.com/users/dependabot%5Bbot%5D/orgs",
+            "received_events_url": "https://api.github.com/users/dependabot%5Bbot%5D/received_events",
+            "repos_url": "https://api.github.com/users/dependabot%5Bbot%5D/repos",
+            "site_admin": false,
+            "starred_url": "https://api.github.com/users/dependabot%5Bbot%5D/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/dependabot%5Bbot%5D/subscriptions",
+            "type": "Bot",
+            "url": "https://api.github.com/users/dependabot%5Bbot%5D",
+            "user_view_type": "public"
+          }
+        },
+        "github_job": "build",
+        "github_ref": "refs/pull/537/merge",
+        "github_ref_name": "537/merge",
+        "github_ref_protected": "false",
+        "github_ref_type": "branch",
+        "github_repository": "goreleaser/goreleaser-action",
+        "github_repository_id": "209873006",
+        "github_repository_owner": "goreleaser",
+        "github_repository_owner_id": "24697112",
+        "github_run_attempt": "1",
+        "github_run_id": "21587684049",
+        "github_run_number": "5",
+        "github_runner_arch": "X64",
+        "github_runner_environment": "github-hosted",
+        "github_runner_image_os": "ubuntu24",
+        "github_runner_image_version": "20260126.10.1",
+        "github_runner_name": "GitHub Actions 1000080113",
+        "github_runner_os": "Linux",
+        "github_runner_tracking_id": "github_abb1ca15-0567-44e1-a877-9a486c5a58e0",
+        "github_server_url": "https://github.com",
+        "github_triggering_actor": "dependabot[bot]",
+        "github_workflow": "dependabot-build",
+        "github_workflow_ref": "goreleaser/goreleaser-action/.github/workflows/dependabot-build.yml@refs/pull/537/merge",
+        "github_workflow_sha": "41ea21bdd9c9d2c6884c14c33e2101566fc4f1fc",
+        "platform": "linux/amd64"
+      }
+    },
+    "buildConfig": {
+      "llbDefinition": [
+        {
+          "id": "step0",
+          "op": {
+            "Op": {
+              "source": {
+                "identifier": "docker-image://docker.io/library/node:24-alpine@sha256:cd6fb7efa6490f039f3471a189214d5f548c11df1ff9e5b181aa49e22c14383e"
+              }
+            },
+            "platform": {
+              "Architecture": "amd64",
+              "OS": "linux"
+            },
+            "constraints": {}
+          }
+        },
+        {
+          "id": "step1",
+          "op": {
+            "Op": {
+              "exec": {
+                "meta": {
+                  "args": [
+                    "/bin/sh",
+                    "-c",
+                    "apk add --no-cache cpio findutils git"
+                  ],
+                  "env": [
+                    "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                    "NODE_VERSION=24.13.0",
+                    "YARN_VERSION=1.22.22"
+                  ],
+                  "cwd": "/",
+                  "removeMountStubsRecursive": true
+                },
+                "mounts": [
+                  {
+                    "dest": "/"
+                  }
+                ]
+              }
+            },
+            "platform": {
+              "Architecture": "amd64",
+              "OS": "linux"
+            },
+            "constraints": {}
+          },
+          "inputs": [
+            "step0:0"
+          ]
+        },
+        {
+          "id": "step2",
+          "op": {
+            "Op": {
+              "file": {
+                "actions": [
+                  {
+                    "input": 0,
+                    "secondaryInput": -1,
+                    "output": 0,
+                    "Action": {
+                      "mkdir": {
+                        "path": "/src",
+                        "mode": 493,
+                        "makeParents": true,
+                        "timestamp": -1
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "constraints": {}
+          },
+          "inputs": [
+            "step1:0"
+          ]
+        },
+        {
+          "id": "step3",
+          "op": {
+            "Op": {
+              "source": {
+                "identifier": "git://github.com/goreleaser/goreleaser-action.git#refs/pull/537/merge",
+                "attrs": {
+                  "git.authheadersecret": "GIT_AUTH_HEADER",
+                  "git.authtokensecret": "GIT_AUTH_TOKEN",
+                  "git.fullurl": "https://github.com/goreleaser/goreleaser-action.git"
+                }
+              }
+            },
+            "constraints": {}
+          }
+        },
+        {
+          "id": "step4",
+          "op": {
+            "Op": {
+              "exec": {
+                "meta": {
+                  "args": [
+                    "/bin/sh",
+                    "-c",
+                    "npm install \u0026\u0026 mkdir /vendor \u0026\u0026 cp package-lock.json /vendor"
+                  ],
+                  "env": [
+                    "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                    "NODE_VERSION=24.13.0",
+                    "YARN_VERSION=1.22.22"
+                  ],
+                  "cwd": "/src",
+                  "removeMountStubsRecursive": true
+                },
+                "mounts": [
+                  {
+                    "dest": "/"
+                  },
+                  {
+                    "input": 1,
+                    "dest": "/src",
+                    "output": -1
+                  },
+                  {
+                    "input": -1,
+                    "dest": "/src/node_modules",
+                    "output": -1,
+                    "mountType": 3,
+                    "cacheOpt": {
+                      "ID": "//src/node_modules"
+                    }
+                  }
+                ]
+              }
+            },
+            "platform": {
+              "Architecture": "amd64",
+              "OS": "linux"
+            },
+            "constraints": {}
+          },
+          "inputs": [
+            "step2:0",
+            "step3:0"
+          ]
+        },
+        {
+          "id": "step5",
+          "op": {
+            "Op": {
+              "exec": {
+                "meta": {
+                  "args": [
+                    "/bin/sh",
+                    "-c",
+                    "npm run build \u0026\u0026 mkdir /out \u0026\u0026 cp -Rf dist /out/"
+                  ],
+                  "env": [
+                    "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                    "NODE_VERSION=24.13.0",
+                    "YARN_VERSION=1.22.22"
+                  ],
+                  "cwd": "/src",
+                  "removeMountStubsRecursive": true
+                },
+                "mounts": [
+                  {
+                    "dest": "/"
+                  },
+                  {
+                    "input": 1,
+                    "dest": "/src",
+                    "output": -1
+                  },
+                  {
+                    "input": -1,
+                    "dest": "/src/node_modules",
+                    "output": -1,
+                    "mountType": 3,
+                    "cacheOpt": {
+                      "ID": "//src/node_modules"
+                    }
+                  }
+                ]
+              }
+            },
+            "platform": {
+              "Architecture": "amd64",
+              "OS": "linux"
+            },
+            "constraints": {}
+          },
+          "inputs": [
+            "step4:0",
+            "step3:0"
+          ]
+        },
+        {
+          "id": "step6",
+          "op": {
+            "Op": {
+              "file": {
+                "actions": [
+                  {
+                    "input": -1,
+                    "secondaryInput": 0,
+                    "output": 0,
+                    "Action": {
+                      "copy": {
+                        "src": "/out",
+                        "dest": "/",
+                        "mode": -1,
+                        "followSymlink": true,
+                        "dirCopyContents": true,
+                        "createDestPath": true,
+                        "allowWildcard": true,
+                        "allowEmptyWildcard": true,
+                        "timestamp": -1
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "constraints": {}
+          },
+          "inputs": [
+            "step5:0"
+          ]
+        },
+        {
+          "id": "step7",
+          "op": {
+            "Op": {}
+          },
+          "inputs": [
+            "step6:0"
+          ]
+        }
+      ],
+      "digestMapping": {
+        "sha256:1802257f7b2d5c964a4975b0e2b9ccf213544e8ade7e76e0cd9481a8599adf04": "step3",
+        "sha256:518cc5cf0de3dd5565bd02f04c060351989eff4170865958c195b5a7834de8fb": "step6",
+        "sha256:680a5a2b77fcf52d93b41cf9324a9b7d4dc868f12c6469b6c82dc4f4d14a06b9": "step0",
+        "sha256:7330fedf24106bc4aee96ace12b16e47e713926cd63b23ae7e006384f8575761": "step5",
+        "sha256:8ae2b12b5ddee984c1689b7fb7f45cf90bc873e50b166249972ff874c7421881": "step1",
+        "sha256:981a9976269c150d2d5492f9ae8c19375bb7694287a11860344f5737a0015d6f": "step4",
+        "sha256:b48ced7a1e3ba8382eee690382139b13296760cc284ca34cbe07a5972d87a81e": "step7",
+        "sha256:dbdc83164a734a38b7951da74551de14f4541f1bf98e651accec0c864190bcbd": "step2"
+      }
+    },
+    "metadata": {
+      "buildInvocationID": "k1yjaitkxrbmxkfxl121ihbgr",
+      "buildStartedOn": "2026-02-02T11:09:00.501978743Z",
+      "buildFinishedOn": "2026-02-02T11:09:08.497946512Z",
+      "completeness": {
+        "parameters": true,
+        "environment": true,
+        "materials": true
+      },
+      "reproducible": false,
+      "https://mobyproject.org/buildkit@v1#metadata": {
+        "source": {
+          "locations": {
+            "step0": {
+              "locations": [
+                {
+                  "ranges": [
+                    {
+                      "start": {
+                        "line": 5
+                      },
+                      "end": {
+                        "line": 5
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "step1": {
+              "locations": [
+                {
+                  "ranges": [
+                    {
+                      "start": {
+                        "line": 6
+                      },
+                      "end": {
+                        "line": 6
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "step2": {
+              "locations": [
+                {
+                  "ranges": [
+                    {
+                      "start": {
+                        "line": 7
+                      },
+                      "end": {
+                        "line": 7
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "step3": {},
+            "step4": {
+              "locations": [
+                {
+                  "ranges": [
+                    {
+                      "start": {
+                        "line": 10
+                      },
+                      "end": {
+                        "line": 10
+                      }
+                    },
+                    {
+                      "start": {
+                        "line": 11
+                      },
+                      "end": {
+                        "line": 11
+                      }
+                    },
+                    {
+                      "start": {
+                        "line": 12
+                      },
+                      "end": {
+                        "line": 12
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "step5": {
+              "locations": [
+                {
+                  "ranges": [
+                    {
+                      "start": {
+                        "line": 30
+                      },
+                      "end": {
+                        "line": 30
+                      }
+                    },
+                    {
+                      "start": {
+                        "line": 31
+                      },
+                      "end": {
+                        "line": 31
+                      }
+                    },
+                    {
+                      "start": {
+                        "line": 32
+                      },
+                      "end": {
+                        "line": 32
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "step6": {
+              "locations": [
+                {
+                  "ranges": [
+                    {
+                      "start": {
+                        "line": 35
+                      },
+                      "end": {
+                        "line": 35
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "infos": [
+            {
+              "filename": "dev.Dockerfile",
+              "language": "Dockerfile",
+              "data": "IyBzeW50YXg9ZG9ja2VyL2RvY2tlcmZpbGU6MQoKQVJHIE5PREVfVkVSU0lPTj0yNAoKRlJPTSBub2RlOiR7Tk9ERV9WRVJTSU9OfS1hbHBpbmUgQVMgYmFzZQpSVU4gYXBrIGFkZCAtLW5vLWNhY2hlIGNwaW8gZmluZHV0aWxzIGdpdApXT1JLRElSIC9zcmMKCkZST00gYmFzZSBBUyBkZXBzClJVTiAtLW1vdW50PXR5cGU9YmluZCx0YXJnZXQ9LixydyBcCiAgLS1tb3VudD10eXBlPWNhY2hlLHRhcmdldD0vc3JjL25vZGVfbW9kdWxlcyBcCiAgbnBtIGluc3RhbGwgJiYgbWtkaXIgL3ZlbmRvciAmJiBjcCBwYWNrYWdlLWxvY2suanNvbiAvdmVuZG9yCgpGUk9NIHNjcmF0Y2ggQVMgdmVuZG9yLXVwZGF0ZQpDT1BZIC0tZnJvbT1kZXBzIC92ZW5kb3IgLwoKRlJPTSBkZXBzIEFTIHZlbmRvci12YWxpZGF0ZQpSVU4gLS1tb3VudD10eXBlPWJpbmQsdGFyZ2V0PS4scncgPDxFT1QKICBzZXQgLWUKICBnaXQgYWRkIC1BCiAgY3AgLXJmIC92ZW5kb3IvKiAuCiAgaWYgWyAtbiAiJChnaXQgc3RhdHVzIC0tcG9yY2VsYWluIC0tIHBhY2thZ2UtbG9jay5qc29uKSIgXTsgdGhlbgogICAgZWNobyA+JjIgJ0VSUk9SOiBWZW5kb3IgcmVzdWx0IGRpZmZlcnMuIFBsZWFzZSB2ZW5kb3IgeW91ciBwYWNrYWdlIHdpdGggImRvY2tlciBidWlsZHggYmFrZSB2ZW5kb3IiJwogICAgZ2l0IHN0YXR1cyAtLXBvcmNlbGFpbiAtLSBwYWNrYWdlLWxvY2suanNvbgogICAgZXhpdCAxCiAgZmkKRU9UCgpGUk9NIGRlcHMgQVMgYnVpbGQKUlVOIC0tbW91bnQ9dHlwZT1iaW5kLHRhcmdldD0uLHJ3IFwKICAtLW1vdW50PXR5cGU9Y2FjaGUsdGFyZ2V0PS9zcmMvbm9kZV9tb2R1bGVzIFwKICBucG0gcnVuIGJ1aWxkICYmIG1rZGlyIC9vdXQgJiYgY3AgLVJmIGRpc3QgL291dC8KCkZST00gc2NyYXRjaCBBUyBidWlsZC11cGRhdGUKQ09QWSAtLWZyb209YnVpbGQgL291dCAvCgpGUk9NIGJ1aWxkIEFTIGJ1aWxkLXZhbGlkYXRlClJVTiAtLW1vdW50PXR5cGU9YmluZCx0YXJnZXQ9LixydyA8PEVPVAogIHNldCAtZQogIGdpdCBhZGQgLUEKICBjcCAtcmYgL291dC8qIC4KICBpZiBbIC1uICIkKGdpdCBzdGF0dXMgLS1wb3JjZWxhaW4gLS0gZGlzdCkiIF07IHRoZW4KICAgIGVjaG8gPiYyICdFUlJPUjogQnVpbGQgcmVzdWx0IGRpZmZlcnMuIFBsZWFzZSBidWlsZCBmaXJzdCB3aXRoICJkb2NrZXIgYnVpbGR4IGJha2UgYnVpbGQiJwogICAgZ2l0IHN0YXR1cyAtLXBvcmNlbGFpbiAtLSBkaXN0CiAgICBleGl0IDEKICBmaQpFT1QKCkZST00gZGVwcyBBUyBmb3JtYXQKUlVOIC0tbW91bnQ9dHlwZT1iaW5kLHRhcmdldD0uLHJ3IFwKICAtLW1vdW50PXR5cGU9Y2FjaGUsdGFyZ2V0PS9zcmMvbm9kZV9tb2R1bGVzIFwKICBucG0gcnVuIGZvcm1hdCBcCiAgJiYgbWtkaXIgL291dCAmJiBmaW5kIC4gLW5hbWUgJyoudHMnIC1ub3QgLXBhdGggJy4vbm9kZV9tb2R1bGVzLyonIHwgY3BpbyAtcGRtIC9vdXQKCkZST00gc2NyYXRjaCBBUyBmb3JtYXQtdXBkYXRlCkNPUFkgLS1mcm9tPWZvcm1hdCAvb3V0IC8KCkZST00gZGVwcyBBUyBsaW50ClJVTiAtLW1vdW50PXR5cGU9YmluZCx0YXJnZXQ9LixydyBcCiAgLS1tb3VudD10eXBlPWNhY2hlLHRhcmdldD0vc3JjL25vZGVfbW9kdWxlcyBcCiAgbnBtIHJ1biBsaW50CgpGUk9NIGRlcHMgQVMgdGVzdApFTlYgUlVOTkVSX1RFTVA9L3RtcC9naXRodWJfcnVubmVyCkVOViBSVU5ORVJfVE9PTF9DQUNIRT0vdG1wL2dpdGh1Yl90b29sX2NhY2hlClJVTiAtLW1vdW50PXR5cGU9YmluZCx0YXJnZXQ9LixydyBcCiAgLS1tb3VudD10eXBlPWNhY2hlLHRhcmdldD0vc3JjL25vZGVfbW9kdWxlcyBcCiAgbnBtIHJ1biB0ZXN0IC0tIC0tY292ZXJhZ2UgLS1jb3ZlcmFnZURpcmVjdG9yeT0vdG1wL2NvdmVyYWdlCgpGUk9NIHNjcmF0Y2ggQVMgdGVzdC1jb3ZlcmFnZQpDT1BZIC0tZnJvbT10ZXN0IC90bXAvY292ZXJhZ2UgLwo=",
+              "llbDefinition": [
+                {
+                  "id": "step0",
+                  "op": {
+                    "Op": {
+                      "source": {
+                        "identifier": "git://github.com/goreleaser/goreleaser-action.git#refs/pull/537/merge",
+                        "attrs": {
+                          "git.authheadersecret": "GIT_AUTH_HEADER",
+                          "git.authtokensecret": "GIT_AUTH_TOKEN",
+                          "git.fullurl": "https://github.com/goreleaser/goreleaser-action.git"
+                        }
+                      }
+                    },
+                    "constraints": {}
+                  }
+                },
+                {
+                  "id": "step1",
+                  "op": {
+                    "Op": {}
+                  },
+                  "inputs": [
+                    "step0:0"
+                  ]
+                }
+              ],
+              "digestMapping": {
+                "sha256:1802257f7b2d5c964a4975b0e2b9ccf213544e8ade7e76e0cd9481a8599adf04": "step0",
+                "sha256:47cae007134c1536bbd66e3b1bcd7e1ec8930ea6a6e4aa5b5a59d50be3d6c185": "step1"
+              }
+            }
+          ]
+        },
+        "layers": {
+          "step0:0": [
+            [
+              {
+                "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+                "digest": "sha256:589002ba0eaed121a1dbf42f6648f29e5be55d5c8a6ee0f8eaa0285cc21ac153",
+                "size": 3861821
+              },
+              {
+                "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+                "digest": "sha256:4ef00bbbc75186b55c2be094a1c5ac03cbfac8897f1f2ed86107bf908a95fda9",
+                "size": 50975099
+              },
+              {
+                "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+                "digest": "sha256:14b92b0c10a5cc759604614d048be3aad4c013e9b574a6bff7f6fa78ac4e5860",
+                "size": 1262115
+              },
+              {
+                "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+                "digest": "sha256:8d660e9b10b3e184cb399d48eb01ecf741674c77553a9a4c3490696169041c5d",
+                "size": 446
+              }
+            ]
+          ]
+        }
+      }
+    }
+  }
+}
