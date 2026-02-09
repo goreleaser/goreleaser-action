@@ -29,7 +29,7 @@ async function run(): Promise<void> {
     }
 
     let yamlfile: string | unknown;
-    const argv: Arguments<{config?: string}> = yargs(inputs.args.split(' ')).parseSync() as Arguments<{
+    const argv: Arguments<{config?: string}> = yargs(inputs.args).parseSync() as Arguments<{
       config?: string;
     }>;
     if (argv.config) {
