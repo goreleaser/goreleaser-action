@@ -14,19 +14,21 @@ ___
 
 ![GoRelease Action](.github/goreleaser-action.png)
 
-* [Usage](#usage)
-  * [Workflow](#workflow)
-  * [Run on new tag](#run-on-new-tag)
-  * [Signing](#signing)
-  * [Upload artifacts](#upload-artifacts)
-  * [Install Only](#install-only)
-* [Customizing](#customizing)
-  * [inputs](#inputs)
-  * [outputs](#outputs)
-  * [environment variables](#environment-variables)
-* [Limitation](#limitation)
-* [Development](#development)
-* [License](#license)
+- [Usage](#usage)
+  - [Workflow](#workflow)
+  - [Run on new tag](#run-on-new-tag)
+  - [Signing](#signing)
+  - [Upload artifacts](#upload-artifacts)
+  - [Install Only](#install-only)
+- [Customizing](#customizing)
+  - [inputs](#inputs)
+    - [`version-file`](#version-file)
+  - [outputs](#outputs)
+  - [environment variables](#environment-variables)
+- [Limitation](#limitation)
+- [Migrating from v3](#migrating-from-v3)
+- [Development](#development)
+- [License](#license)
 
 ## Usage
 
@@ -183,11 +185,32 @@ Following inputs can be used as `step.with` keys
 |------------------|---------|--------------|------------------------------------------------------------------|
 | `distribution`   | String  | `goreleaser` | GoReleaser distribution, either `goreleaser` or `goreleaser-pro` |
 | `version`**¹**   | String  | `~> v2`      | GoReleaser version                                               |
+| `version-file`   | String  |              | Gets the version of GoReleaser to use from a file.              |
 | `args`           | String  |              | Arguments to pass to GoReleaser                                  |
 | `workdir`        | String  | `.`          | Working directory (below repository root)                        |
 | `install-only`   | Bool    | `false`      | Just install GoReleaser                                          |
 
 > **¹** Can be a fixed version like `v0.117.0` or a max satisfying semver one like `~> 0.132`. In this case this will return `v0.132.1`.
+
+#### `version-file`
+
+Gets the version of GoReleaser to use from a file.
+
+The path must be relative to the root of the project, or the `workdir` if defined.
+
+This parameter supports `.tool-versions` files.
+
+<details>
+<summary>Example</summary>
+
+```yml
+uses: goreleaser/goreleaser-action@v7
+with:
+  version-file: .tool-versions
+  # ...
+```
+
+</details>
 
 ### outputs
 

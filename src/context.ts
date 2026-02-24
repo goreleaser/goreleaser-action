@@ -7,6 +7,7 @@ export const osArch: string = os.arch();
 export interface Inputs {
   distribution: string;
   version: string;
+  versionFile: string;
   args: string;
   workdir: string;
   installOnly: boolean;
@@ -15,7 +16,8 @@ export interface Inputs {
 export async function getInputs(): Promise<Inputs> {
   return {
     distribution: core.getInput('distribution') || 'goreleaser',
-    version: core.getInput('version') || '~> v2',
+    version: core.getInput('version'),
+    versionFile: core.getInput('version-file'),
     args: core.getInput('args'),
     workdir: core.getInput('workdir') || '.',
     installOnly: core.getBooleanInput('install-only')

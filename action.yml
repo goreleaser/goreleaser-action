@@ -13,7 +13,13 @@ inputs:
     required: false
   version:
     description: 'GoReleaser version'
-    default: '~> v2'
+    required: false
+  version-file:
+    description: |
+      Gets the version of GoReleaser to use from a file.
+      The path must be relative to the root of the project, or the `workdir` if defined.
+      This parameter supports `.tool-versions` files.
+      Only works with `install-mode: binary` (the default).
     required: false
   args:
     description: 'Arguments to pass to GoReleaser'
