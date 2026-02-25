@@ -1,8 +1,7 @@
-import {describe, expect, it, beforeEach, afterEach, jest} from '@jest/globals';
+import {describe, expect, it, beforeEach, afterEach} from '@jest/globals';
 import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
-import * as core from '@actions/core';
 import {getRequestedVersion} from '../src/version';
 import {Inputs} from '../src/context';
 
