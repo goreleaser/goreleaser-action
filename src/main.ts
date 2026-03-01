@@ -6,12 +6,14 @@ import * as context from './context';
 import * as goreleaser from './goreleaser';
 import * as core from '@actions/core';
 import * as exec from '@actions/exec';
+import {getRequestedVersion} from './version';
 
 async function run(): Promise<void> {
   try {
     const inputs: context.Inputs = await context.getInputs();
-    const bin = await goreleaser.install(inputs.distribution, inputs.version);
-    core.info(`GoReleaser ${inputs.version} installed successfully`);
+    const version = getRequestedVersion(inputs);
+    const bin = await goreleaser.install(inputs.distribution, version);
+    core.info(`GoReleaser ${version} installed successfully`);
 
     if (inputs.installOnly) {
       const goreleaserDir = path.dirname(bin);
