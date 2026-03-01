@@ -34,33 +34,7 @@ describe('getRequestedVersion', () => {
     expect(v).toBe('v1.2.3');
   });
 
-  it('warns when both version and version-file are provided and returns version', () => {
-    const inputs: Inputs = {
-      distribution: 'goreleaser',
-      version: 'v9.9.9',
-      versionFile: '.tool-versions',
-      args: '',
-      workdir: '',
-      installOnly: false
-    };
-
-    const v = getRequestedVersion(inputs);
-    expect(v).toBe('v9.9.9');
-  });
-
-  it('throws when version is empty and version-file does not exist', () => {
-    const inputs: Inputs = {
-      distribution: 'goreleaser',
-      version: '',
-      versionFile: 'nonexistent-file',
-      args: '',
-      workdir: '',
-      installOnly: false
-    };
-
-    expect(() => getRequestedVersion(inputs)).toThrow();
-  });
-
+  
   it('parses .tool-versions and returns v-prefixed version', () => {
     const toolVersionsPath = path.join(tmpDir, '.tool-versions');
     fs.writeFileSync(toolVersionsPath, 'goreleaser 1.2.3\n');
@@ -78,17 +52,50 @@ describe('getRequestedVersion', () => {
     expect(v).toBe('v1.2.3');
   });
 
-  it('defaults to ~> v2 when nothing provided', () => {
+  it('when both version and version-file are provided, version-file takes precedence', () => {
+    const toolVersionsPath = path.join(tmpDir, '.tool-versions');
+    fs.writeFileSync(toolVersionsPath, 'goreleaser 1.2.3\n');
+
+    const inputs: Inputs = {
+      distribution: 'goreleaser',
+      version: 'v9.9.9',
+      versionFile: '.tool-versions',
+      args: '',
+      workdir: tmpDir,
+      installOnly: false
+    };
+
+    const v = getRequestedVersion(inputs);
+    expect(v).toBe('v1.2.3');
+  });
+
+  it('throws when version-file does not exist', () => {
     const inputs: Inputs = {
       distribution: 'goreleaser',
       version: '',
-      versionFile: '',
+      versionFile: 'nonexistent-file',
       args: '',
       workdir: '',
       installOnly: false
     };
 
-    const v = getRequestedVersion(inputs);
-    expect(v).toBe('~> v2');
+    expect(() => getRequestedVersion(inputs)).toThrow();
   });
+
+  it('throws when version-file is an unsupported type', () => {
+    const toolVersionsPath = path.join(tmpDir, 'unsupported-file');
+    fs.writeFileSync(toolVersionsPath, 'goreleaser 1.2.3\n');
+
+    const inputs: Inputs = {
+      distribution: 'goreleaser',
+      version: '',
+      versionFile: 'unsupported-file',
+      args: '',
+      workdir: tmpDir,
+      installOnly: false
+    };
+
+    expect(() => getRequestedVersion(inputs)).toThrow();
+  });
+
 });

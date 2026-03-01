@@ -198,7 +198,7 @@ Gets the version of GoReleaser to use from a file.
 
 The path must be relative to the root of the project, or the `workdir` if defined.
 
-This parameter supports `.tool-versions` files.
+This parameter only supports `.tool-versions` files for now.
 
 <details>
 <summary>Example</summary>

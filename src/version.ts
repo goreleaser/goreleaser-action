@@ -7,13 +7,8 @@ export function getRequestedVersion(inputs: Inputs): string {
   let requestedVersion = inputs.version;
   let versionFilePath = inputs.versionFile;
 
-  if (requestedVersion && versionFilePath) {
-    core.warning(
-      `Both version (${requestedVersion}) and version-file (${versionFilePath}) inputs are specified, only version will be used`
-    );
-  }
-
-  if (requestedVersion == '' && versionFilePath) {
+  // If versionFile is provided, it takes precedence over version input.
+  if (versionFilePath) {
     const workingDirectory = inputs.workdir;
     if (workingDirectory) {
       versionFilePath = path.join(workingDirectory, versionFilePath);
@@ -29,12 +24,9 @@ export function getRequestedVersion(inputs: Inputs): string {
       // asdf/mise file.
       const match = content.match(/^goreleaser\s+([^\n#]+)/m);
       requestedVersion = match ? 'v' + match[1].trim().replace(/^v/gi, '') : '';
+    } else {
+      throw new Error(`Unsupported version file: ${versionFilePath}. Only .tool-versions files are supported.`);
     }
-  }
-
-  if (!requestedVersion) {
-    // default to latest v2 release
-    requestedVersion = '~> v2';
   }
 
   return requestedVersion;
