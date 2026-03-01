@@ -1,4 +1,3 @@
-import * as core from '@actions/core';
 import * as fs from 'fs';
 import path from 'path';
 import {Inputs} from './context';

@@ -34,7 +34,6 @@ describe('getRequestedVersion', () => {
     expect(v).toBe('v1.2.3');
   });
 
-  
   it('parses .tool-versions and returns v-prefixed version', () => {
     const toolVersionsPath = path.join(tmpDir, '.tool-versions');
     fs.writeFileSync(toolVersionsPath, 'goreleaser 1.2.3\n');
@@ -97,5 +96,4 @@ describe('getRequestedVersion', () => {
 
     expect(() => getRequestedVersion(inputs)).toThrow();
   });
-
 });
