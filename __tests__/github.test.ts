@@ -22,7 +22,7 @@ describe('getRelease', () => {
 
   it('unknown GoReleaser release', async () => {
     await expect(github.getRelease('goreleaser', 'foo')).rejects.toThrow(
-      new Error('Cannot find GoReleaser release foo in https://goreleaser.com/static/releases.json')
+      new Error('Cannot find GoReleaser release foo in https://goreleaser.com/releases.json')
     );
   });
 
@@ -100,7 +100,7 @@ describe('getRelease', () => {
 
   it('unknown GoReleaser Pro release', async () => {
     await expect(github.getRelease('goreleaser-pro', 'foo')).rejects.toThrow(
-      new Error('Cannot find GoReleaser release foo in https://goreleaser.com/static/releases-pro.json')
+      new Error('Cannot find GoReleaser release foo in https://goreleaser.com/releases-pro.json')
     );
   });
 });

@@ -59,7 +59,7 @@ export const getReleaseTag = async (distribution: string, version: string): Prom
 
   const tag: string = (await resolveVersion(distribution, version)) || version;
   const suffix: string = goreleaser.distribSuffix(distribution);
-  const url = `https://goreleaser.com/static/releases${suffix}.json`;
+  const url = `https://goreleaser.com/releases${suffix}.json`;
 
   const releases = await withRetry(async () => {
     const http: httpm.HttpClient = new httpm.HttpClient('goreleaser-action');
@@ -108,7 +108,7 @@ interface GitHubTag {
 
 const getAllTags = async (distribution: string): Promise<Array<string>> => {
   const suffix: string = goreleaser.distribSuffix(distribution);
-  const url = `https://goreleaser.com/static/releases${suffix}.json`;
+  const url = `https://goreleaser.com/releases${suffix}.json`;
   core.debug(`Downloading ${url}`);
 
   return withRetry(async () => {
