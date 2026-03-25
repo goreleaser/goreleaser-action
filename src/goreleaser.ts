@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as util from 'util';
 import yaml from 'js-yaml';
+import os from 'os';
 import * as context from './context';
 import * as github from './github';
 import * as core from '@actions/core';
@@ -9,6 +10,13 @@ import * as tc from '@actions/tool-cache';
 
 export async function install(distribution: string, version: string): Promise<string> {
   const release: github.GitHubRelease = await github.getRelease(distribution, version);
+  // check cache
+  const toolDirPath = tc.find('goreleaser-action', release.tag_name.replace(/^v/, ''), os.arch());
+  // If not found in cache, download
+  if (toolDirPath) {
+    core.info(`Found in cache @ ${toolDirPath}`);
+    return path.join(toolDirPath, context.osPlat == 'win32' ? 'goreleaser.exe' : 'goreleaser');
+  }
   const filename = getFilename(distribution);
   const downloadUrl = util.format(
     'https://github.com/goreleaser/%s/releases/download/%s/%s',
