@@ -113,7 +113,7 @@ the [Import GPG](https://github.com/crazy-max/ghaction-import-gpg) GitHub Action
       -
         name: Import GPG key
         id: import_gpg
-        uses: crazy-max/ghaction-import-gpg@v6
+        uses: crazy-max/ghaction-import-gpg@v7
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
