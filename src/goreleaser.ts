@@ -1,11 +1,14 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import * as util from 'util';
-import yaml from 'js-yaml';
-import * as context from './context';
-import * as github from './github';
 import * as core from '@actions/core';
 import * as tc from '@actions/tool-cache';
+import * as crypto from 'crypto';
+import * as fs from 'fs';
+import yaml from 'js-yaml';
+import * as path from 'path';
+import * as semver from 'semver';
+import * as util from 'util';
+import { checksums } from './checksums';
+import * as context from './context';
+import * as github from './github';
 
 export async function install(distribution: string, version: string): Promise<string> {
   const release: github.GitHubRelease = await github.getRelease(distribution, version);
@@ -20,6 +23,22 @@ export async function install(distribution: string, version: string): Promise<st
   core.info(`Downloading ${downloadUrl}`);
   const downloadPath: string = await tc.downloadTool(downloadUrl);
   core.debug(`Downloaded to ${downloadPath}`);
+
+  const isExactVersion = !!semver.valid(version);
+  if (isExactVersion) {
+    core.info('Verifying checksum');
+    const versionChecksums = checksums[release.tag_name];
+    if (!versionChecksums) {
+      throw new Error(`Checksums for version ${release.tag_name} not found.`);
+    }
+    const expectedChecksum = versionChecksums[filename];
+    if (!expectedChecksum) {
+      throw new Error(`Checksum for ${filename} at version ${release.tag_name} not found.`);
+    }
+    await verifyChecksum(downloadPath, expectedChecksum);
+  } else {
+    core.info('Skipping checksum verification since a specific version was not requested');
+  }
 
   core.info('Extracting GoReleaser');
   let extPath: string;
@@ -39,7 +58,10 @@ export async function install(distribution: string, version: string): Promise<st
   const cachePath: string = await tc.cacheDir(extPath, 'goreleaser-action', release.tag_name.replace(/^v/, ''));
   core.debug(`Cached to ${cachePath}`);
 
-  const exePath: string = path.join(cachePath, context.osPlat == 'win32' ? 'goreleaser.exe' : 'goreleaser');
+  let exePath: string = path.join(cachePath, context.osPlat == 'win32' ? 'goreleaser.exe' : 'goreleaser');
+  if (!fs.existsSync(exePath)) {
+    exePath = path.join(cachePath, context.osPlat == 'win32' ? 'goreleaser-pro.exe' : 'goreleaser-pro');
+  }
   core.debug(`Exe path is ${exePath}`);
 
   return exePath;
@@ -85,8 +107,8 @@ const getFilename = (distribution: string): string => {
 };
 
 export async function getDistPath(yamlfile: string): Promise<string> {
-  const cfg = yaml.load(fs.readFileSync(yamlfile, 'utf8'));
-  return cfg.dist || 'dist';
+  const cfg = yaml.load(await fs.promises.readFile(yamlfile, 'utf8')) as { dist?: string };
+  return cfg?.dist || 'dist';
 }
 
 export async function getArtifacts(distpath: string): Promise<string | undefined> {
@@ -94,11 +116,28 @@ export async function getArtifacts(distpath: string): Promise<string | undefined
   if (!fs.existsSync(artifactsFile)) {
     return undefined;
   }
-  const content = fs.readFileSync(artifactsFile, {encoding: 'utf-8'}).trim();
+  const content = (await fs.promises.readFile(artifactsFile, {encoding: 'utf-8'})).trim();
   if (content === 'null') {
     return undefined;
   }
   return content;
+}
+
+export async function verifyChecksum(filePath: string, expectedChecksum: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const hash = crypto.createHash('sha256');
+    const stream = fs.createReadStream(filePath);
+    stream.on('data', data => hash.update(data));
+    stream.on('end', () => {
+      const actualChecksum = hash.digest('hex');
+      if (actualChecksum !== expectedChecksum) {
+        reject(new Error(`Checksum mismatch. Expected ${expectedChecksum}, got ${actualChecksum}`));
+      } else {
+        resolve();
+      }
+    });
+    stream.on('error', err => reject(err));
+  });
 }
 
 export async function getMetadata(distpath: string): Promise<string | undefined> {
@@ -106,7 +145,7 @@ export async function getMetadata(distpath: string): Promise<string | undefined>
   if (!fs.existsSync(metadataFile)) {
     return undefined;
   }
-  const content = fs.readFileSync(metadataFile, {encoding: 'utf-8'}).trim();
+  const content = (await fs.promises.readFile(metadataFile, {encoding: 'utf-8'})).trim();
   if (content === 'null') {
     return undefined;
   }

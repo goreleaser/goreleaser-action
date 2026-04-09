@@ -25,18 +25,18 @@
   ],
   "author": "CrazyMax",
   "license": "MIT",
-
   "dependencies": {
     "@actions/core": "^3.0.0",
     "@actions/exec": "^3.0.0",
-    "@actions/http-client": "^4.0.0",
     "@actions/tool-cache": "^4.0.0",
     "js-yaml": "^4.1.1",
     "semver": "^7.7.4",
     "yargs": "^18.0.0"
   },
   "devDependencies": {
-    "@types/node": "^24.0.0",
+    "@jest/globals": "^30.3.0",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.12.2",
     "@typescript-eslint/eslint-plugin": "^6.6.0",
     "@typescript-eslint/parser": "^6.6.0",
     "@vercel/ncc": "^0.38.0",
@@ -49,7 +49,6 @@
     "prettier": "^3.0.3",
     "tmp": "^0.2.1",
     "ts-jest": "^29.1.1",
-    "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   }
 }

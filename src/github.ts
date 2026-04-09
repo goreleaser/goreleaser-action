@@ -1,7 +1,7 @@
-import * as goreleaser from './goreleaser';
-import * as semver from 'semver';
 import * as core from '@actions/core';
 import * as httpm from '@actions/http-client';
+import * as semver from 'semver';
+import * as goreleaser from './goreleaser';
 
 const maxRetries = 10;
 const timeoutMs = 1000;
@@ -18,8 +18,9 @@ const withRetry = async <T>(operation: () => Promise<T>): Promise<T> => {
         break;
       }
 
-      core.debug(`Attempt ${attempt + 1} failed, retrying in ${timeoutMs}: ${lastError.message}`);
-      await new Promise(resolve => setTimeout(resolve, timeoutMs));
+      const delay = Math.min(30000, timeoutMs * Math.pow(2, attempt));
+      core.debug(`Attempt ${attempt + 1} failed, retrying in ${delay}ms: ${lastError.message}`);
+      await new Promise(resolve => setTimeout(resolve, delay));
     }
   }
 
@@ -74,7 +75,7 @@ export const getReleaseTag = async (distribution: string, version: string): Prom
     return <Array<GitHubRelease>>JSON.parse(body);
   });
 
-  const res = releases.filter(r => r.tag_name === tag).shift();
+  const res = releases.find(r => r.tag_name === tag);
   if (res) {
     return res;
   }
