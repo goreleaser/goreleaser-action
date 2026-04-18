@@ -61,6 +61,7 @@ RUN --mount=type=bind,target=.,rw \
   npm run lint
 
 FROM deps AS test
+RUN apk add --no-cache cosign
 ENV RUNNER_TEMP=/tmp/github_runner
 ENV RUNNER_TOOL_CACHE=/tmp/github_tool_cache
 RUN --mount=type=bind,target=.,rw \
