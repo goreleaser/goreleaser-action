@@ -72,3 +72,18 @@ Use [Conventional Commits](https://www.conventionalcommits.org/) (`feat:`,
 - The `signing` CI job and `goreleaser-pro` matrix entries are skipped on PRs
   from forks because they need repository secrets — that's expected and not
   something you need to fix.
+
+## Releasing (maintainers)
+
+1. Create a new GitHub Release with a semver tag (e.g. `v7.1.0`) — either
+   through the UI or `gh release create v7.1.0 --generate-notes`.
+2. Once the release exists, run the [**release major tag**](./.github/workflows/release-major-tag.yml)
+   workflow from the Actions tab:
+   - `target`: the new tag (e.g. `v7.1.0`)
+   - `major_version`: the major version to repoint (e.g. `v7`)
+
+   This force-pushes the major tag to the new release so consumers using
+   `goreleaser/goreleaser-action@v7` pick up the change.
+
+   The same workflow doubles as a rollback tool — pass an older tag as
+   `target` to revert the major.
