@@ -238,14 +238,11 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full development workflow.
 Quick reference:
 
 ```
-# format code and build javascript artifacts
-docker buildx bake pre-checkin
+# install dependencies
+npm ci
 
-# validate all code has correctly formatted and built
-docker buildx bake validate
-
-# run tests
-docker buildx bake test
+# format, build dist/, and run tests
+npm run pre-checkin
 ```
 
 ## License

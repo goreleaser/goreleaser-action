@@ -12,6 +12,7 @@
     "prettier": "prettier --check \"./**/*.ts\"",
     "prettier:fix": "prettier --write \"./**/*.ts\"",
     "test": "NODE_OPTIONS='--experimental-vm-modules' jest",
+    "pre-checkin": "npm run format && npm run build && npm test",
     "all": "npm run build && npm run format && npm test"
   },
   "repository": {
