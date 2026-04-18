@@ -16,8 +16,35 @@ describe('install', () => {
     expect(fs.existsSync(bin)).toBe(true);
   }, 100000);
 
+  // The following pinned versions exercise install across release eras to
+  // guard against regressions in checksum handling and the cosign skip path:
+  //   - v0.182.0  : pre-checksums-signing era
+  //   - v1.26.2   : cosign v2 detached `.sig` only
+  //   - v2.12.4   : last release before sigstore bundles (cosign skipped)
+  //   - v2.13.0   : first release with cosign v3 sigstore bundle
+  //   - v2.15.3   : recent release with sigstore bundle
+  it('acquires v0.182.0 (pre-signing) version of GoReleaser', async () => {
+    const bin = await goreleaser.install('goreleaser', 'v0.182.0');
+    expect(fs.existsSync(bin)).toBe(true);
+  }, 100000);
+
+  it('acquires v1.26.2 (cosign v2 .sig) version of GoReleaser', async () => {
+    const bin = await goreleaser.install('goreleaser', 'v1.26.2');
+    expect(fs.existsSync(bin)).toBe(true);
+  }, 100000);
+
+  it('acquires v2.12.4 (last pre-sigstore-bundle) version of GoReleaser', async () => {
+    const bin = await goreleaser.install('goreleaser', 'v2.12.4');
+    expect(fs.existsSync(bin)).toBe(true);
+  }, 100000);
+
   it('acquires v2.13.0 (minimum cosign-verifiable) version of GoReleaser', async () => {
     const bin = await goreleaser.install('goreleaser', 'v2.13.0');
+    expect(fs.existsSync(bin)).toBe(true);
+  }, 100000);
+
+  it('acquires v2.15.3 (recent sigstore-bundle) version of GoReleaser', async () => {
+    const bin = await goreleaser.install('goreleaser', 'v2.15.3');
     expect(fs.existsSync(bin)).toBe(true);
   }, 100000);
 
@@ -109,6 +136,14 @@ describe('verifyChecksum', () => {
   it('verifies the OSS nightly release end-to-end with cosign', async () => {
     await requireCosign();
     const bin = await goreleaser.install('goreleaser', 'nightly');
+    expect(fs.existsSync(bin)).toBe(true);
+  }, 120000);
+
+  it('installs a pre-v2.13 release (no sigstore bundle) without failing when cosign is present', async () => {
+    // v2.12.x is the last release that did NOT publish checksums.txt.sigstore.json.
+    // The action must still install it cleanly: checksum verified, cosign step skipped.
+    await requireCosign();
+    const bin = await goreleaser.install('goreleaser', 'v2.12.4');
     expect(fs.existsSync(bin)).toBe(true);
   }, 120000);
 
