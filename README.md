@@ -89,6 +89,13 @@ action will additionally verify the cosign sigstore signature of the
 checksums file against the GoReleaser release workflow's OIDC identity. If
 `cosign` isn't installed, this step is silently skipped.
 
+> **Note**: cosign signature verification requires GoReleaser **v2.13.0 or
+> newer** (and the matching `nightly`). Earlier releases ship a `.sig`
+> detached signature signed with cosign v2, which is not compatible with
+> the cosign v3 sigstore-bundle format the action verifies. For older
+> versions the cosign step is silently skipped — only the `checksums.txt`
+> SHA-256 verification runs.
+
 To enable signature verification, install cosign before running the action:
 
 ```yaml
@@ -106,8 +113,8 @@ To enable signature verification, install cosign before running the action:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-Both checksum and signature verification work for tagged releases and the
-`nightly` channel.
+Both checksum and signature verification work for tagged releases (≥ v2.13.0)
+and the `nightly` channel.
 
 ### Run on new tag
 
