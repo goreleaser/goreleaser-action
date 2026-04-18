@@ -16,6 +16,7 @@ ___
 
 * [Usage](#usage)
   * [Workflow](#workflow)
+  * [Verification](#verification)
   * [Run on new tag](#run-on-new-tag)
   * [Signing](#signing)
   * [Upload artifacts](#upload-artifacts)
@@ -76,6 +77,37 @@ jobs:
 ```
 
 > **IMPORTANT**: note the `fetch-depth: 0` input in `Checkout` step. It is required  for the changelog to work correctly.
+
+### Verification
+
+The action verifies the integrity of the downloaded GoReleaser archive
+against the published `checksums.txt` automatically — no configuration
+required.
+
+If [`cosign`](https://docs.sigstore.dev/cosign/) is available on `PATH`, the
+action will additionally verify the cosign sigstore signature of the
+checksums file against the GoReleaser release workflow's OIDC identity. If
+`cosign` isn't installed, this step is silently skipped.
+
+To enable signature verification, install cosign before running the action:
+
+```yaml
+      -
+        name: Install cosign
+        uses: sigstore/cosign-installer@v3
+      -
+        name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v7
+        with:
+          distribution: goreleaser
+          version: '~> v2'
+          args: release --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
+Both checksum and signature verification work for tagged releases and the
+`nightly` channel.
 
 ### Run on new tag
 
