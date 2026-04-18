@@ -222,11 +222,28 @@ Following inputs can be used as `step.with` keys
 |------------------|---------|--------------|------------------------------------------------------------------|
 | `distribution`   | String  | `goreleaser` | GoReleaser distribution, either `goreleaser` or `goreleaser-pro` |
 | `version`**¹**   | String  | `~> v2`      | GoReleaser version                                               |
+| `version-file`**²** | String  |              | Read the GoReleaser version from a file (see below)              |
 | `args`           | String  |              | Arguments to pass to GoReleaser                                  |
 | `workdir`        | String  | `.`          | Working directory (below repository root)                        |
 | `install-only`   | Bool    | `false`      | Just install GoReleaser                                          |
 
 > **¹** Can be a fixed version like `v0.117.0` or a max satisfying semver one like `~> 0.132`. In this case this will return `v0.132.1`.
+>
+> **²** Path to a file containing the GoReleaser version. Resolved relative
+> to `workdir`. Currently only [`.tool-versions`](https://asdf-vm.com/manage/configuration.html#tool-versions)
+> (asdf/mise) format is supported. When set, this takes precedence over `version`.
+>
+> ```yaml
+> # .tool-versions
+> goreleaser 2.13.0
+> ```
+>
+> ```yaml
+> - uses: goreleaser/goreleaser-action@v7
+>   with:
+>     version-file: .tool-versions
+>     args: release --clean
+> ```
 
 ### outputs
 
