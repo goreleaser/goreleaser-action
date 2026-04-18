@@ -2,7 +2,6 @@ import {describe, expect, it} from '@jest/globals';
 import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
-import * as httpm from '@actions/http-client';
 import * as io from '@actions/io';
 import * as goreleaser from '../src/goreleaser';
 
@@ -107,19 +106,6 @@ describe('getCertificateIdentity', () => {
 });
 
 describe('verifyChecksum', () => {
-  const downloadArchive = async (url: string, filename: string): Promise<string> => {
-    const dest = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'gha-')), filename);
-    const http = new httpm.HttpClient('goreleaser-action-tests');
-    const resp = await http.get(url);
-    await new Promise<void>((resolve, reject) => {
-      const out = fs.createWriteStream(dest);
-      resp.message.pipe(out);
-      out.on('finish', () => resolve());
-      out.on('error', reject);
-    });
-    return dest;
-  };
-
   const requireCosign = async (): Promise<void> => {
     const cosign = await io.which('cosign', false);
     if (!cosign) {
@@ -129,43 +115,33 @@ describe('verifyChecksum', () => {
     }
   };
 
-  // x86_64 archive exists for all supported releases regardless of host arch.
-  const filename = 'goreleaser_Linux_x86_64.tar.gz';
-
   it('verifies a tagged OSS release end-to-end with cosign', async () => {
     await requireCosign();
-    const tag = 'v2.15.3';
-    const archive = await downloadArchive(
-      `https://github.com/goreleaser/goreleaser/releases/download/${tag}/${filename}`,
-      filename
-    );
-    await expect(goreleaser.verifyChecksum('goreleaser', tag, archive, filename)).resolves.toBeUndefined();
+    const bin = await goreleaser.install('goreleaser', 'v2.15.3');
+    expect(fs.existsSync(bin)).toBe(true);
   }, 120000);
 
   it('verifies the OSS nightly release end-to-end with cosign', async () => {
     await requireCosign();
-    const archive = await downloadArchive(
-      `https://github.com/goreleaser/goreleaser/releases/download/nightly/${filename}`,
-      filename
-    );
-    await expect(goreleaser.verifyChecksum('goreleaser', 'nightly', archive, filename)).resolves.toBeUndefined();
+    const bin = await goreleaser.install('goreleaser', 'nightly');
+    expect(fs.existsSync(bin)).toBe(true);
   }, 120000);
 
   it('throws on checksum mismatch', async () => {
-    const tag = 'v2.15.3';
     const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'gha-'));
-    const archive = path.join(dir, filename);
+    const archive = path.join(dir, 'fake.tar.gz');
     fs.writeFileSync(archive, 'tampered content');
-    await expect(goreleaser.verifyChecksum('goreleaser', tag, archive, filename)).rejects.toThrow(/Checksum mismatch/);
+    await expect(
+      goreleaser.verifyChecksum('goreleaser', 'v2.15.3', archive, 'goreleaser_Linux_x86_64.tar.gz')
+    ).rejects.toThrow(/Checksum mismatch/);
   }, 60000);
 
   it('throws when the filename is not in checksums.txt', async () => {
-    const tag = 'v2.15.3';
     const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'gha-'));
     const archive = path.join(dir, 'whatever.tar.gz');
     fs.writeFileSync(archive, '');
-    await expect(goreleaser.verifyChecksum('goreleaser', tag, archive, 'not-a-real-asset.tar.gz')).rejects.toThrow(
-      /Could not find not-a-real-asset.tar.gz in checksums.txt/
-    );
+    await expect(
+      goreleaser.verifyChecksum('goreleaser', 'v2.15.3', archive, 'not-a-real-asset.tar.gz')
+    ).rejects.toThrow(/Could not find not-a-real-asset.tar.gz in checksums.txt/);
   }, 60000);
 });
