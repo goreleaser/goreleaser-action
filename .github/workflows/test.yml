@@ -38,7 +38,7 @@ jobs:
         run: npm ci
       -
         name: Test
-        run: npm test -- --coverage
+        run: npm test
       -
         name: Upload coverage
         uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2 # v6.0.0

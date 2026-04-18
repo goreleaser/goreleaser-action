@@ -40,10 +40,12 @@ or rerun `npm run build` locally with the Node version in `.node-version`.
 | Script              | Purpose                                          |
 | ------------------- | ------------------------------------------------ |
 | `npm run build`     | Bundle `src/` to `dist/index.js` via `ncc`       |
-| `npm run lint`      | Prettier check + ESLint                          |
-| `npm run format`    | Prettier write + ESLint --fix                    |
-| `npm test`          | Run Jest                                         |
-| `npm run pre-checkin` | `format` + `build` + `test`                    |
+| `npm run format`    | Run Prettier (write)                             |
+| `npm run format-check` | Run Prettier (check only, used in CI)         |
+| `npm run lint`      | Run ESLint (check only, used in CI)              |
+| `npm run lint:fix`  | Run ESLint with `--fix`                          |
+| `npm test`          | Run Jest with coverage                           |
+| `npm run pre-checkin` | `format` + `lint:fix` + `build` + `test`       |
 
 ## Tests
 
