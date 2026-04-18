@@ -32,8 +32,7 @@ jobs:
           - windows-latest
         version:
           - latest
-          - '~> 2.6'
-          - '~> 1.26'
+          - '~> 2.13'
         distribution:
           - goreleaser
           - goreleaser-pro
@@ -74,8 +73,7 @@ jobs:
       matrix:
         version:
           - latest
-          - '~> 2.6'
-          - '~> 1.26'
+          - '~> 2.13'
         distribution:
           - goreleaser
           - goreleaser-pro

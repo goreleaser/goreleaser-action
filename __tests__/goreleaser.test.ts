@@ -6,33 +6,18 @@ import * as io from '@actions/io';
 import * as goreleaser from '../src/goreleaser';
 
 describe('install', () => {
-  it('acquires v0.182.0 version of GoReleaser', async () => {
-    const bin = await goreleaser.install('goreleaser', 'v0.182.0');
-    expect(fs.existsSync(bin)).toBe(true);
-  }, 100000);
-
   it('acquires latest version of GoReleaser', async () => {
     const bin = await goreleaser.install('goreleaser', 'latest');
     expect(fs.existsSync(bin)).toBe(true);
   }, 100000);
 
-  it('acquires v0.182.0-pro version of GoReleaser Pro', async () => {
-    const bin = await goreleaser.install('goreleaser-pro', 'v0.182.0-pro');
-    expect(fs.existsSync(bin)).toBe(true);
-  }, 100000);
-
-  it('acquires latest v1 version of GoReleaser', async () => {
-    const bin = await goreleaser.install('goreleaser', '~> v1');
-    expect(fs.existsSync(bin)).toBe(true);
-  }, 100000);
-
-  it('acquires latest v1 version of GoReleaser Pro', async () => {
-    const bin = await goreleaser.install('goreleaser-pro', '~> v1');
-    expect(fs.existsSync(bin)).toBe(true);
-  }, 100000);
-
   it('acquires latest v2 version of GoReleaser', async () => {
     const bin = await goreleaser.install('goreleaser', '~> v2');
+    expect(fs.existsSync(bin)).toBe(true);
+  }, 100000);
+
+  it('acquires v2.13.0 (minimum cosign-verifiable) version of GoReleaser', async () => {
+    const bin = await goreleaser.install('goreleaser', 'v2.13.0');
     expect(fs.existsSync(bin)).toBe(true);
   }, 100000);
 
