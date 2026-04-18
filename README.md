@@ -233,6 +233,10 @@ If you need the auto-snapshot feature, take a look at [this example repository](
 
 ## Development
 
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full development workflow.
+
+Quick reference:
+
 ```
 # format code and build javascript artifacts
 docker buildx bake pre-checkin
