@@ -1,0 +1,46 @@
+name: release major tag
+
+run-name: Move ${{ github.event.inputs.major_version }} to ${{ github.event.inputs.target }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: The tag, branch, or SHA the major version should point to (e.g. v7.1.0)
+        required: true
+      major_version:
+        type: choice
+        description: The major version tag to move
+        options:
+          - v7
+          - v6
+          - v5
+          - v4
+          - v3
+          - v2
+          - v1
+
+# https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#permissions
+permissions:
+  contents: write
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+      -
+        name: Git config
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      -
+        name: Move ${{ github.event.inputs.major_version }} to ${{ github.event.inputs.target }}
+        run: git tag -f ${{ github.event.inputs.major_version }} ${{ github.event.inputs.target }}
+      -
+        name: Push
+        run: git push origin ${{ github.event.inputs.major_version }} --force
