@@ -56,16 +56,16 @@ describe('getRelease', () => {
     expect(release?.tag_name).not.toEqual('');
   });
 
-  it('returns nightly GoReleaser GitHub release', async () => {
+  it('resolves nightly to a vX.Y.Z-<sha>-nightly GoReleaser release', async () => {
     const release = await github.getRelease('goreleaser', 'nightly');
     expect(release).not.toBeNull();
-    expect(release?.tag_name).not.toEqual('');
+    expect(release?.tag_name).toMatch(github.nightlyTagRegex);
   });
 
-  it('returns nightly GoReleaser Pro GitHub release', async () => {
+  it('resolves nightly to a vX.Y.Z-<sha>-nightly GoReleaser Pro release', async () => {
     const release = await github.getRelease('goreleaser-pro', 'nightly');
     expect(release).not.toBeNull();
-    expect(release?.tag_name).not.toEqual('');
+    expect(release?.tag_name).toMatch(github.nightlyTagRegex);
   });
 
   it('returns v0.182.0 GoReleaser Pro GitHub release', async () => {

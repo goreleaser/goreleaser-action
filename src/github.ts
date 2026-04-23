@@ -30,6 +30,13 @@ export interface GitHubRelease {
   tag_name: string;
 }
 
+// Matches the new-style nightly release tag pattern: vX.Y.Z-<sha>-nightly
+export const nightlyTagRegex = /^v\d+\.\d+\.\d+-[0-9a-f]+-nightly$/i;
+
+export const isNightlyTag = (tag: string): boolean => {
+  return nightlyTagRegex.test(tag);
+};
+
 export const getRelease = async (distribution: string, version: string): Promise<GitHubRelease> => {
   if (version === 'latest') {
     core.warning("You are using 'latest' as default version. Will lock to '~> v2'.");
@@ -40,7 +47,7 @@ export const getRelease = async (distribution: string, version: string): Promise
 
 export const getReleaseTag = async (distribution: string, version: string): Promise<GitHubRelease> => {
   if (version === 'nightly') {
-    return {tag_name: version};
+    return resolveNightly(distribution);
   }
 
   // If version is a specific version (not a range), skip the JSON check
@@ -79,6 +86,39 @@ export const getReleaseTag = async (distribution: string, version: string): Prom
     return res;
   }
   throw new Error(`Cannot find GoReleaser release ${version} in ${url}`);
+};
+
+// resolveNightly looks up the latest immutable nightly release of the form
+// `vX.Y.Z-<sha>-nightly` on the GitHub releases of the given distribution.
+const resolveNightly = async (distribution: string): Promise<GitHubRelease> => {
+  const url = `https://api.github.com/repos/goreleaser/${distribution}/releases?per_page=100`;
+  core.debug(`Resolving latest nightly release from ${url}`);
+
+  const releases = await withRetry(async () => {
+    const http: httpm.HttpClient = new httpm.HttpClient('goreleaser-action');
+    const headers: {[name: string]: string} = {
+      Accept: 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28'
+    };
+    const token = process.env.GITHUB_TOKEN;
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+    const resp: httpm.HttpClientResponse = await http.get(url, headers);
+    const body = await resp.readBody();
+    const statusCode = resp.message.statusCode || 500;
+    if (statusCode >= 400) {
+      throw new Error(`Failed to list releases from ${url} with status code ${statusCode}: ${body}`);
+    }
+    return <Array<GitHubRelease>>JSON.parse(body);
+  });
+
+  const match = releases.find(r => nightlyTagRegex.test(r.tag_name));
+  if (!match) {
+    throw new Error(`No '<version>-<sha>-nightly' release found in ${url}`);
+  }
+  core.info(`Resolved nightly to ${match.tag_name}`);
+  return match;
 };
 
 const resolveVersion = async (distribution: string, version: string): Promise<string | null> => {
