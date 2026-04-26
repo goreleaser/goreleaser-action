@@ -15,6 +15,12 @@ inputs:
     description: 'GoReleaser version'
     default: '~> v2'
     required: false
+  version-file:
+    description: |
+      Read the GoReleaser version from a file. Path is resolved relative to
+      `workdir`. Currently only `.tool-versions` (asdf/mise) is supported.
+      When set, takes precedence over `version`.
+    required: false
   args:
     description: 'Arguments to pass to GoReleaser'
     required: false
