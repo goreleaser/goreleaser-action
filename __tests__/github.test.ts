@@ -56,16 +56,18 @@ describe('getRelease', () => {
     expect(release?.tag_name).not.toEqual('');
   });
 
-  it('returns nightly GoReleaser GitHub release', async () => {
+  it('resolves nightly to the legacy nightly tag for OSS GoReleaser', async () => {
+    // No <version>-<sha>-nightly release exists in goreleaser/goreleaser yet,
+    // so this should fall back to the legacy moving `nightly` tag.
     const release = await github.getRelease('goreleaser', 'nightly');
     expect(release).not.toBeNull();
-    expect(release?.tag_name).not.toEqual('');
+    expect(release.tag_name).toEqual('nightly');
   });
 
-  it('returns nightly GoReleaser Pro GitHub release', async () => {
+  it('resolves nightly to a <version>-<sha>-nightly release for GoReleaser Pro', async () => {
     const release = await github.getRelease('goreleaser-pro', 'nightly');
     expect(release).not.toBeNull();
-    expect(release?.tag_name).not.toEqual('');
+    expect(release.tag_name).toMatch(github.nightlyTagRegex);
   });
 
   it('returns v0.182.0 GoReleaser Pro GitHub release', async () => {

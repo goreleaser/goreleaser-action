@@ -120,7 +120,7 @@ async function verifyCosignSignature(
 
 export const getCertificateIdentity = (distribution: string, tag: string): string => {
   const pro = isPro(distribution);
-  if (tag === 'nightly') {
+  if (github.isNightlyTag(tag)) {
     const workflow = pro ? 'nightly-pro.yml' : 'nightly-oss.yml';
     const repo = pro ? 'goreleaser-pro-internal' : 'goreleaser';
     return `https://github.com/goreleaser/${repo}/.github/workflows/${workflow}@refs/heads/main`;

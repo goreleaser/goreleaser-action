@@ -104,14 +104,26 @@ describe('getCertificateIdentity', () => {
     );
   });
 
-  it('uses nightly-oss.yml@refs/heads/main for OSS nightly', () => {
+  it('uses nightly-oss.yml@refs/heads/main for OSS legacy nightly tag', () => {
     expect(goreleaser.getCertificateIdentity('goreleaser', 'nightly')).toEqual(
       'https://github.com/goreleaser/goreleaser/.github/workflows/nightly-oss.yml@refs/heads/main'
     );
   });
 
-  it('uses nightly-pro.yml@refs/heads/main for Pro nightly', () => {
+  it('uses nightly-pro.yml@refs/heads/main for Pro legacy nightly tag', () => {
     expect(goreleaser.getCertificateIdentity('goreleaser-pro', 'nightly')).toEqual(
+      'https://github.com/goreleaser/goreleaser-pro-internal/.github/workflows/nightly-pro.yml@refs/heads/main'
+    );
+  });
+
+  it('uses nightly-oss.yml@refs/heads/main for OSS nightly tag', () => {
+    expect(goreleaser.getCertificateIdentity('goreleaser', 'v2.16.0-abc1234-nightly')).toEqual(
+      'https://github.com/goreleaser/goreleaser/.github/workflows/nightly-oss.yml@refs/heads/main'
+    );
+  });
+
+  it('uses nightly-pro.yml@refs/heads/main for Pro nightly tag', () => {
+    expect(goreleaser.getCertificateIdentity('goreleaser-pro', 'v2.16.0-eaeb08c50-nightly')).toEqual(
       'https://github.com/goreleaser/goreleaser-pro-internal/.github/workflows/nightly-pro.yml@refs/heads/main'
     );
   });
