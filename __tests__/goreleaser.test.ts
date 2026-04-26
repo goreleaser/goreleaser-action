@@ -123,7 +123,7 @@ describe('getCertificateIdentity', () => {
   });
 
   it('uses nightly-pro.yml@refs/heads/main for Pro nightly tag', () => {
-    expect(goreleaser.getCertificateIdentity('goreleaser-pro', 'v2.16.0-abc1234-nightly')).toEqual(
+    expect(goreleaser.getCertificateIdentity('goreleaser-pro', '2.16.0-eaeb08c50-nightly')).toEqual(
       'https://github.com/goreleaser/goreleaser-pro-internal/.github/workflows/nightly-pro.yml@refs/heads/main'
     );
   });
