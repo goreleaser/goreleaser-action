@@ -34,7 +34,7 @@ export interface GitHubRelease {
 export const nightlyTagRegex = /^v\d+\.\d+\.\d+-[0-9a-f]+-nightly$/i;
 
 export const isNightlyTag = (tag: string): boolean => {
-  return tag === 'nightly' || nightlyTagRegex.test(tag);
+  return nightlyTagRegex.test(tag);
 };
 
 export const getRelease = async (distribution: string, version: string): Promise<GitHubRelease> => {
@@ -114,15 +114,11 @@ const resolveNightly = async (distribution: string): Promise<GitHubRelease> => {
   });
 
   const match = releases.find(r => nightlyTagRegex.test(r.tag_name));
-  if (match) {
-    core.info(`Resolved nightly to ${match.tag_name}`);
-    return match;
+  if (!match) {
+    throw new Error(`No '<version>-<sha>-nightly' release found in ${url}`);
   }
-
-  // Fallback to the legacy moving `nightly` tag during the transition period,
-  // until goreleaser stops publishing it.
-  core.warning(`No '<version>-<sha>-nightly' release found in ${url}, falling back to 'nightly' tag`);
-  return {tag_name: 'nightly'};
+  core.info(`Resolved nightly to ${match.tag_name}`);
+  return match;
 };
 
 const resolveVersion = async (distribution: string, version: string): Promise<string | null> => {
