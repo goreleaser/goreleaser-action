@@ -242,6 +242,8 @@ jobs:
           install-only: true
           distribution: ${{ matrix.distribution }}
           version: nightly
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       -
         name: Check
         run: |
