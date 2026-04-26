@@ -96,6 +96,11 @@ checksums file against the GoReleaser release workflow's OIDC identity. If
 > versions the cosign step is silently skipped — only the `checksums.txt`
 > SHA-256 verification runs.
 
+> **Note**: when `version: nightly` is used, the action resolves the
+> latest immutable `vX.Y.Z-<sha>-nightly` release from the GitHub
+> Releases API. Pass `GITHUB_TOKEN` to the action step (as in the example
+> above) to avoid unauthenticated API rate limits.
+
 To enable signature verification, install cosign before running the action:
 
 ```yaml
