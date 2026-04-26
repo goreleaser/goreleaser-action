@@ -30,9 +30,8 @@ export interface GitHubRelease {
   tag_name: string;
 }
 
-// Matches the new-style nightly release tag pattern: [v]X.Y.Z-<sha>-nightly
-// (the `v` prefix is optional — goreleaser-pro tags don't have it).
-export const nightlyTagRegex = /^v?\d+\.\d+\.\d+-[0-9a-f]+-nightly$/i;
+// Matches the new-style nightly release tag pattern: vX.Y.Z-<sha>-nightly
+export const nightlyTagRegex = /^v\d+\.\d+\.\d+-[0-9a-f]+-nightly$/i;
 
 export const isNightlyTag = (tag: string): boolean => {
   return tag === 'nightly' || nightlyTagRegex.test(tag);
