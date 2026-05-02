@@ -19,45 +19,35 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Checkout
+      - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      -
-        name: Setup Node.js
-        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.0.0
+      - name: Setup Node.js
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version-file: '.node-version'
           cache: npm
-      -
-        name: Install dependencies
+      - name: Install dependencies
         run: npm ci
-      -
-        name: Format check
+      - name: Format check
         run: npm run format-check
-      -
-        name: Lint
+      - name: Lint
         run: npm run lint
 
   build:
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Checkout
+      - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      -
-        name: Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.0.0
         with:
           node-version-file: '.node-version'
           cache: npm
-      -
-        name: Install dependencies
+      - name: Install dependencies
         run: npm ci --ignore-scripts
-      -
-        name: Rebuild dist
+      - name: Rebuild dist
         run: npm run build
-      -
-        name: Compare dist
+      - name: Compare dist
         id: diff
         run: |
           if [ "$(git diff --ignore-space-at-eol dist | wc -l)" -gt "0" ]; then
@@ -65,8 +55,7 @@ jobs:
             git diff dist
             exit 1
           fi
-      -
-        name: Upload built dist on failure
+      - name: Upload built dist on failure
         if: ${{ failure() && steps.diff.conclusion == 'failure' }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
@@ -76,20 +65,16 @@ jobs:
   vendor:
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Checkout
+      - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      -
-        name: Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.0.0
         with:
           node-version-file: '.node-version'
           cache: npm
-      -
-        name: Refresh package-lock.json
+      - name: Refresh package-lock.json
         run: npm install --package-lock-only
-      -
-        name: Compare package-lock.json
+      - name: Compare package-lock.json
         run: |
           if [ -n "$(git status --porcelain -- package-lock.json)" ]; then
             echo "package-lock.json is out of sync with package.json. Run 'npm install' and commit." >&2

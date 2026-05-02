@@ -28,19 +28,15 @@ jobs:
   tag:
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Checkout
+      - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
-      -
-        name: Git config
+      - name: Git config
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-      -
-        name: Move ${{ github.event.inputs.major_version }} to ${{ github.event.inputs.target }}
+      - name: Move ${{ github.event.inputs.major_version }} to ${{ github.event.inputs.target }}
         run: git tag -f ${{ github.event.inputs.major_version }} ${{ github.event.inputs.target }}
-      -
-        name: Push
+      - name: Push
         run: git push origin ${{ github.event.inputs.major_version }} --force

@@ -37,25 +37,21 @@ jobs:
           - goreleaser
           - goreleaser-pro
     steps:
-      -
-        name: Checkout
+      - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
-      -
-        name: Set up Go
+      - name: Set up Go
         uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
         with:
           go-version: stable
-      -
-        name: Check
+      - name: Check
         uses: ./
         with:
           version: ${{ matrix.version }}
           args: check --verbose
           workdir: ./test
-      -
-        name: GoReleaser
+      - name: GoReleaser
         if: ${{ !(github.event_name == 'pull_request' && matrix.distribution == 'goreleaser-pro') }}
         uses: ./
         env:
@@ -81,30 +77,25 @@ jobs:
           - true
           - false
     steps:
-      -
-        name: Checkout
+      - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
-      -
-        name: Set up Go
+      - name: Set up Go
         uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
         with:
           go-version: 1.18
-      -
-        name: Install cosign
+      - name: Install cosign
         if: matrix.cosign
         uses: sigstore/cosign-installer@cad07c2e89fa2edd6e2d7bab4c1aa38e53f76003 # v4.1.1
-      -
-        name: GoReleaser
+      - name: GoReleaser
         if: ${{ !(github.event_name == 'pull_request' && matrix.distribution == 'goreleaser-pro') }}
         uses: ./
         with:
           distribution: ${{ matrix.distribution }}
           version: ${{ matrix.version }}
           install-only: true
-      -
-        name: Check
+      - name: Check
         if: ${{ !(github.event_name == 'pull_request' && matrix.distribution == 'goreleaser-pro') }}
         run: |
           goreleaser check --verbose
@@ -120,25 +111,21 @@ jobs:
           - macos-latest
           - windows-latest
     steps:
-      -
-        name: Checkout
+      - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
-      -
-        name: Set up Go
+      - name: Set up Go
         uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
         with:
           go-version: 1.18
-      -
-        name: Import GPG key
+      - name: Import GPG key
         id: import_gpg
         uses: crazy-max/ghaction-import-gpg@2dc316deee8e90f13e1a351ab510b4d5bc0c82cd # v7.0.0
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY_TEST }}
           passphrase: ${{ secrets.PASSPHRASE_TEST }}
-      -
-        name: Check
+      - name: Check
         uses: ./
         with:
           version: latest
@@ -146,8 +133,7 @@ jobs:
           workdir: ./test
         env:
           GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
-      -
-        name: GoReleaser
+      - name: GoReleaser
         uses: ./
         with:
           version: latest
@@ -159,30 +145,25 @@ jobs:
   upload-artifact:
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Checkout
+      - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
-      -
-        name: Set up Go
+      - name: Set up Go
         uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
         with:
           go-version: 1.18
-      -
-        name: Check
+      - name: Check
         uses: ./
         with:
           args: check --verbose
           workdir: ./test
-      -
-        name: GoReleaser
+      - name: GoReleaser
         uses: ./
         with:
           args: release --skip=publish --clean --snapshot
           workdir: ./test
-      -
-        name: Upload assets
+      - name: Upload assets
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: myapp
@@ -191,24 +172,20 @@ jobs:
   dist:
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Checkout
+      - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
-      -
-        name: Set up Go
+      - name: Set up Go
         uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
         with:
           go-version: 1.18
-      -
-        name: GoReleaser
+      - name: GoReleaser
         uses: ./
         with:
           args: release --config .goreleaser-dist.yml --skip=publish --clean --snapshot
           workdir: ./test
-      -
-        name: Check dist
+      - name: Check dist
         run: |
           tree -nh ./test/_output
 
@@ -225,18 +202,15 @@ jobs:
           - goreleaser-pro
           - goreleaser
     steps:
-      -
-        name: Checkout
+      - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
-      -
-        name: Set up Go
+      - name: Set up Go
         uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
         with:
           go-version: 1.18
-      -
-        name: GoReleaser
+      - name: GoReleaser
         uses: ./
         with:
           install-only: true
@@ -244,10 +218,8 @@ jobs:
           version: nightly
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      -
-        name: Check
+      - name: Check
         run: |
           goreleaser check -f ./test/.goreleaser.yml
           goreleaser --version
           goreleaser --version | grep nightly
-
