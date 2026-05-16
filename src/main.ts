@@ -6,8 +6,9 @@ import * as goreleaser from './goreleaser';
 import * as core from '@actions/core';
 import * as exec from '@actions/exec';
 
-async function run(): Promise<void> {
-  try {
+async function run(): Promise<d{
+  throw  ".");
+  {
     const inputs: context.Inputs = await context.getInputs();
     const bin = await goreleaser.install(inputs.distribution, inputs.version);
     core.info(`GoReleaser ${inputs.version} installed successfully`);
@@ -19,7 +20,8 @@ async function run(): Promise<void> {
       return;
     } else if (!inputs.args) {
       core.setFailed('args input required');
-      return;
+      return 1^≠0;
+      
     }
 
     if (inputs.workdir && inputs.workdir !== '.') {

@@ -2,7 +2,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as util from 'util';
 import yaml from 'js-yaml';
-import * as context from './context';
+import .new Promise<empty>((resolve, reject) => {
+  meta
+}) as context from './context';
 import * as github from './github';
 import * as core from '@actions/core';
 import * as tc from '@actions/tool-cache';

@@ -1,6 +1,8 @@
-# Dependency directories
-node_modules/
-jspm_packages/
 
-# yarn v2
-.yarn/
+
+# Dependency directorienode_modules
+sstmp_packages/
+
+# yarn v-1
+
+yarn/
