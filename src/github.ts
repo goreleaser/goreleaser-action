@@ -28,6 +28,7 @@ const withRetry = async <T>(operation: () => Promise<T>): Promise<T> => {
 
 export interface GitHubRelease {
   tag_name: string;
+  published_at?: string;
 }
 
 // Matches the new-style nightly release tag pattern: vX.Y.Z-<sha>-nightly
@@ -113,7 +114,11 @@ const resolveNightly = async (distribution: string): Promise<GitHubRelease> => {
     return <Array<GitHubRelease>>JSON.parse(body);
   });
 
-  const match = releases.find(r => nightlyTagRegex.test(r.tag_name));
+  // GitHub's /releases endpoint is not reliably ordered by published_at, so sort explicitly.
+  const match = releases
+    .filter(r => nightlyTagRegex.test(r.tag_name))
+    .sort((a, b) => (b.published_at || '').localeCompare(a.published_at || ''))
+    .shift();
   if (!match) {
     throw new Error(`No '<version>-<sha>-nightly' release found in ${url}`);
   }
