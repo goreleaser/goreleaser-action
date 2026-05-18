@@ -38,6 +38,13 @@ export const isNightlyTag = (tag: string): boolean => {
   return nightlyTagRegex.test(tag);
 };
 
+export const latestNightlyRelease = (releases: Array<GitHubRelease>): GitHubRelease | undefined => {
+  return releases
+    .filter(r => nightlyTagRegex.test(r.tag_name))
+    .sort((a, b) => (b.published_at || '').localeCompare(a.published_at || ''))
+    .shift();
+};
+
 export const getRelease = async (distribution: string, version: string): Promise<GitHubRelease> => {
   if (version === 'latest') {
     core.warning("You are using 'latest' as default version. Will lock to '~> v2'.");
@@ -114,11 +121,7 @@ const resolveNightly = async (distribution: string): Promise<GitHubRelease> => {
     return <Array<GitHubRelease>>JSON.parse(body);
   });
 
-  // GitHub's /releases endpoint is not reliably ordered by published_at, so sort explicitly.
-  const match = releases
-    .filter(r => nightlyTagRegex.test(r.tag_name))
-    .sort((a, b) => (b.published_at || '').localeCompare(a.published_at || ''))
-    .shift();
+  const match = latestNightlyRelease(releases);
   if (!match) {
     throw new Error(`No '<version>-<sha>-nightly' release found in ${url}`);
   }

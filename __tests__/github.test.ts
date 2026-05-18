@@ -104,3 +104,16 @@ describe('getRelease', () => {
     );
   });
 });
+
+describe('latestNightlyRelease', () => {
+  it('returns the newest nightly by published_at even when API order is wrong', () => {
+    const release = github.latestNightlyRelease([
+      {tag_name: 'v2.16.0-c9b458fa-nightly', published_at: '2026-05-12T01:27:50Z'},
+      {tag_name: 'v2.16.0-6724de64-nightly', published_at: '2026-05-13T01:32:53Z'},
+      {tag_name: 'v2.16.0-2827930b-nightly', published_at: '2026-05-17T01:34:11Z'},
+      {tag_name: 'v2.15.4', published_at: '2026-04-21T14:07:57Z'}
+    ]);
+
+    expect(release?.tag_name).toEqual('v2.16.0-2827930b-nightly');
+  });
+});
