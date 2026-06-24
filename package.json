@@ -29,7 +29,7 @@
     "@actions/exec": "^3.0.0",
     "@actions/http-client": "^4.0.0",
     "@actions/tool-cache": "^4.0.0",
-    "js-yaml": "^4.1.1",
+    "js-yaml": "^4.2.0",
     "semver": "^7.7.4",
     "yargs": "^18.0.0"
   },
