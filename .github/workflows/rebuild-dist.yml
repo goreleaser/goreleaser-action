@@ -13,19 +13,20 @@ on:
   workflow_dispatch:
 
 jobs:
-  # Rebuilds the bundled dist/ on Dependabot PRs and pushes it back to the PR
-  # branch, so a dependency bump and its matching dist/ land in a single PR and
-  # the validate workflow stays green.
+  # Rebuilds the bundled dist/ on Dependabot PRs (and on manual workflow_dispatch
+  # runs) and pushes it back to the branch, so a dependency bump and its matching
+  # dist/ land together and the validate workflow stays green.
   #
   # Dependabot runs get a read-only GITHUB_TOKEN, and commits pushed with it do
   # not re-trigger checks. Pushing the dist commit therefore uses a GitHub App
   # token, which is repo-scoped and short-lived, and can re-run workflows.
   # Configure a GitHub App with contents:write on this repo and set its
-  # credentials as Dependabot secrets named GORELEASER_APP_ID and
-  # GORELEASER_APP_KEY (Dependabot runs only expose Dependabot secrets).
-  # Until both exist this job is a no-op.
+  # credentials as GORELEASER_APP_ID and GORELEASER_APP_KEY. Dependabot runs only
+  # expose Dependabot secrets, while workflow_dispatch runs only expose Actions
+  # secrets, so set both copies to cover both triggers. Until both exist this job
+  # is a no-op.
   rebuild-dist:
-    if: github.actor == 'dependabot[bot]'
+    if: github.actor == 'dependabot[bot]' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - name: Check app credentials
@@ -51,7 +52,7 @@ jobs:
         if: steps.app.outputs.available == 'true'
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${{ github.head_ref || github.ref_name }}
           token: ${{ steps.token.outputs.token }}
       - name: Setup Node.js
         if: steps.app.outputs.available == 'true'
@@ -68,7 +69,7 @@ jobs:
       - name: Commit and push dist if changed
         if: steps.app.outputs.available == 'true'
         env:
-          HEAD_REF: ${{ github.head_ref }}
+          HEAD_REF: ${{ github.head_ref || github.ref_name }}
         run: |
           if [ -z "$(git status --porcelain -- dist)" ]; then
             echo "dist is already up to date."
