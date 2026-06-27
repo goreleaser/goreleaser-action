@@ -17,45 +17,55 @@ jobs:
   # the validate workflow stays green.
   #
   # Dependabot runs get a read-only GITHUB_TOKEN, and commits pushed with it do
-  # not re-trigger checks. Pushing the dist commit therefore uses GH_PAT, which
-  # can re-run workflows. Note: Dependabot runs only expose Dependabot secrets,
-  # so GH_PAT must exist as a Dependabot secret (org or repo) with contents:write
-  # on this repo. Until it does this job is a no-op.
+  # not re-trigger checks. Pushing the dist commit therefore uses a GitHub App
+  # token, which is repo-scoped and short-lived, and can re-run workflows.
+  # Configure a GitHub App with contents:write on this repo and set its
+  # credentials as Dependabot secrets named GORELEASER_APP_ID and
+  # GORELEASER_APP_KEY (Dependabot runs only expose Dependabot secrets).
+  # Until both exist this job is a no-op.
   rebuild-dist:
     if: github.actor == 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
-      - name: Check token
-        id: token
+      - name: Check app credentials
+        id: app
         env:
-          GH_PAT: ${{ secrets.GH_PAT }}
+          GORELEASER_APP_ID: ${{ secrets.GORELEASER_APP_ID }}
+          GORELEASER_APP_KEY: ${{ secrets.GORELEASER_APP_KEY }}
         run: |
-          if [ -n "$GH_PAT" ]; then
+          if [ -n "$GORELEASER_APP_ID" ] && [ -n "$GORELEASER_APP_KEY" ]; then
             echo "available=true" >> "$GITHUB_OUTPUT"
           else
             echo "available=false" >> "$GITHUB_OUTPUT"
-            echo "::notice::GH_PAT Dependabot secret is not set; skipping automatic dist rebuild."
+            echo "::notice::GORELEASER_APP_ID/GORELEASER_APP_KEY Dependabot secrets are not set; skipping automatic dist rebuild."
           fi
+      - name: Generate token
+        if: steps.app.outputs.available == 'true'
+        id: token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          app-id: ${{ secrets.GORELEASER_APP_ID }}
+          private-key: ${{ secrets.GORELEASER_APP_KEY }}
       - name: Checkout
-        if: steps.token.outputs.available == 'true'
+        if: steps.app.outputs.available == 'true'
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           ref: ${{ github.head_ref }}
-          token: ${{ secrets.GH_PAT }}
+          token: ${{ steps.token.outputs.token }}
       - name: Setup Node.js
-        if: steps.token.outputs.available == 'true'
+        if: steps.app.outputs.available == 'true'
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version-file: '.node-version'
           cache: npm
       - name: Install dependencies
-        if: steps.token.outputs.available == 'true'
+        if: steps.app.outputs.available == 'true'
         run: npm ci --ignore-scripts
       - name: Rebuild dist
-        if: steps.token.outputs.available == 'true'
+        if: steps.app.outputs.available == 'true'
         run: npm run build
       - name: Commit and push dist if changed
-        if: steps.token.outputs.available == 'true'
+        if: steps.app.outputs.available == 'true'
         env:
           HEAD_REF: ${{ github.head_ref }}
         run: |
