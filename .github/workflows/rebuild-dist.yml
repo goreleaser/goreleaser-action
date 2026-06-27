@@ -10,6 +10,7 @@ permissions:
 
 on:
   pull_request:
+  workflow_dispatch:
 
 jobs:
   # Rebuilds the bundled dist/ on Dependabot PRs and pushes it back to the PR
