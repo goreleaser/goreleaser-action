@@ -1,7 +1,7 @@
 import * as crypto from 'crypto';
 import * as fs from 'fs';
 import * as path from 'path';
-import yaml from 'js-yaml';
+import * as yaml from 'js-yaml';
 import * as context from './context';
 import * as github from './github';
 import * as core from '@actions/core';
@@ -171,7 +171,7 @@ const getFilename = (distribution: string): string => {
 };
 
 export async function getDistPath(yamlfile: string): Promise<string> {
-  const cfg = yaml.load(fs.readFileSync(yamlfile, 'utf8'));
+  const cfg = yaml.load(fs.readFileSync(yamlfile, 'utf8')) as {dist?: string};
   return cfg.dist || 'dist';
 }
 
