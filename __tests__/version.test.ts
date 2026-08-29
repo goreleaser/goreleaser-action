@@ -12,6 +12,7 @@ const baseInputs = (overrides: Partial<Inputs>): Inputs => ({
   args: '',
   workdir: '.',
   installOnly: false,
+  cacheBinary: false,
   ...overrides
 });
 

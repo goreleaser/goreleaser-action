@@ -57,6 +57,20 @@ describe('install', () => {
     const bin = await goreleaser.install('goreleaser-pro', 'latest');
     expect(fs.existsSync(bin)).toBe(true);
   }, 100000);
+
+  it('reuses the runner tool cache on a second install', async () => {
+    const first = await goreleaser.install('goreleaser', 'v2.15.3');
+    const second = await goreleaser.install('goreleaser', 'v2.15.3');
+    expect(second).toEqual(first);
+    expect(fs.existsSync(second)).toBe(true);
+  }, 100000);
+
+  it('does not share the tool cache between distributions', async () => {
+    const oss = await goreleaser.install('goreleaser', 'v2.15.3');
+    const pro = await goreleaser.install('goreleaser-pro', 'v2.15.3');
+    expect(pro).not.toEqual(oss);
+    expect(fs.existsSync(pro)).toBe(true);
+  }, 100000);
 });
 
 describe('distribSuffix', () => {

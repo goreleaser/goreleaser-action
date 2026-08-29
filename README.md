@@ -21,6 +21,7 @@ ___
   * [Signing](#signing)
   * [Upload artifacts](#upload-artifacts)
   * [Install Only](#install-only)
+  * [Cache the binary](#cache-the-binary)
 * [Customizing](#customizing)
   * [inputs](#inputs)
   * [outputs](#outputs)
@@ -217,6 +218,36 @@ steps:
     run: goreleaser -v
 ```
 
+### Cache the binary
+
+The action always looks for GoReleaser in the [runner tool cache][toolcache]
+first. That cache is kept between jobs on self-hosted runners only, so on
+GitHub-hosted runners every job downloads and verifies the release again.
+
+Set `cache-binary` to store the binary in the [GitHub Actions cache][ghcache]
+as well. Later jobs then restore it instead of downloading the release archive,
+the checksums and the signature bundle again:
+
+```yaml
+steps:
+  -
+    name: Install GoReleaser
+    uses: goreleaser/goreleaser-action@v7
+    with:
+      version: '~> v2'
+      install-only: true
+      cache-binary: true
+```
+
+The cache entry is written per distribution, version, operating system and
+architecture, and it counts against the [cache size limit][ghcachelimit] of your
+repository. Cache errors are not fatal: the action logs a warning and falls back
+to a download.
+
+[toolcache]: https://github.com/actions/toolkit/tree/main/packages/tool-cache
+[ghcache]: https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/cache-dependencies
+[ghcachelimit]: https://docs.github.com/en/actions/reference/workflows-and-actions/dependency-caching#usage-limits-and-eviction-policy
+
 ## Customizing
 
 ### inputs
@@ -231,6 +262,7 @@ Following inputs can be used as `step.with` keys
 | `args`           | String  |              | Arguments to pass to GoReleaser                                  |
 | `workdir`        | String  | `.`          | Working directory (below repository root)                        |
 | `install-only`   | Bool    | `false`      | Just install GoReleaser                                          |
+| `cache-binary`   | Bool    | `false`      | Cache the GoReleaser binary in the GitHub Actions cache (see below) |
 
 > **¹** Can be a fixed version like `v0.117.0` or a max satisfying semver one like `~> 0.132`. In this case this will return `v0.132.1`.
 >
