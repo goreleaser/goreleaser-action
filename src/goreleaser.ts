@@ -16,7 +16,7 @@ export async function install(distribution: string, version: string, cacheBinary
   const tag = release.tag_name;
   const toolVersion = tag.replace(/^v/, '');
 
-  const toolPath: string = tc.find(distribution, toolVersion);
+  const toolPath = tc.find(distribution, toolVersion);
   if (toolPath) {
     core.info(`GoReleaser ${tag} found in the runner tool cache: ${toolPath}`);
     return getExePath(toolPath);
@@ -46,13 +46,12 @@ export async function install(distribution: string, version: string, cacheBinary
   core.info('Extracting GoReleaser');
   await io.rmRF(extPath);
   if (context.osPlat == 'win32') {
-    if (!downloadPath.endsWith('.zip')) {
-      const newPath = downloadPath + '.zip';
-      fs.renameSync(downloadPath, newPath);
-      await tc.extractZip(newPath, extPath);
-    } else {
-      await tc.extractZip(downloadPath, extPath);
+    let zipPath = downloadPath;
+    if (!zipPath.endsWith('.zip')) {
+      zipPath = `${downloadPath}.zip`;
+      fs.renameSync(downloadPath, zipPath);
     }
+    await tc.extractZip(zipPath, extPath);
   } else {
     await tc.extractTar(downloadPath, extPath);
   }
