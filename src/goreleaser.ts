@@ -1,17 +1,15 @@
 import * as crypto from 'crypto';
 import * as fs from 'fs';
-import * as os from 'os';
 import * as path from 'path';
 import * as yaml from 'js-yaml';
 import * as context from './context';
 import * as github from './github';
-import * as cache from '@actions/cache';
 import * as core from '@actions/core';
 import * as exec from '@actions/exec';
 import * as io from '@actions/io';
 import * as tc from '@actions/tool-cache';
 
-export async function install(distribution: string, version: string, cacheBinary = false): Promise<string> {
+export async function install(distribution: string, version: string): Promise<string> {
   const release: github.GitHubRelease = await github.getRelease(distribution, version);
   const tag = release.tag_name;
   const toolVersion = tag.replace(/^v/, '');
@@ -23,17 +21,6 @@ export async function install(distribution: string, version: string, cacheBinary
   }
 
   const filename = getFilename(distribution);
-  const extPath = path.join(process.env.RUNNER_TEMP || os.tmpdir(), 'goreleaser-action', distribution, toolVersion);
-  const useCache = cacheBinary && cache.isFeatureAvailable();
-  // The GitHub Actions cache is shared by every runner of a repository, so the
-  // key must pin the distribution, platform and architecture. The release
-  // filename already encodes all three.
-  const cacheKey = `goreleaser-action-${tag}-${filename}`;
-
-  if (useCache && (await restoreCache(cacheKey, extPath))) {
-    return getExePath(await tc.cacheDir(extPath, distribution, toolVersion));
-  }
-
   const baseUrl = `https://github.com/goreleaser/${distribution}/releases/download/${tag}`;
   const downloadUrl = `${baseUrl}/${filename}`;
 
@@ -44,22 +31,18 @@ export async function install(distribution: string, version: string, cacheBinary
   await verifyChecksum(distribution, tag, downloadPath, filename);
 
   core.info('Extracting GoReleaser');
-  await io.rmRF(extPath);
+  let extPath: string;
   if (context.osPlat == 'win32') {
     let zipPath = downloadPath;
     if (!zipPath.endsWith('.zip')) {
       zipPath = `${downloadPath}.zip`;
       fs.renameSync(downloadPath, zipPath);
     }
-    await tc.extractZip(zipPath, extPath);
+    extPath = await tc.extractZip(zipPath);
   } else {
-    await tc.extractTar(downloadPath, extPath);
+    extPath = await tc.extractTar(downloadPath);
   }
   core.debug(`Extracted to ${extPath}`);
-
-  if (useCache) {
-    await saveCache(cacheKey, extPath);
-  }
 
   const cachePath: string = await tc.cacheDir(extPath, distribution, toolVersion);
   core.debug(`Cached to ${cachePath}`);
@@ -69,42 +52,6 @@ export async function install(distribution: string, version: string, cacheBinary
 
 const getExePath = (dir: string): string => {
   return path.join(dir, context.osPlat == 'win32' ? 'goreleaser.exe' : 'goreleaser');
-};
-
-async function restoreCache(key: string, dest: string): Promise<boolean> {
-  try {
-    const hit = await cache.restoreCache([dest], key);
-    if (!hit) {
-      core.info(`No GitHub Actions cache entry for ${key}`);
-      return false;
-    }
-    if (!fs.existsSync(getExePath(dest))) {
-      core.warning(`Ignoring incomplete GitHub Actions cache entry ${hit}`);
-      await io.rmRF(dest);
-      return false;
-    }
-    core.info(`Restored ${hit} from the GitHub Actions cache`);
-    return true;
-  } catch (e) {
-    logCacheError(`Unable to restore ${key} from the GitHub Actions cache`, e);
-    return false;
-  }
-}
-
-async function saveCache(key: string, src: string): Promise<void> {
-  try {
-    await cache.saveCache([src], key);
-    core.info(`Saved ${key} to the GitHub Actions cache`);
-  } catch (e) {
-    logCacheError(`Unable to save ${key} to the GitHub Actions cache`, e);
-  }
-}
-
-// A read-only cache token (fork pull requests) and a key already reserved by a
-// concurrent job are expected, so they must not raise a warning annotation.
-const logCacheError = (message: string, e: Error): void => {
-  const expected = e instanceof cache.ReserveCacheError || e instanceof cache.CacheReadDeniedError;
-  (expected ? core.info : core.warning)(`${message}: ${e.message}`);
 };
 
 export async function verifyChecksum(

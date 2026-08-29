@@ -11,7 +11,6 @@ export interface Inputs {
   args: string;
   workdir: string;
   installOnly: boolean;
-  cacheBinary: boolean;
 }
 
 export async function getInputs(): Promise<Inputs> {
@@ -21,7 +20,6 @@ export async function getInputs(): Promise<Inputs> {
     versionFile: core.getInput('version-file'),
     args: core.getInput('args'),
     workdir: core.getInput('workdir') || '.',
-    installOnly: core.getBooleanInput('install-only'),
-    cacheBinary: core.getBooleanInput('cache-binary')
+    installOnly: core.getBooleanInput('install-only')
   };
 }

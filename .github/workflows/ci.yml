@@ -100,28 +100,6 @@ jobs:
         run: |
           goreleaser check --verbose
 
-  cache-binary:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os:
-          - ubuntu-latest
-          - macos-latest
-          - windows-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      # The first workflow run saves the binary, later runs restore it.
-      - name: GoReleaser
-        uses: ./
-        with:
-          version: '~> v2'
-          install-only: true
-          cache-binary: true
-      - name: Check
-        run: goreleaser --version
-
   signing:
     runs-on: ${{ matrix.os }}
     if: github.event_name != 'pull_request'

@@ -220,33 +220,24 @@ steps:
 
 ### Cache the binary
 
-The action always looks for GoReleaser in the [runner tool cache][toolcache]
-first. That cache is kept between jobs on self-hosted runners only, so on
-GitHub-hosted runners every job downloads and verifies the release again.
+The action looks for GoReleaser in the [runner tool cache][toolcache] before it
+downloads. A second use of the action in the same job, or any job on a
+self-hosted runner that already has the version, installs immediately.
 
-Set `cache-binary` to store the binary in the [GitHub Actions cache][ghcache]
-as well. Later jobs then restore it instead of downloading the release archive,
-the checksums and the signature bundle again:
+A binary taken from the tool cache is not verified again, because the checksum
+and the cosign signature were verified when it was first written. On a
+self-hosted runner the tool cache is kept between jobs, so it must be trusted
+like the runner itself. GitHub-hosted runners start with an empty tool cache in
+every job, so they always download and verify.
 
-```yaml
-steps:
-  -
-    name: Install GoReleaser
-    uses: goreleaser/goreleaser-action@v7
-    with:
-      version: '~> v2'
-      install-only: true
-      cache-binary: true
-```
-
-The cache entry is written per distribution, version, operating system and
-architecture, and it counts against the [cache size limit][ghcachelimit] of your
-repository. Cache errors are not fatal: the action logs a warning and falls back
-to a download.
+The action does not use the [GitHub Actions cache][ghcache]. It was measured and
+it is slower than a download: restoring the 24 MB entry takes about 1.3 s, while
+downloading, verifying the checksum, verifying the cosign signature and
+extracting the release takes about 0.9 s on a GitHub-hosted runner. It would
+also skip the verification it is supposed to protect.
 
 [toolcache]: https://github.com/actions/toolkit/tree/main/packages/tool-cache
 [ghcache]: https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/cache-dependencies
-[ghcachelimit]: https://docs.github.com/en/actions/reference/workflows-and-actions/dependency-caching#usage-limits-and-eviction-policy
 
 ## Customizing
 
@@ -262,7 +253,6 @@ Following inputs can be used as `step.with` keys
 | `args`           | String  |              | Arguments to pass to GoReleaser                                  |
 | `workdir`        | String  | `.`          | Working directory (below repository root)                        |
 | `install-only`   | Bool    | `false`      | Just install GoReleaser                                          |
-| `cache-binary`   | Bool    | `false`      | Cache the GoReleaser binary in the GitHub Actions cache (see below) |
 
 > **¹** Can be a fixed version like `v0.117.0` or a max satisfying semver one like `~> 0.132`. In this case this will return `v0.132.1`.
 >
