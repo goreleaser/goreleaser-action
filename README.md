@@ -230,14 +230,7 @@ self-hosted runner the tool cache is kept between jobs, so it must be trusted
 like the runner itself. GitHub-hosted runners start with an empty tool cache in
 every job, so they always download and verify.
 
-The action does not use the [GitHub Actions cache][ghcache]. It was measured and
-it is slower than a download: restoring the 24 MB entry takes about 1.3 s, while
-downloading, verifying the checksum, verifying the cosign signature and
-extracting the release takes about 0.9 s on a GitHub-hosted runner. It would
-also skip the verification it is supposed to protect.
-
 [toolcache]: https://github.com/actions/toolkit/tree/main/packages/tool-cache
-[ghcache]: https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/cache-dependencies
 
 ## Customizing
 
