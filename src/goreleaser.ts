@@ -8,13 +8,18 @@ import * as core from '@actions/core';
 import * as exec from '@actions/exec';
 import * as io from '@actions/io';
 import * as tc from '@actions/tool-cache';
+import * as semver from 'semver';
+
+type VerificationLevel = 'checksum' | 'cosign';
 
 export async function install(distribution: string, version: string): Promise<string> {
   const release: github.GitHubRelease = await github.getRelease(distribution, version);
   const tag = release.tag_name;
   const toolVersion = tag.replace(/^v/, '');
+  const cosign = await io.which('cosign', false);
+  const verificationLevel = cosign && supportsCosignBundle(tag) ? 'cosign' : 'checksum';
 
-  const toolPath = tc.find(distribution, toolVersion);
+  const toolPath = findCachedTool(distribution, toolVersion, verificationLevel);
   if (toolPath) {
     core.info(`GoReleaser ${tag} found in the runner tool cache: ${toolPath}`);
     return getExePath(toolPath);
@@ -28,7 +33,7 @@ export async function install(distribution: string, version: string): Promise<st
   const downloadPath: string = await tc.downloadTool(downloadUrl);
   core.debug(`Downloaded to ${downloadPath}`);
 
-  await verifyChecksum(distribution, tag, downloadPath, filename);
+  const verified = await verifyChecksum(distribution, tag, downloadPath, filename, cosign);
 
   core.info('Extracting GoReleaser');
   let extPath: string;
@@ -44,11 +49,30 @@ export async function install(distribution: string, version: string): Promise<st
   }
   core.debug(`Extracted to ${extPath}`);
 
-  const cachePath: string = await tc.cacheDir(extPath, distribution, toolVersion);
+  if (!verified) {
+    return getExePath(extPath);
+  }
+
+  const cachePath: string = await tc.cacheDir(extPath, cacheToolName(distribution, verified), toolVersion);
   core.debug(`Cached to ${cachePath}`);
 
   return getExePath(cachePath);
 }
+
+const findCachedTool = (distribution: string, version: string, required: VerificationLevel): string => {
+  const levels: VerificationLevel[] = required === 'cosign' ? ['cosign'] : ['cosign', 'checksum'];
+  for (const level of levels) {
+    const toolPath = tc.find(cacheToolName(distribution, level), version);
+    if (toolPath) {
+      return toolPath;
+    }
+  }
+  return '';
+};
+
+const cacheToolName = (distribution: string, verification: VerificationLevel): string => {
+  return `${distribution}-${verification}`;
+};
 
 const getExePath = (dir: string): string => {
   return path.join(dir, context.osPlat == 'win32' ? 'goreleaser.exe' : 'goreleaser');
@@ -58,8 +82,9 @@ export async function verifyChecksum(
   distribution: string,
   tag: string,
   archivePath: string,
-  filename: string
-): Promise<void> {
+  filename: string,
+  cosign?: string
+): Promise<VerificationLevel | undefined> {
   const baseUrl = `https://github.com/goreleaser/${distribution}/releases/download/${tag}`;
   let checksumsPath: string;
   try {
@@ -80,7 +105,19 @@ export async function verifyChecksum(
   }
   core.info(`Checksum verified for ${filename}`);
 
-  await verifyCosignSignature(distribution, tag, baseUrl, checksumsPath);
+  const cosignPath = cosign === undefined ? await io.which('cosign', false) : cosign;
+  if (!cosignPath) {
+    core.info('cosign not found in PATH, skipping signature verification');
+    return 'checksum';
+  }
+  if (!supportsCosignBundle(tag)) {
+    core.info(`GoReleaser ${tag} does not have a sigstore bundle, skipping signature verification`);
+    return 'checksum';
+  }
+  if (!(await verifyCosignSignature(distribution, tag, baseUrl, checksumsPath, cosignPath))) {
+    return 'checksum';
+  }
+  return 'cosign';
 }
 
 export const findChecksum = (checksumsContent: string, filename: string): string | undefined => {
@@ -95,21 +132,16 @@ async function verifyCosignSignature(
   distribution: string,
   tag: string,
   baseUrl: string,
-  checksumsPath: string
-): Promise<void> {
-  const cosign = await io.which('cosign', false);
-  if (!cosign) {
-    core.info('cosign not found in PATH, skipping signature verification');
-    return;
-  }
-
+  checksumsPath: string,
+  cosign: string
+): Promise<boolean> {
   let bundlePath: string;
   try {
     core.info(`Downloading ${baseUrl}/checksums.txt.sigstore.json`);
     bundlePath = await tc.downloadTool(`${baseUrl}/checksums.txt.sigstore.json`);
   } catch (e) {
     core.warning(`Skipping cosign signature verification: unable to download sigstore bundle: ${e.message}`);
-    return;
+    return false;
   }
 
   const certificateIdentity = getCertificateIdentity(distribution, tag);
@@ -125,7 +157,16 @@ async function verifyCosignSignature(
     checksumsPath
   ]);
   core.info('cosign signature verified');
+  return true;
 }
+
+const supportsCosignBundle = (tag: string): boolean => {
+  if (github.isNightlyTag(tag)) {
+    return true;
+  }
+  const version = semver.parse(tag.replace(/^v/, '').replace(/-pro$/, ''));
+  return version !== null && semver.gte(version, '2.13.0');
+};
 
 export const getCertificateIdentity = (distribution: string, tag: string): string => {
   const pro = isPro(distribution);
