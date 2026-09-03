@@ -21,6 +21,7 @@ ___
   * [Signing](#signing)
   * [Upload artifacts](#upload-artifacts)
   * [Install Only](#install-only)
+  * [Cache the binary](#cache-the-binary)
 * [Customizing](#customizing)
   * [inputs](#inputs)
   * [outputs](#outputs)
@@ -216,6 +217,23 @@ steps:
     name: Show GoReleaser version
     run: goreleaser -v
 ```
+
+### Cache the binary
+
+The action looks for GoReleaser in the [runner tool cache][toolcache] before it
+downloads. A second use of the action in the same job, or any job on a
+self-hosted runner that already has the version, installs immediately.
+
+A binary taken from the tool cache is not verified again. The cache records
+whether checksum or checksum and cosign verification completed. When cosign is
+available, the action only reuses a signature-verified entry. A binary whose
+checksum could not be verified is used for that invocation but is not cached.
+
+On a self-hosted runner the tool cache is kept between jobs, so it must be
+trusted like the runner itself. GitHub-hosted runners start with an empty tool
+cache in every job, so they always download and verify.
+
+[toolcache]: https://github.com/actions/toolkit/tree/main/packages/tool-cache
 
 ## Customizing
 

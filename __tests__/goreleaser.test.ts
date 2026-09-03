@@ -57,6 +57,38 @@ describe('install', () => {
     const bin = await goreleaser.install('goreleaser-pro', 'latest');
     expect(fs.existsSync(bin)).toBe(true);
   }, 100000);
+
+  it('reuses the runner tool cache instead of downloading again', async () => {
+    const first = await goreleaser.install('goreleaser', 'v2.15.3');
+
+    const written: string[] = [];
+    const stdout = process.stdout.write.bind(process.stdout);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    process.stdout.write = ((chunk: any, ...rest: any[]): boolean => {
+      written.push(chunk.toString());
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return (stdout as any)(chunk, ...rest);
+    }) as typeof process.stdout.write;
+    let second: string;
+    try {
+      second = await goreleaser.install('goreleaser', 'v2.15.3');
+    } finally {
+      process.stdout.write = stdout;
+    }
+
+    const logs = written.join('');
+    expect(logs).toContain('found in the runner tool cache');
+    expect(logs).not.toContain('Downloading https://github.com/goreleaser');
+    expect(second).toEqual(first);
+    expect(fs.existsSync(second)).toBe(true);
+  }, 100000);
+
+  it('does not share the tool cache between distributions', async () => {
+    const oss = await goreleaser.install('goreleaser', 'v2.15.3');
+    const pro = await goreleaser.install('goreleaser-pro', 'v2.15.3');
+    expect(pro).not.toEqual(oss);
+    expect(fs.existsSync(pro)).toBe(true);
+  }, 100000);
 });
 
 describe('distribSuffix', () => {
