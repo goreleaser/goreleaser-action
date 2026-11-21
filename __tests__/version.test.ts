@@ -11,6 +11,7 @@ const baseInputs = (overrides: Partial<Inputs>): Inputs => ({
   versionFile: '',
   args: '',
   workdir: '.',
+  dist: '',
   installOnly: false,
   ...overrides
 });

@@ -1,4 +1,4 @@
-import {describe, expect, it} from '@jest/globals';
+import {afterEach, beforeEach, describe, expect, it} from '@jest/globals';
 import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
@@ -89,6 +89,38 @@ describe('install', () => {
     expect(pro).not.toEqual(oss);
     expect(fs.existsSync(pro)).toBe(true);
   }, 100000);
+});
+
+describe('getDistPath', () => {
+  let tempDir: string;
+  let config: string;
+
+  beforeEach(() => {
+    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'goreleaser-dist-'));
+    config = path.join(tempDir, 'goreleaser.yml');
+  });
+
+  afterEach(() => {
+    fs.rmSync(tempDir, {recursive: true, force: true});
+  });
+
+  it('uses the explicit directory without reading the GoReleaser config', async () => {
+    fs.writeFileSync(config, '&shared:\n  build: &build_base {}\nversion: 2\nbuilds:\n  - <<: *build_base\n');
+    await expect(goreleaser.getDistPath(config, 'release/out')).resolves.toBe('release/out');
+  });
+
+  it.each([
+    ['version: 2', 'dist'],
+    ['dist: release/out', 'release/out']
+  ])('infers the directory from %s when the input is omitted', async (content, expected) => {
+    fs.writeFileSync(config, content);
+    await expect(goreleaser.getDistPath(config, '')).resolves.toBe(expected);
+  });
+
+  it('allows an explicit directory when there is no config', async () => {
+    await expect(goreleaser.getDistPath(undefined, '')).resolves.toBeUndefined();
+    await expect(goreleaser.getDistPath(undefined, 'out')).resolves.toBe('out');
+  });
 });
 
 describe('distribSuffix', () => {

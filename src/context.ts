@@ -10,6 +10,7 @@ export interface Inputs {
   versionFile: string;
   args: string;
   workdir: string;
+  dist: string;
   installOnly: boolean;
 }
 
@@ -20,6 +21,7 @@ export async function getInputs(): Promise<Inputs> {
     versionFile: core.getInput('version-file'),
     args: core.getInput('args'),
     workdir: core.getInput('workdir') || '.',
+    dist: core.getInput('dist'),
     installOnly: core.getBooleanInput('install-only')
   };
 }

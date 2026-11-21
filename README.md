@@ -248,6 +248,7 @@ Following inputs can be used as `step.with` keys
 | `version-file`**²** | String  |              | Read the GoReleaser version from a file (see below)              |
 | `args`           | String  |              | Arguments to pass to GoReleaser                                  |
 | `workdir`        | String  | `.`          | Working directory (below repository root)                        |
+| `dist`           | String  |              | Directory to read the `artifacts` and `metadata` outputs from     |
 | `install-only`   | Bool    | `false`      | Just install GoReleaser                                          |
 
 > **¹** Can be a fixed version like `v0.117.0` or a max satisfying semver one like `~> 0.132`. In this case this will return `v0.132.1`.
@@ -267,6 +268,11 @@ Following inputs can be used as `step.with` keys
 >     version-file: .tool-versions
 >     args: release --clean
 > ```
+
+Set `dist` to the directory where GoReleaser writes `artifacts.json` and
+`metadata.json` to read those outputs without parsing the GoReleaser configuration.
+Relative paths are resolved from `workdir`. When omitted, the action reads the
+`dist` setting from the configuration, which defaults to `dist`.
 
 ### outputs
 
