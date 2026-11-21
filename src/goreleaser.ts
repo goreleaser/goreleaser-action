@@ -220,7 +220,13 @@ const getFilename = (distribution: string): string => {
   return `goreleaser${suffix}_${platform}_${arch}.${ext}`;
 };
 
-export async function getDistPath(yamlfile: string): Promise<string> {
+export async function getDistPath(yamlfile: string | undefined, dist?: string): Promise<string | undefined> {
+  if (dist) {
+    return dist;
+  }
+  if (typeof yamlfile !== 'string') {
+    return undefined;
+  }
   const cfg = yaml.load(fs.readFileSync(yamlfile, 'utf8')) as {dist?: string};
   return cfg.dist || 'dist';
 }

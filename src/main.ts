@@ -30,7 +30,7 @@ async function run(): Promise<void> {
       process.chdir(inputs.workdir);
     }
 
-    let yamlfile: string | unknown;
+    let yamlfile: string | undefined;
     const argv: Arguments<{config?: string}> = yargs(inputs.args).parseSync() as Arguments<{
       config?: string;
     }>;
@@ -53,15 +53,16 @@ async function run(): Promise<void> {
 
     await exec.exec(`${bin} ${inputs.args}`);
 
-    if (typeof yamlfile === 'string') {
-      const artifacts = await goreleaser.getArtifacts(await goreleaser.getDistPath(yamlfile));
+    const dist = await goreleaser.getDistPath(yamlfile, inputs.dist);
+    if (dist) {
+      const artifacts = await goreleaser.getArtifacts(dist);
       if (artifacts) {
         await core.group(`Artifacts output`, async () => {
           core.info(artifacts);
           core.setOutput('artifacts', artifacts);
         });
       }
-      const metadata = await goreleaser.getMetadata(await goreleaser.getDistPath(yamlfile));
+      const metadata = await goreleaser.getMetadata(dist);
       if (metadata) {
         await core.group(`Metadata output`, async () => {
           core.info(metadata);

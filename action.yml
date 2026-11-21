@@ -28,6 +28,9 @@ inputs:
     description: 'Working directory (below repository root)'
     default: '.'
     required: false
+  dist:
+    description: 'Directory containing artifacts.json and metadata.json, relative to workdir unless absolute'
+    required: false
   install-only:
     description: 'Just install GoReleaser'
     default: 'false'
